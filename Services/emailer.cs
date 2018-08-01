@@ -10,10 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Npgsql;
-
-namespace S4Sales.Identity
+using S4Sales.Identity;
+using S4Sales.Models;
+namespace S4Sales.Services
 {
-    public class S4EmailRepository
+    public class S4Emailer
     {
         private string _conn;
         private dynamic _emailOptions;
@@ -24,7 +25,7 @@ namespace S4Sales.Identity
         private int _port;
         private bool _ssl;
 
-        public S4EmailRepository(IConfiguration config)
+        public S4Emailer(IConfiguration config)
         {
             _conn = config["ConnectionStrings:tc_dev"];
             _emailOptions = config.GetSection("EmailOptions");
@@ -47,18 +48,16 @@ namespace S4Sales.Identity
         ///<Note>
             // Only public method is initiate response. It builds out the email response based on that response
         ///</Note>
-        public async Task<S4Response> initSendEmail(S4Response res, S4IdentityResponse s4)
+        public async Task<StandardResponse> initSendEmail(StandardResponse res, S4Response s4)
         {
             var email = new Email();
             var cc = new List<string>();
             email.recipient = s4.request.email;
-
             // first add primaries to email chain if applicable
             if(s4.request_type == RequestType.Member || s4.request_type == RequestType.Admin)
             {
                 cc = await AddChainOfCommand(s4, cc);
             }
-
 
             // If we reject the membership or there was a problem creating the account
             if(s4.request.request_status == Status.Rejected)
@@ -86,9 +85,7 @@ namespace S4Sales.Identity
             return res;
         }
 
-
-
-        private Task<string> AddActivationLink(S4IdentityResponse s4, Email email)
+        private Task<string> AddActivationLink(S4Response s4, Email email)
         {
             var s4id = s4.request.request_number;
             var link = $@"http://localhost:5000/setup/{s4.request.request_number}";
@@ -103,7 +100,7 @@ namespace S4Sales.Identity
                     Your Mom<br>
                 </div>");
         }
-        private Task<List<string>> AddChainOfCommand(S4IdentityResponse s4, List<string> cc)
+        private Task<List<string>> AddChainOfCommand(S4Response s4, List<string> cc)
         {
             var _query = $@"TODO";
             var _params = new {};
@@ -115,7 +112,7 @@ namespace S4Sales.Identity
             }
 
         }
-        private Task<string> AddPrimaryApproval(S4IdentityResponse s4, Email email)
+        private Task<string> AddPrimaryApproval(S4Response s4, Email email)
         {
             return Task.FromResult(
                 $@"<div>   
@@ -134,13 +131,13 @@ namespace S4Sales.Identity
 
 
         // Generate email object based on status
-        private Task<Email> GenerateApproval(S4IdentityResponse s4, Email email)
+        private Task<Email> GenerateApproval(S4Response s4, Email email)
         {
             email.subject = $@"Action Required: ***** Account Created";
             email.body = $@"<div>Dear {s4.request.first_name},</div>";
             return Task.FromResult(email);
         }
-        private Task<Email> GenerateRejection(S4IdentityResponse s4, Email email)
+        private Task<Email> GenerateRejection(S4Response s4, Email email)
         {
             email.subject = $@"Your request for a ***** account has been rejected";
             email.body = $@"

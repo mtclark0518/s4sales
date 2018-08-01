@@ -40,7 +40,3 @@ Thumbs.db
 # dotCover
 *.dotCover
 
-
-# Private settings
-appsettings.json
-appsettings.*.json

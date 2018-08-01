@@ -1,19 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using S4Sales.Identity;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using System.Collections.Generic;
-using System.Linq;
+using S4Sales.Models;
 
 namespace S4Sales.Controllers
 {
     [Route("api/[controller]")]
     public class AdminController: Controller
     {
-        private readonly S4IdRequestRepository _s4request;
-        public AdminController(S4IdRequestRepository s4request)
+        private readonly AccountRequestManager _s4request;
+        public AdminController(AccountRequestManager s4request)
         {
             _s4request = s4request;
         }
@@ -26,11 +24,11 @@ namespace S4Sales.Controllers
 
         [HttpPost("approve")]
         [AllowAnonymous]
-        public Task<S4Response> ApprovalResponse([FromBody]ResponseBody details)
+        public Task<StandardResponse> ApprovalResponse([FromBody]ResponseBody details)
         {
             var response = _s4request.SubmitApprovalResponse(details);
             
-            S4Response result = new S4Response()
+            StandardResponse result = new StandardResponse()
             {
                 message = response.ToString()
             };

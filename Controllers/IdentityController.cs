@@ -10,11 +10,9 @@ using System.Collections.Generic;
 
 namespace S4Sales.Controllers
 {
-    public class Credentials
-    {
-        public string user_name;
-        public string password;
-    }
+
+
+
 
     [Route("api/[controller]")]
     [Authorize]
@@ -23,12 +21,12 @@ namespace S4Sales.Controllers
         private readonly IOptions<IdentityOptions> _identity_options;
         private readonly UserManager<S4Identity> _user_manager;
         private readonly SignInManager<S4Identity> _signin_manager;
-        private readonly S4IdRequestRepository _s4request;
+        private readonly AccountRequestManager _s4request;
         public IdentityController(
             IOptions<IdentityOptions> identity_options,
             UserManager<S4Identity> user_manager, 
             SignInManager<S4Identity> signins,
-            S4IdRequestRepository s4)
+            AccountRequestManager s4)
         {
             _identity_options = identity_options;
             _user_manager = user_manager;
@@ -65,9 +63,9 @@ namespace S4Sales.Controllers
         
         [HttpPost("register")]
         [AllowAnonymous]
-        public async Task<S4Response> Register([FromBody] S4Request requested)
+        public async Task<StandardResponse> Register([FromBody] S4Request requested)
         {
-            S4Response registration_attempt = await _s4request.InitiateS4IdRequest(requested);
+            StandardResponse registration_attempt = await _s4request.InitiateS4IdRequest(requested);
             return registration_attempt;
         }
 

@@ -96,12 +96,12 @@ namespace S4Sales
             services.AddSingleton<CommerceRepository>();
             services.AddSingleton<CrashRepository>();
             services.AddSingleton<LogRepository>();
-            services.AddSingleton<S4IdRequestRepository>();
-            services.AddSingleton<S4EmailRepository>();
+            services.AddSingleton<AccountRequestManager>();
             
 
 
             // add custom services
+            services.AddSingleton<S4Emailer>();
             services.AddTransient<SessionUtility>();
             services.AddSingleton<StripeService>();
 

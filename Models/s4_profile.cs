@@ -1,6 +1,6 @@
 using System;
 
-namespace S4Sales.Identity
+namespace S4Sales.Models
 {
     public class S4Profile
     {

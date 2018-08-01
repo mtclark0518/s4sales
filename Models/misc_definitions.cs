@@ -2,9 +2,14 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-namespace S4Sales.Identity
+namespace S4Sales.Models
 {
 #region Misc utility classes
+    public class Credentials
+    {
+        public string user_name;
+        public string password;
+    }
     public class Email
     {
         public string recipient {get;set;}
@@ -12,7 +17,7 @@ namespace S4Sales.Identity
         public string body{get;set;}
     }
     // using for testing purposes...basic response with message
-    public class S4Response
+    public class StandardResponse
     {
         public string message { get; set;}
         public StatusCodeResult code {get; internal set;}

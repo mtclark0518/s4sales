@@ -9,20 +9,22 @@ using Npgsql;
 using Dapper;
 using System.Collections;
 using System.Linq;
+using S4Sales.Identity;
+using S4Sales.Services;
 
-namespace S4Sales.Identity
+namespace S4Sales.Models
 {
     ///<Notes>
     // middleware store for account generation requests
     // assigns roles to the account for authorization
     ///</Notes>
-    public class S4IdRequestRepository
+    public class AccountRequestManager
     {
         private readonly UserManager<S4Identity> _user_manager;
         private readonly RoleManager<S4IdentityRole> _role_manager;
         private string _conn;
-        private readonly S4EmailRepository _email;
-        public S4IdRequestRepository(IConfiguration config, UserManager<S4Identity> um,  S4EmailRepository email, RoleManager<S4IdentityRole> rm)
+        private readonly S4Emailer _email;
+        public AccountRequestManager(IConfiguration config, UserManager<S4Identity> um,  S4Emailer email, RoleManager<S4IdentityRole> rm)
         {
             _conn = config["ConnectionStrings:tc_dev"];
             _user_manager = um;
@@ -59,9 +61,9 @@ namespace S4Sales.Identity
         // submitted by client
         // creates s4id request
         // returns results to client
-        public async Task<S4Response> InitiateS4IdRequest(S4Request requested)
+        public async Task<StandardResponse> InitiateS4IdRequest(S4Request requested)
         {
-            S4Response s4res = new S4Response();
+            StandardResponse s4res = new StandardResponse();
             S4Request initiate = new S4Request()
             {
                 request_number = Guid.NewGuid().ToString(),
@@ -113,12 +115,12 @@ namespace S4Sales.Identity
         
         // walks through the response details. processes that response. 
         // calls the HandleResponse method at conclusion
-        public async Task<S4Response> SubmitApprovalResponse(ResponseBody details)
+        public async Task<StandardResponse> SubmitApprovalResponse(ResponseBody details)
         {
-            S4Response Messages = new S4Response();
+            StandardResponse Messages = new StandardResponse();
             S4Request s4 = GetRequestByNumber(details.request_number);
             // add in the details to the response
-            S4IdentityResponse config = new S4IdentityResponse(s4)
+            S4Response config = new S4Response(s4)
             {
                 request_type = details.request_type,
                 response_status = details.response_status,
@@ -181,7 +183,29 @@ namespace S4Sales.Identity
         }
 
         #region private methods
-        private async Task<IdentityResult> GenerateAccountAsync(S4IdentityResponse s4)
+        private bool AddOrganization(S4Response res)
+        {
+            // adds a new organization
+            Organization org = new Organization(res.request.organization);
+            var _query = 
+                $@"INSERT INTO organization (organization_id, name, active, approved_date)
+                VALUES (@orgid, @name, @active, @date)";
+
+            var _params = new 
+            {
+                orgid = org.organization_id,
+                name = org.name,
+                active = org.active,
+                date = org.approved_date
+            };
+
+            using(var conn = new NpgsqlConnection(_conn))
+            {
+                var result = conn.Execute(_query, _params);
+                return result == 1;
+            }
+        }
+        private async Task<IdentityResult> GenerateAccountAsync(S4Response s4)
         {
             S4LookupNormalizer normalizer = new S4LookupNormalizer();
             S4Identity user = new S4Identity(s4.request.user_name)
@@ -212,7 +236,7 @@ namespace S4Sales.Identity
         }
 
         // adds the profile and corresponding organization / role
-        private bool GenerateProfile(S4IdentityResponse s4, S4Identity user)
+        private bool GenerateProfile(S4Response s4, S4Identity user)
         {
                 S4Profile profile = new S4Profile(user.s4_id);
                 var _query = $@"
@@ -260,30 +284,8 @@ namespace S4Sales.Identity
 
         }
 
-        private bool AddOrganization(S4IdentityResponse res)
-        {
-            // adds a new organization
-            Organization org = new Organization(res.request.organization);
-            var _query = 
-                $@"INSERT INTO organization (organization_id, name, active, approved_date)
-                VALUES (@orgid, @name, @active, @date)";
 
-            var _params = new 
-            {
-                orgid = org.organization_id,
-                name = org.name,
-                active = org.active,
-                date = org.approved_date
-            };
-
-            using(var conn = new NpgsqlConnection(_conn))
-            {
-                var result = conn.Execute(_query, _params);
-                return result == 1;
-            }
-        }
-
-        private bool InsertInitialResponse(S4IdentityResponse s4)
+        private bool InsertInitialResponse(S4Response s4)
         {
                 var _query = $@" 
                     INSERT INTO s4_response 
@@ -306,7 +308,7 @@ namespace S4Sales.Identity
                 }
         }
         
-        private bool UpdateS4Request(S4IdentityResponse s4)
+        private bool UpdateS4Request(S4Response s4)
         {
             // write the response to the db
             // update request
@@ -336,7 +338,7 @@ namespace S4Sales.Identity
                 return update == 1;
             }
         }
-        private async Task<S4Response> HandleResponse(S4Response res, S4IdentityResponse s4)
+        private async Task<StandardResponse> HandleResponse(StandardResponse res, S4Response s4)
         {
             var handled = await _email.initSendEmail(res, s4);
             return handled;

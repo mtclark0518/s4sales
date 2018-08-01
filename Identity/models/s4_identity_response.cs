@@ -2,7 +2,7 @@ using System;
 
 namespace S4Sales.Identity
 {
-    public class S4IdentityResponse
+    public class S4Response
     {
         public string response_number {get;set;}
         public S4Request request {get;set;}
@@ -11,7 +11,7 @@ namespace S4Sales.Identity
         public string message { get; set; }
         public string handled_by {get;set;}
         public DateTime handled_on { get; set;}
-        public S4IdentityResponse(S4Request req)
+        public S4Response(S4Request req)
         {
             response_number = Guid.NewGuid().ToString();
             request = req;
