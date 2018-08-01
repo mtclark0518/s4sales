@@ -10,14 +10,12 @@ namespace S4Sales.Controllers
     public class CommerceController : Controller
     {
         private readonly CommerceRepository _ec_repo;
-        private readonly CartStore _cart_store;
         private readonly StripeService _stripe;
 
 
-        public CommerceController(CommerceRepository ec, CartStore cs, StripeService str)
+        public CommerceController(CommerceRepository ec, StripeService str)
         {
             _ec_repo = ec;
-            _cart_store = cs;
             _stripe = str;
         }
 

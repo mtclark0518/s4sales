@@ -8,9 +8,11 @@ namespace S4Sales.Controllers
     public class CrashController : Controller
     {
         private readonly CrashRepository _repo;
-        public CrashController(CrashRepository repo)
+        private readonly CartStore _cart;
+        public CrashController(CrashRepository repo, CartStore cart)
         {
-            _repo = repo ?? throw new System.ArgumentNullException(nameof(repo));
+            _repo = repo;
+            _cart = cart;
         }
 
         [HttpGet("report")]
