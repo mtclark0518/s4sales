@@ -2,6 +2,20 @@ using System;
 
 namespace S4Sales.Models
 {
+    public enum Status
+    {
+        Unverified,
+        Pending,
+        Approved,
+        Rejected
+    }
+    public enum RequestType
+    {
+        Admin,
+        Member,
+        Organization,
+        Primary,
+    }
     public class S4Request
     {
         public string request_number { get;set;}
@@ -34,6 +48,14 @@ namespace S4Sales.Models
             request = req;
             handled_on = DateTime.Now;
         }
+    }
+    
+    public class ResponseBody
+    {
+        public string request_number {get; set;}
+        public Status response_status { get; set;}
+        public RequestType request_type {get; set;}
+        public string message {get; set;}
     }
 
 }

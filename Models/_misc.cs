@@ -1,10 +1,8 @@
-
 using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace S4Sales.Models
 {
-#region Misc utility classes
     public class Credentials
     {
         public string user_name;
@@ -28,34 +26,4 @@ namespace S4Sales.Models
         public string s4_role_name {get; set;}
         public string user_name {get; set;}
     }
-
-#endregion
-
-#region  FromBody
-    public class ResponseBody
-    {
-        public string request_number {get; set;}
-        public Status response_status { get; set;}
-        public RequestType request_type {get; set;}
-        public string message {get; set;}
-    }
-#endregion
-
-#region  Enums
-    public enum Status
-    {
-        Unverified,
-        Pending,
-        Approved,
-        Rejected
-    }
-    public enum RequestType
-    {
-        Admin,
-        Member,
-        Organization,
-        Primary,
-    }
-#endregion
-
 }

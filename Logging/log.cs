@@ -1,5 +1,5 @@
 using System;
-namespace S4Sales.Models
+namespace S4Sales.Logging
 {
     /// <Note>
     // Model definition for various site usage logs

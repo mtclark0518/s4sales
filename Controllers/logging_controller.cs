@@ -2,7 +2,7 @@ using System;
 using S4Sales.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using S4Sales.Logging;
 
 namespace S4Sales.Controllers
 {

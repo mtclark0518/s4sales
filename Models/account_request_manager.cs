@@ -22,7 +22,7 @@ namespace S4Sales.Models
     {
         private readonly UserManager<S4Identity> _user_manager;
         private readonly RoleManager<S4IdentityRole> _role_manager;
-        private string _conn;
+        private readonly string _conn;
         private readonly S4Emailer _email;
         public AccountRequestManager(IConfiguration config, UserManager<S4Identity> um,  S4Emailer email, RoleManager<S4IdentityRole> rm)
         {
@@ -238,7 +238,7 @@ namespace S4Sales.Models
         // adds the profile and corresponding organization / role
         private bool GenerateProfile(S4Response s4, S4Identity user)
         {
-                S4Profile profile = new S4Profile(user.s4_id);
+                AccountProfile profile = new AccountProfile(user.s4_id);
                 var _query = $@"
                     INSERT INTO s4_profile (s4_profile_id, name_first, name_last, active, identity)
                     VALUES (@s4pid, @first, @last, @active, @s4id);

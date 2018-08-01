@@ -1,18 +1,21 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using S4Sales.Models;
-using System;
-using Microsoft.AspNetCore.Http;
+
 using S4Sales.Identity;
-using Microsoft.AspNetCore.Authentication;
+using S4Sales.Logging;
+using S4Sales.Models;
 using S4Sales.Services;
+
 
 namespace S4Sales
 {
@@ -38,21 +41,30 @@ namespace S4Sales
         {
             services.AddSingleton<IConfiguration>(Configuration);
 
-            // adds authorization policy
+
+            //  policies will depend on how hsmv wants to handle money transfers
+            // add authorization policy
             // services.AddAuthorization(opts =>
             // {
             //     opts.AddPolicy("admin", policy => policy.RequireRole("admin"));
             //     opts.AddPolicy("user", policy => policy.RequireRole("user"));
             // });       
 
-            // adds session options
+
+            // session services
+            // TODO -- attach a cart obejct to session cookie
+            // probably have it trigger when a user initiates a query
+            // logging will be tied to this as well            
             services.AddDistributedMemoryCache();
             services.AddSession( opts =>
             {
                 opts.IdleTimeout = TimeSpan.FromMinutes(10);
                 opts.Cookie.Name = "S4Sales.Session";
             });
+            services.AddTransient<SessionUtility>();
 
+
+            // add identity services
             services.AddIdentity<S4Identity, S4IdentityRole>( opts =>
             {
                 opts.Lockout.AllowedForNewUsers = false;
@@ -66,9 +78,12 @@ namespace S4Sales
                 opts.User.RequireUniqueEmail = true;
             });
             
+
+            // add custom user && roles stores
             services.AddTransient<IUserStore<S4Identity>, S4IdentityStore>();
             services.AddTransient<IRoleStore<S4IdentityRole>, S4RoleStore>();
 
+            // adds authentication cookie
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             services.ConfigureApplicationCookie(opts=>
             {
@@ -77,8 +92,8 @@ namespace S4Sales
                 opts.LoginPath = new PathString("/api/identity/login");
             });
 
+            // add identity services
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
             services.AddScoped<ILookupNormalizer, S4LookupNormalizer>();
             services.AddScoped<IUserValidator<S4Identity>, UserValidator<S4Identity>>();
             services.AddScoped<IPasswordValidator<S4Identity>, PasswordValidator<S4Identity>>();
@@ -86,27 +101,26 @@ namespace S4Sales
             services.AddScoped<IRoleValidator<S4IdentityRole>, RoleValidator<S4IdentityRole>>();
             services.AddScoped<IdentityErrorDescriber>();
             services.AddScoped<IUserClaimsPrincipalFactory<S4Identity>, S4UserClaimsPrincipalFactory<S4Identity, S4IdentityRole>>();
+            
             // configures asp.net Identity managers to work with custom stores
             services.AddScoped<UserManager<S4Identity>>();
             services.AddScoped<SignInManager<S4Identity>>();
             services.AddScoped<RoleManager<S4IdentityRole>>();
             
-            // add repositories
+            // add data access layers
             services.AddSingleton<CartStore>();
             services.AddSingleton<CommerceRepository>();
             services.AddSingleton<CrashRepository>();
             services.AddSingleton<LogRepository>();
             services.AddSingleton<AccountRequestManager>();
-            
 
-
-            // add custom services
+            // additonal services
             services.AddSingleton<S4Emailer>();
-            services.AddTransient<SessionUtility>();
             services.AddSingleton<StripeService>();
 
+
+
             services.AddMvc();
-            
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(options =>
             {

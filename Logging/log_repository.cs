@@ -1,7 +1,7 @@
 
 using Microsoft.Extensions.Configuration;
 
-namespace S4Sales.Models
+namespace S4Sales.Logging
 {
     /// <Note>
     // Holds logic for recording / logging site analytics

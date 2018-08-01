@@ -2,7 +2,7 @@ using System;
 
 namespace S4Sales.Models
 {
-    public class S4Profile
+    public class AccountProfile
     {
         public string s4_profile_id { get; internal set; }
         public string first_name { get; set; }
@@ -13,7 +13,7 @@ namespace S4Sales.Models
         // public bool verified { get; internal set; }
         // public DateTime verified_date {get; internal set;}
         public string identity { get; internal set;}
-        public S4Profile(string s4id)
+        public AccountProfile(string s4id)
         {
             s4_profile_id = Guid.NewGuid().ToString();
             active = true;

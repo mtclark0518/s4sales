@@ -23,7 +23,7 @@ namespace S4Sales.Models
             _crash = cr;
         }
 
-        public Task InitiateTransaction(S4Transaction order, Cart cart)
+        public Task InitiateTransaction(fkTransaction order, Cart cart)
         {
             // create a 1 time charge
             var charge =  _stripe.CreateCharge(order);
