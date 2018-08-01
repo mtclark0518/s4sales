@@ -124,7 +124,7 @@ namespace S4Sales
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(options =>
             {
-                options.RootPath = "ClientApp/dist";
+                options.RootPath = "Client/dist";
             });
         }
 
@@ -149,7 +149,7 @@ namespace S4Sales
             });
             app.UseSpa(spa =>
             {
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "Client";
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
