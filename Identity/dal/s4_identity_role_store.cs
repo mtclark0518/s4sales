@@ -12,7 +12,7 @@ namespace S4Sales.Identity
         private string _conn;
         public S4RoleStore(IConfiguration config)
         {
-            _conn = config.GetConnectionString("tc_dev");
+            _conn = config["ConnectionStrings:tc_dev"];
         }
 
 

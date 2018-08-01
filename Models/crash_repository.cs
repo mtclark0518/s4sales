@@ -26,9 +26,9 @@ namespace S4Sales.Models
     public class CrashRepository : ICrashRepository<CrashEvent>
     {
         private string _conn;
-        public CrashRepository(IConfiguration Configuration)
+        public CrashRepository(IConfiguration config)
         {
-            _conn = Configuration.GetConnectionString("tc_dev");
+            _conn = config["ConnectionStrings:tc_dev"];
         }
  
         public CrashEvent FindByHsmvReportNumber(int hsmv)

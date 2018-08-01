@@ -18,9 +18,9 @@ namespace S4Sales.Identity
         IUserRoleStore<S4Identity>
     {
         private readonly string _conn;
-        public S4IdentityStore(IConfiguration configuration)
+        public S4IdentityStore(IConfiguration config)
         {
-            _conn = configuration.GetConnectionString("tc_dev");
+            _conn = config["ConnectionStrings:tc_dev"];
         }
 
         #region IUserStore

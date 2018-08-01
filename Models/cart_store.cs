@@ -28,7 +28,7 @@ namespace S4Sales.Models
         private readonly SessionUtility _session;
         public CartStore(IConfiguration config, SessionUtility session)
         {
-            _conn = config.GetConnectionString("tc_dev");
+            _conn = config["ConnectionStrings:tc_dev"];
             _session = session;
         }
 

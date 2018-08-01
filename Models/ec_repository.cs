@@ -16,9 +16,9 @@ namespace S4Sales.Models
         private string _conn;
         private StripeService _stripe;
         private CrashRepository _crash;
-        public CommerceRepository(IConfiguration Configuration, StripeService str, CrashRepository cr)
+        public CommerceRepository(IConfiguration config, StripeService str, CrashRepository cr)
         {
-            _conn = Configuration.GetConnectionString("tc_dev");
+            _conn = config["ConnectionStrings:tc_dev"];
             _stripe = str;
             _crash = cr;
         }

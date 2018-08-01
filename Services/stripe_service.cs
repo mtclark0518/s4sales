@@ -1,15 +1,22 @@
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using S4Sales.Models;
+using Microsoft.Extensions.Configuration;
+
 namespace S4Sales.Services
 {
     public class StripeService
     {
+        private readonly string _stripe_key;
+        public StripeService(IConfiguration config)
+        {
+            _stripe_key = config["Stripe:SecretKey"];
+        }
         public StripeCharge CreateCharge(S4Transaction order)
         {
-            StripeConfiguration.SetApiKey("sk_test_Sj63bPC7k61WRHSJL5oRfsvW");
+            StripeConfiguration.SetApiKey(_stripe_key);
             var options = new StripeChargeCreateOptions
             {
                 Amount = order.amount,

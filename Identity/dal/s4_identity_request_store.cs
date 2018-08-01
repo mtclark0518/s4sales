@@ -24,7 +24,7 @@ namespace S4Sales.Identity
         private readonly S4EmailRepository _email;
         public S4IdRequestRepository(IConfiguration config, UserManager<S4Identity> um,  S4EmailRepository email, RoleManager<S4IdentityRole> rm)
         {
-            _conn = config.GetConnectionString("tc_dev");
+            _conn = config["ConnectionStrings:tc_dev"];
             _user_manager = um;
             _role_manager = rm;
             _email = email;

@@ -25,8 +25,12 @@ namespace S4Sales
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+            
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Startup>();
+            }
             Configuration = builder.Build();
         }
         public IConfigurationRoot Configuration { get; }
@@ -48,8 +52,6 @@ namespace S4Sales
                 opts.IdleTimeout = TimeSpan.FromMinutes(10);
                 opts.Cookie.Name = "S4Sales.Session";
             });
-            services.AddTransient<SessionUtility>();
-            services.AddSingleton<StripeService>();
 
             services.AddIdentity<S4Identity, S4IdentityRole>( opts =>
             {
@@ -97,6 +99,12 @@ namespace S4Sales
             services.AddSingleton<S4IdRequestRepository>();
             services.AddSingleton<S4EmailRepository>();
             
+
+
+            // add custom services
+            services.AddTransient<SessionUtility>();
+            services.AddSingleton<StripeService>();
+
             services.AddMvc();
             
             // In production, the Angular files will be served from this directory

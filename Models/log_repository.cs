@@ -9,9 +9,9 @@ namespace S4Sales.Models
     public class LogRepository
     {
         private string _conn;
-        public LogRepository(IConfiguration Configuration)
+        public LogRepository(IConfiguration config)
         {
-            _conn = Configuration.GetConnectionString("tc_dev");
+            _conn = config["ConnectionStrings:tc_dev"];
         }
     }
 }

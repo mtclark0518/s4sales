@@ -15,8 +15,7 @@ namespace S4Sales.Identity
 {
     public class S4EmailRepository
     {
-        private NpgsqlConnection _conn;
-        private string _cstr;
+        private string _conn;
         private dynamic _emailOptions;
         private SmtpClient _smtp;
         private string _email;
@@ -27,11 +26,10 @@ namespace S4Sales.Identity
 
         public S4EmailRepository(IConfiguration config)
         {
-            _cstr = config.GetConnectionString("tc_dev");
-            _conn = new NpgsqlConnection(_cstr);
+            _conn = config["ConnectionStrings:tc_dev"];
             _emailOptions = config.GetSection("EmailOptions");
-            _email = _emailOptions["DefaultSender"];
-            _pass = _emailOptions["DefaultPassword"];
+            _email = config["EmailOptions:Sender"];
+            _pass = config["EmailOptions:Password"];
             _host = _emailOptions["SmtpServer"];
             _port = int.Parse(_emailOptions["SmtpPort"]);
             _ssl = Convert.ToBoolean(_emailOptions["EnableSsl"]);
@@ -109,9 +107,13 @@ namespace S4Sales.Identity
         {
             var _query = $@"TODO";
             var _params = new {};
-            var primaryAccounts = _conn.Query<string>(_query, _params);
-            cc.AddRange(primaryAccounts);
-            return Task.FromResult(cc);
+            using(var conn = new NpgsqlConnection(_conn))
+            {
+                var primaryAccounts = conn.Query<string>(_query, _params);
+                cc.AddRange(primaryAccounts);
+                return Task.FromResult(cc);
+            }
+
         }
         private Task<string> AddPrimaryApproval(S4IdentityResponse s4, Email email)
         {
