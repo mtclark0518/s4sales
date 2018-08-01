@@ -6,10 +6,10 @@ namespace S4Sales.Logging
     /// <Note>
     // Holds logic for recording / logging site analytics
     ///</Note>
-    public class LogRepository
+    public class DataRepository
     {
         private string _conn;
-        public LogRepository(IConfiguration config)
+        public DataRepository(IConfiguration config)
         {
             _conn = config["ConnectionStrings:tc_dev"];
         }

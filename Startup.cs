@@ -111,8 +111,8 @@ namespace S4Sales
             services.AddSingleton<CartStore>();
             services.AddSingleton<CommerceRepository>();
             services.AddSingleton<CrashRepository>();
-            services.AddSingleton<LogRepository>();
             services.AddSingleton<AccountRequestManager>();
+            services.AddSingleton<DataRepository>();
 
             // additonal services
             services.AddSingleton<S4Emailer>();

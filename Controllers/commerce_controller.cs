@@ -21,6 +21,8 @@ namespace S4Sales.Controllers
             _stripe = str;
         }
 
+
+        
         [HttpPost("create")]
         public Task CreateOrder([FromBody] fkTransaction order)
         {
