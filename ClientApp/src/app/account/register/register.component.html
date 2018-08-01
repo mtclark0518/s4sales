@@ -1,0 +1,34 @@
+<div class="wrap container">
+  <div class="page-container">
+    <div class="form-container">
+      <form [formGroup]="registrationForm" (submit)="register($event)"  class="form-body">
+          <div class="form-group input-group" >
+
+            <input type="radio" (change)="updateView()" value='Individual' formControlName="request_type">Individual
+            <input type="radio" (change)="updateView()" value="Member" formControlName="request_type">Join my organization
+            <input type="radio" (change)="updateView()" value="Organization" formControlName="request_type">Add an organization
+            <input type="radio" (change)="updateView()" value="Global" formControlName="request_type">GlobalAcctForTesting
+          </div>
+          <div *ngIf="request_type.value === '3'">
+            fuck
+          </div>
+          <div class="form-group">
+              <input type="user_name" class="form-control" name="user_name" formControlName="user_name" placeholder="username">
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" formControlName="email" placeholder="email">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="first_name" formControlName="first_name" placeholder="first name">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="last_name" formControlName="last_name" placeholder="last name">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="organization" formControlName="organization" placeholder="company">
+          </div>
+          <input type="submit" class="btn btn-block btn-primary" value="register" [disabled]="!registrationForm.valid">
+      </form>
+    </div>
+  </div>
+</div>

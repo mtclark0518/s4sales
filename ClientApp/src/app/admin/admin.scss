@@ -1,0 +1,18 @@
+@import "../../styles.scss";
+
+.admin-component{
+  display: flex;
+}
+
+.request-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.queue-item{
+  height: 8vh;
+}
+.profile-builder{
+  height: 85vh;
+}

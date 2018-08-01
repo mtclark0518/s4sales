@@ -1,0 +1,29 @@
+<div class="wrap">
+  <div class="head">
+    <button (click)="clearCart()" class="btn btn-sm">Clear Cart</button>
+    <a class='nav-item' [routerLink]='["/"]' (click)="continueShopping()">
+      Back 2 Shop <i class="fa fa-dollar"></i>
+    </a>
+  </div>
+  <div class="outer">
+      <div>Checkout</div>
+      <div *ngFor="let item of Cart" class="item">
+        <div>Florida HSMV Accident Report {{item.hsmv_report_number}}</div>
+        <div>
+            <button><i class="fa fa-remove"></i></button>
+            <button><i class="fa fa-question"></i></button>
+        </div>
+      </div>
+      <div>Total: {{Cart.length*16}}</div>
+
+      <form [formGroup]='PurchaseForm' (submit)='onSubmit($event)'>
+        <div>Payment Information</div>
+        <div class="input-group">
+          <input class="form-control" type="text" formControlName='first' placeholder="first name">
+          <input class="form-control" type="text" formControlName='last' placeholder="last name">
+        </div>
+        <div id="card" #card></div>
+        <input class="btn btn-block btn-outline-danger" type="submit" value='Submit'>
+      </form>
+    </div>
+</div>

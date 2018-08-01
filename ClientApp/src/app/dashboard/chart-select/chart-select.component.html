@@ -1,0 +1,7 @@
+<form [formGroup]="form" >
+    <select (change)="this.selectChart()" class="form-control" formControlName="select">
+      <option *ngFor="let option of options" [value]="option">{{option}}</option>
+    </select>
+</form>
+
+

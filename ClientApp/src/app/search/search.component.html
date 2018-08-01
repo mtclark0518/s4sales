@@ -1,0 +1,16 @@
+<div class="search-container wrap">
+  <search-header [status]="status"></search-header>
+  <div class="search-content">
+    <div *ngIf="status == ''" class="page-container search-body">
+      <div class="card" (click)="selectQueryType('report')">I have my HSMV report number</div>
+      <div class="card" (click)="selectQueryType('vehicle')">I'd like to search for reports attached to my vehicles VIN number</div>
+      <div class="card" (click)="selectQueryType('detailed')">I'm really unprepared...lets take a shot in the dark</div>
+    </div>
+    <div *ngIf="status == 'searching'"class="page-container search-body">
+      <search-form></search-form>
+    </div>
+    <div *ngIf="status == 'returning'"class="page-container search-body">
+      <search-results></search-results>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div *ngIf="active" class="profile-builder">
+    <form [formGroup]="adminForm" (submit)="submit($event)">
+      <input type="radio" formControlName="status" value={{2}}>Approve
+      <input type="radio" formControlName="status" value={{3}}>Reject
+      <div *ngIf="status.value == 3 ">
+          <textarea formControlName="message" placeholder="enter reason"></textarea>
+
+      </div>
+      <input type="submit" value="submit">
+    </form>
+</div>

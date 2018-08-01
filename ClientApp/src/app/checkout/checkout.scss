@@ -1,0 +1,57 @@
+@import "../../styles.scss";
+
+.cart {
+  width: 5vh;
+  .overlap {
+    position:absolute;
+    margin-left: 2.5vh;
+  }
+  .cart-svg{
+    fill: $disabled;
+    transition: $basic-transition;
+
+  }
+  & .enabled{
+    fill: $enabled;
+  }
+
+}
+.head{
+  border-bottom: 1px solid black;
+}
+.outer{
+  max-width: 67%;
+  margin: auto;
+  padding-top: 1em;
+
+  .item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5em;
+    margin: 3px;
+    background: rgba(247,245,251,1)
+  }
+
+  .StripeElement {
+    background-color: white;
+    width: 100%;
+    height: 40px;
+    padding: 1em;
+    border-radius: 4px;
+    border: 1px solid black;
+    box-shadow: 0 1px 3px 0 #e6ebf1;
+    -webkit-transition: box-shadow 150ms ease;
+    transition: box-shadow 150ms ease;
+    &-focus{
+      box-shadow: 0 1px 3px 0 #cfd7df;
+    }
+    &-invalid{
+      border-color: #fa755a;
+    }
+    &-webkit-autofill{
+      background-color: #fefde5 !important;
+    }
+  }
+
+}
