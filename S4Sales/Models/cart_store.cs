@@ -31,7 +31,7 @@ namespace S4Sales.Models
                 add_date = DateTime.Now
             };
 
-            var _query = $@"INSERT into cart_item VALUES(@hsmv, @cart, @date)";
+            var _query = $@"INSERT into cart_item VALUES(@hsmv, @cart, @date) ON CONFLICT ON CONSTRAINT cart_item_constraint DO NOTHING";
             var _params = new 
             {
                 hsmv = item.hsmv_report_number,
