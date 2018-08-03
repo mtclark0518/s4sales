@@ -43,7 +43,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   get first() { return this.PurchaseForm.get('first'); }
   get last() { return this.PurchaseForm.get('last'); }
 
-  // total() { return (this.Cart.length * 16) * 100; }
+  total() { return (this.Cart.length * 16) * 100; }
 
   clearCart = () => this.cart.emptyCart();
 
