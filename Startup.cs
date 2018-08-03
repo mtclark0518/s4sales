@@ -41,7 +41,6 @@ namespace S4Sales
         {
             services.AddSingleton<IConfiguration>(Configuration);
 
-
             //  policies will depend on how hsmv wants to handle money transfers
             // add authorization policy
             // services.AddAuthorization(opts =>
@@ -62,7 +61,6 @@ namespace S4Sales
                 opts.Cookie.Name = "S4Sales.Session";
             });
             services.AddTransient<SessionUtility>();
-
 
             // add identity services
             services.AddIdentity<S4Identity, S4IdentityRole>( opts =>
