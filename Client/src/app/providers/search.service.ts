@@ -13,9 +13,7 @@ import { SearchQuery } from '../models/search-query';
 export class SearchService {
   constructor( private http: HttpClient, private router: Router ) {}
 
-
-
-  private domain = 'http://localhost:5000/api';
+  private domain = 'http://localhost:5000/api/crash/';
 
   private QueryType = new BehaviorSubject<string>('');
   public queryType = this.QueryType.asObservable();
@@ -25,64 +23,55 @@ export class SearchService {
 
   private SearchResults = new BehaviorSubject<Array<CrashEvent>>([]);
   public searchResults = this.SearchResults.asObservable();
-
-  public updateSearchStatus($event) {
-    this.SearchStatus.next($event);
+  getHeaders() {
+    return new HttpHeaders({
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    });
   }
-
   public selectQueryType($event) {
     this.QueryType.next($event);
   }
 
   public submitSearch(query: SearchQuery) {
-    console.log(query);
-    let headers: HttpHeaders;
+    const headers = this.getHeaders();
     if (query.queryType === 'report') {
-      headers = new HttpHeaders({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'hsmv': query.reportNumber
-      });
-      this.http.get(this.domain + '/crash/' + query.queryType, {headers: headers}).subscribe(response => {
+      headers.append('hsmv', query.reportNumber);
+      this.http.get(this.domain + query.queryType, {headers: headers})
+      .subscribe( response => {
         this.handleOne(response);
       });
     }
     if (query.queryType === 'vehicle') {
-      headers = new HttpHeaders({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'vin': query.vehicleVIN
-      });
-      console.log(headers)
-      this.http.get(this.domain + '/crash/' + query.queryType, {headers: headers}).subscribe(response => {
+      headers.append('vin', query.vehicleVIN);
+      this.http.get(this.domain + query.queryType, {headers: headers})
+      .subscribe( response => {
         this.handleMany(response);
       });
     }
     if (query.queryType === 'detailed') {
-      console.log(typeof(query.crashDate))
-      headers = new HttpHeaders({
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'crash' : query.crashDate.toString(),
-        'participant' : query.participant.trim().toUpperCase()
-      });
+      headers.append('crash', query.crashDate.toString());
+      headers.append('participant', query.participant.trim().toUpperCase());
 
-      console.log(headers)
-      this.http.get(this.domain + '/crash/' + query.queryType, {headers: headers}).subscribe(response => {
+      this.http.get(this.domain + query.queryType, {headers: headers})
+      .subscribe( response => {
         this.handleMany(response);
       });
     }
   }
 
+  public updateSearchStatus($event) {
+    this.SearchStatus.next($event);
+  }
+
   private handleOne(data) {
-    console.log(data);
     const arr = [];
     arr.push(data);
     this.SearchResults.next(arr);
     this.SearchStatus.next('returning');
   }
+
   private handleMany(data) {
-    console.log(data);
     const arr = [];
     data.forEach(item => {
       arr.push(item);

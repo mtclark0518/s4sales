@@ -1,4 +1,5 @@
 
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using S4Sales.Models;
 
@@ -8,11 +9,9 @@ namespace S4Sales.Controllers
     public class CrashController : Controller
     {
         private readonly CrashRepository _repo;
-        private readonly CartStore _cart;
-        public CrashController(CrashRepository repo, CartStore cart)
+        public CrashController(CrashRepository repo)
         {
             _repo = repo;
-            _cart = cart;
         }
 
         [HttpGet("report")]

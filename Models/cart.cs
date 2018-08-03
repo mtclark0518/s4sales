@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace S4Sales.Models
 {
@@ -10,18 +9,21 @@ namespace S4Sales.Models
     
     public class Cart
     {
-        [Key]
         public string cart_id { get; set; }
         public DateTime created_date { get; set; }
+        public string session_id { get; set; }
         public IEnumerable<CartItem> cart_content {get;set;}
+        // constructor
+        public Cart(){}
     }
     public class CartItem
     {
-        [Key]
-        public string cart_item_key {get;set;}
         public int hsmv_report_number {get;set;}
-        public string cart_id {get;set;}
-        public DateTime created_date {get;set;}
-
+        public string cart {get;set;}
+        public DateTime add_date {get;set;}
+        public CartItem(int hsmv)
+        {
+            hsmv_report_number = hsmv;
+        }
     }
 }

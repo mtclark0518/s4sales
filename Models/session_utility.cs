@@ -13,25 +13,31 @@ namespace S4Sales.Models
 
     public class SessionUtility
     {
-        private readonly IHttpContextAccessor HttpContextAccessor;
+        private readonly IHttpContextAccessor _httpCtx;
 
         public SessionUtility(IHttpContextAccessor httpContextAccessor)
         {
-            HttpContextAccessor = httpContextAccessor;
+            _httpCtx = httpContextAccessor;
         }
-
+        public bool IsValid()
+        {
+            return true;
+        }
         public void SetSession(string key, string value)
         {
-            HttpContextAccessor.HttpContext.Session.SetString(key, value);
+            _httpCtx.HttpContext.Session.SetString(key, value);
         }
-
+        public string CurrentSession()
+        {
+            return _httpCtx.HttpContext.Session.Id;
+        }
         public string GetSession(string key)
         {
-            return HttpContextAccessor.HttpContext.Session.GetString(key);
+            return _httpCtx.HttpContext.Session.GetString(key);
         }
         public void RemoveKey(string key)
         {
-            HttpContextAccessor.HttpContext.Session.SetString(key, null);
+            _httpCtx.HttpContext.Session.SetString(key, null);
         }
     }
     public static class SessionExtensions

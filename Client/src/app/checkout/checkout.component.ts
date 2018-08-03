@@ -6,7 +6,8 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Transaction } from '../models/transaction';
 
 @Component({
-  selector: 'app-checkout',
+  // tslint:disable-next-line:component-selector
+  selector: 'checkout',
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.scss']
 })
@@ -24,7 +25,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.cart.cart.subscribe(cart => this.Cart = cart.items);
+    this.cart.cart.subscribe(cart => this.Cart = cart);
     this.PurchaseForm = this.fb.group({
       'first': new FormControl(null, [Validators.required]),
       'last': new FormControl(null, [Validators.required])
@@ -42,7 +43,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   get first() { return this.PurchaseForm.get('first'); }
   get last() { return this.PurchaseForm.get('last'); }
 
-  total() { return (this.Cart.length * 16) * 100; }
+  // total() { return (this.Cart.length * 16) * 100; }
 
   clearCart = () => this.cart.emptyCart();
 

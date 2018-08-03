@@ -17,12 +17,11 @@ export class SearchResultsComponent implements OnInit {
   }
 
   addToCart(item) {
-    item.isClicked = true;
     this.cart.addToCart(item);
   }
 
-  removeFromCart(item) {
-    this.cart.removeFromCart(item);
-    item.isClicked = false;
-  }
+  // removeFromCart(item) {
+  //   this.cart.removeFromCart(item);
+  //   item.isClicked = false;
+  // }
 }

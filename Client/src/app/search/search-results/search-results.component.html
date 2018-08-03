@@ -2,6 +2,5 @@
 <div *ngFor="let crashEvent of searchResults" class="card search-result-item">
   <crash-event [report]="crashEvent"></crash-event>
   <input type="text" placeholder="Optional Reference/Claim #">
-  <div *ngIf="!crashEvent.isClicked" (click)="addToCart(crashEvent)" class="btn btn-sm btn-success">Add to Cart</div>
-  <div *ngIf="crashEvent.isClicked" (click)="removeFromCart(crashEvent)" class="btn btn-sm btn-danger">Remove from Cart</div>
+  <div (click)="addToCart(crashEvent)" class="btn btn-sm btn-success">Add to Cart</div>
 </div>

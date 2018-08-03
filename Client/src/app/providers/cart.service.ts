@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 // tslint:disable-next-line:import-blacklist
 import { Observable, BehaviorSubject } from 'rxjs';
 import { CrashEvent } from '../models/crash-event';
-import { Cart } from '../models/cart';
+import { HttpClient } from '@angular/common/http';
 
 
 
@@ -10,62 +10,37 @@ import { Cart } from '../models/cart';
   providedIn: 'root'
 })
 export class CartService {
+  private domain = 'http://localhost:5000/api/cart/';
+  constructor(private http: HttpClient) { }
 
-  constructor() { }
-
-  private Cart = new BehaviorSubject<Cart>(this.getCart());
+  private Cart = new BehaviorSubject<string>(null);
   public cart = this.Cart.asObservable();
+  private Active = new BehaviorSubject<boolean>(false);
+  public isActive = this.Active.asObservable();
 
-  private handleCart(cart: Cart): void {
-    cart.updateCart(cart);
-    this.save(cart);
-    this.Cart.next(cart);
-  }
-
-  public addToCart(item: CrashEvent): void {
-    const cart = this.getCart();
-      cart.items.push(item);
-      this.handleCart(cart);
-  }
-
-  public removeFromCart(remove: CrashEvent): void {
-    let cart = this.getCart();
-    const filtered = cart.items.filter(item => item.hsmv_report_number !== remove.hsmv_report_number );
-    this.emptyCart();
-    cart = this.getCart();
-    filtered.forEach(item => {
-      cart.items.push(item);
+  public initializeCart() {
+    this.http.get(this.domain + 'init').subscribe( cart => {
+      this.setCart(cart);
     });
-    console.log(cart);
-    this.handleCart(cart);
+  }
+  public addToCart(item: CrashEvent): void {
+    let cart_id: string;
+    this.cart.subscribe(id => cart_id = id);
+    const hsmv = item.hsmv_report_number.toString();
+    this.http.post(this.domain + 'cart/add', {cart_id, hsmv})
+      .subscribe(response =>
+        console.log(response));
   }
 
-  private isCart(): boolean {
-    if (window.localStorage.getItem('CART')) { return true; } else { return false; }
-  }
-
-  public getCart(): Cart {
-    const cart = new Cart();
-    if (this.isCart()) {
-      cart.updateCart(JSON.parse(window.localStorage.getItem('CART')));
-    }
-    return cart;
-  }
-  private save(cart: Cart) {
-    window.localStorage.setItem('CART', JSON.stringify(cart));
-  }
-
-  public emptyCart(): void {
-    const cart = new Cart();
-    this.save(cart);
+  private setCart(response) {
+    const cart = response.cart_id;
     this.Cart.next(cart);
   }
 
-  public restoreCart(): void {
-    const cart = this.getCart();
-    this.handleCart(cart);
-  }
+  // public removeFromCart(remove: CartItem): void {
 
+  // }
 
+  public emptyCart(): void {}
 
 }

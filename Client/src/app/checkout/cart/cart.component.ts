@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../providers/cart.service';
-import { Cart } from '../../models/cart';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,14 +8,11 @@ import { Cart } from '../../models/cart';
   styleUrls: ['../checkout.scss']
 })
 export class CartComponent implements OnInit {
-  public myCart: Cart;
-
+  isActive: boolean;
   constructor( private cart: CartService) { }
 
   ngOnInit() {
-
-    this.cart.cart.subscribe(cart => this.myCart = cart);
-    this.cart.restoreCart();
+    this.cart.isActive.subscribe( state => this.isActive = state);
   }
 
 

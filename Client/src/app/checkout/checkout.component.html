@@ -14,16 +14,17 @@
             <button><i class="fa fa-question"></i></button>
         </div>
       </div>
-      <div>Total: {{Cart.length*16}}</div>
+      <!-- <div>Total: {{Cart.length*16}}</div> -->
 
       <form [formGroup]='PurchaseForm' (submit)='onSubmit($event)'>
         <div>Payment Information</div>
         <div class="input-group">
-          <input class="form-control" type="text" formControlName='first' placeholder="first name">
-          <input class="form-control" type="text" formControlName='last' placeholder="last name">
+          <input class="form-control input-lg" type="text" formControlName='first' placeholder="first name">
+          <input class="form-control input-sm" type="text" formControlName='last' placeholder="last name">
         </div>
         <div id="card" #card></div>
         <input class="btn btn-block btn-outline-danger" type="submit" value='Submit'>
       </form>
+
     </div>
 </div>

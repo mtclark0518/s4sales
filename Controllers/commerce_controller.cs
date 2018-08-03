@@ -18,8 +18,6 @@ namespace S4Sales.Controllers
             _ec_repo = ec;
             _stripe = str;
         }
-
-
         
         [HttpPost("create")]
         public Task CreateOrder([FromBody] fkTransaction order)

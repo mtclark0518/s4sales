@@ -51,22 +51,16 @@ namespace S4Sales.Models
                         funds.incentivized = true;
                     }
 
-                    // allocate funds to be dispersed
-                    // if(setForDispersal(funds)) 
-                    // {
-                    //     purchased.Add(crash_report);
-                    // }
+                    // Log the transaction
 
-                    // save indidvidual allocations to a table
                 }
                 // save final result of the transaction
-
                 // how to send as filestream for download??
                 return Task.FromResult(purchased);
             } 
             else
             {
-                // something happened trying to create the charge
+                // on failure
                 // charge.Outcome charge.FailureMessage
                 // save failure to the database
                 return null;
@@ -81,10 +75,10 @@ namespace S4Sales.Models
         {
             return a.AddDays(c) > b;
         }
-        private bool setForDispersal(Reimbursement funds)
-        {
-            return true;
-        }
+        // private bool setForDispersal(Reimbursement funds)
+        // {
+        //     return true;
+        // }
         #endregion
     }
 }
