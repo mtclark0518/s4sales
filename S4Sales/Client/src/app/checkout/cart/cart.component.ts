@@ -12,6 +12,7 @@ export class CartComponent implements OnInit {
   constructor( private cart: CartService) { }
 
   ngOnInit() {
+    this.cart.initializeCart();
     this.cart.isActive.subscribe( state => this.isActive = state);
   }
 

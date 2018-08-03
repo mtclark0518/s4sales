@@ -19,21 +19,24 @@ export class CartService {
   public isActive = this.Active.asObservable();
 
   public initializeCart() {
-    this.http.get(this.domain + 'init').subscribe( cart => {
-      this.setCart(cart);
+    this.http.get(this.domain + 'init', {responseType: 'text'}).subscribe( response => {
+      this.setCart(response);
     });
   }
-  public addToCart(item: CrashEvent): void {
+
+
+  public addToCart(item: CrashEvent) {
     let cart_id: string;
     this.cart.subscribe(id => cart_id = id);
     const hsmv = item.hsmv_report_number.toString();
-    this.http.post(this.domain + 'cart/add', {cart_id, hsmv})
+    const body = {cart_id, hsmv};
+    console.log(body);
+    this.http.post(this.domain + 'add', body)
       .subscribe(response =>
         console.log(response));
   }
 
-  private setCart(response) {
-    const cart = response.cart_id;
+  private setCart(cart) {
     this.Cart.next(cart);
   }
 

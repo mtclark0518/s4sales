@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using S4Sales.Models;
@@ -15,32 +17,6 @@ namespace S4Sales.Controllers
             _session = sess;
         }
 
-        [HttpGet("init")]
-        public Task InitializeCart()
-        {
-            // check session expiration
-            // currently this just returns true
-            // needs time check in session utility
-            if(_session.IsValid())
-            {
-                // if we've searched already grab our cart
-                if(_cart.IsACart()) 
-                { 
-                    var result = new {cart_id = _session.GetSession("cart")}; 
-                    return Task.FromResult(result);
-                } 
-                    // add a new cart to session and db log
-                if(_cart.MakeNewCart())
-                {
-                    var result = new {cart_id = _session.GetSession("cart")};
-                    return Task.FromResult(result);
-                }
-                // error creating the new cart
-            }
-            // error in session. figure out how to reset
-            var error = new {error = "you fucked up bro"};
-            return Task.FromResult(error);
-        }
         [HttpPost("add")]
         public Task AddToCart([FromBody]string cart_id, string hsmv)
         {
@@ -55,7 +31,11 @@ namespace S4Sales.Controllers
                 var canAdd = _cart.AddToCart(item);
                 if(canAdd)
                 {
-                    return Task.FromResult(0);
+                    var result = new
+                    {
+                        message = "success"
+                    };
+                    return Task.FromResult(result);
                 }
             }
             
@@ -65,6 +45,42 @@ namespace S4Sales.Controllers
                 isn't yours or isn't active bruh. Or maybe it didn't add the item correctly."
             };
             return Task.FromResult(error);
+        }
+
+        // retrieves items for a given cart
+        [HttpGet("content")]
+        public IEnumerable<CartItem> GetCartContent()
+        {
+            var cart = Request.Headers["cart_id"];
+            var content = _cart.GetContent(cart);
+            return content;
+        }
+
+        [HttpGet("init")]
+        public string InitializeCart()
+        {
+            // check session expiration
+            // currently this just returns true
+            // needs time check in session utility
+            if(_session.IsValid())
+            {
+                // if we've searched already grab our cart
+                if(!_cart.NeedACart()) 
+                { 
+                    var result = _session.GetSession("cart"); 
+                    return result;
+                } 
+                // add a new cart to session and db log
+                if( _cart.MakeNewCart().Result == true)
+                {
+                    var result = _session.GetSession("cart"); 
+                    return result;
+                }
+                // error creating the new cart
+            }
+            // error in session. figure out how to reset
+            var error = "you messed up";
+            return error;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
@@ -50,43 +51,44 @@ namespace S4Sales.Models
             return _session.GetSession("cart");
         }
 
-        public IEnumerable<CartItem> GetCartContent()
+        public IEnumerable<CartItem> GetContent(string cvrt)
         {
-            var cart_id = GetCart();
-            
-            var _query = "SELECT * FROM cart_item WHERE cart = @cart";
-            var _params = new {cart = cart_id};
-            using(var conn = new NpgsqlConnection(_conn))
+            if(cvrt == GetCart())
             {
-                return conn.Query<CartItem>(_query, _params);
+
+                var _query = "SELECT * FROM cart_item WHERE cart = @cart";
+                var _params = new {cart = cvrt};
+                using(var conn = new NpgsqlConnection(_conn))
+                {
+                    return conn.Query<CartItem>(_query, _params);
+                }
             }
+            var error = @"i am a temporary error handler, i show up if something went wrong trying to get cart items";
+            throw new ApplicationException(nameof(error));
         }
 
-        public bool MakeNewCart()
+        public async Task<bool> MakeNewCart()
         {
-            if (!IsACart())
+            Cart new_cart = new Cart()
             {
-                Cart new_cart = new Cart()
+                cart_id = Guid.NewGuid().ToString(),
+                created_date = DateTime.Now,
+                session_id = _session.CurrentSession()
+            };
+            var _query = $@"INSERT INTO cart VALUES (@cart, @session, @date)";
+            var _params = new 
+            {
+                cart = new_cart.cart_id,
+                session = new_cart.session_id,
+                date = new_cart.created_date
+            };
+            using (var conn = new NpgsqlConnection(_conn))
+            {
+                var cart = await conn.ExecuteAsync(_query, _params);
+                if(cart == 1)
                 {
-                    cart_id = Guid.NewGuid().ToString(),
-                    created_date = DateTime.Now,
-                    session_id = _session.CurrentSession()
-                };
-                var _query = $@"INSERT INTO cart VALUES (@cart, @session, @date)";
-                var _params = new 
-                {
-                    cart = new_cart.cart_id,
-                    session = new_cart.session_id,
-                    date = new_cart.created_date
-                };
-                using (var conn = new NpgsqlConnection(_conn))
-                {
-                    var cart = conn.Execute(_query, _params);
-                    if(cart == 1)
-                    {
-                        _session.SetSession("cart", new_cart.cart_id);
-                        return true;
-                    }
+                    _session.SetSession("cart", new_cart.cart_id);
+                    return true;
                 }
             }
             // should add some feedback, but basically unless everything works we fails yo
@@ -98,9 +100,11 @@ namespace S4Sales.Models
             _session.RemoveKey("cart");
         }
 
-        public bool IsACart()
+        public bool NeedACart()
         {
-            return _session.GetSession("cart") != null ? true : false;
+            var cart = _session.GetSession("cart");
+            var result = cart == null;
+            return result;
         }
     }
 }

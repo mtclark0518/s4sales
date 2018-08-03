@@ -23,36 +23,46 @@ export class SearchService {
 
   private SearchResults = new BehaviorSubject<Array<CrashEvent>>([]);
   public searchResults = this.SearchResults.asObservable();
-  getHeaders() {
-    return new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    });
-  }
+
   public selectQueryType($event) {
     this.QueryType.next($event);
   }
 
   public submitSearch(query: SearchQuery) {
-    const headers = this.getHeaders();
+
+    let headers: HttpHeaders;
+
     if (query.queryType === 'report') {
-      headers.append('hsmv', query.reportNumber);
+      headers = new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'hsmv': query.reportNumber
+      });
       this.http.get(this.domain + query.queryType, {headers: headers})
       .subscribe( response => {
         this.handleOne(response);
       });
     }
+
     if (query.queryType === 'vehicle') {
-      headers.append('vin', query.vehicleVIN);
+      headers = new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'vin': query.vehicleVIN
+      });
       this.http.get(this.domain + query.queryType, {headers: headers})
       .subscribe( response => {
         this.handleMany(response);
       });
     }
-    if (query.queryType === 'detailed') {
-      headers.append('crash', query.crashDate.toString());
-      headers.append('participant', query.participant.trim().toUpperCase());
 
+    if (query.queryType === 'detailed') {
+      headers = new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'crash': query.crashDate.toString(),
+        'participant': query.participant.trim().toUpperCase()
+      });
       this.http.get(this.domain + query.queryType, {headers: headers})
       .subscribe( response => {
         this.handleMany(response);
