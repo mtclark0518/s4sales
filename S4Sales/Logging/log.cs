@@ -4,38 +4,48 @@ namespace S4Sales.Logging
     /// <Note>
     // Model definition for various site usage logs
     ///</Note>
-    public class LogDownload
+
+    public enum EntryType 
     {
-        public DateTime date_and_time { get; set; }
-        public string client_ip_address { get; set; }
-        public string name_of_file {get;set;}
-        public int number_of_reports { get; set; }
-        public string user_id { get; set; }
-        public string connection_to_crash { get; set; }
-        public string search_guid { get; set; }
+        Download,
+        Cart,
+        Search
     }
-    public class LogPurchase
+    public class SessionLog
     {
-        public DateTime date_and_time { get; set; }
+        public string session_id {get;set;}
+        public DateTime init_dt { get; set; }
+        public string client_ip { get; set; }
+        public string cart_id { get; set; }
+    }
+
+    public class CartLog
+    {
+        public string cart_id { get; set; }
+        public DateTime event_time { get; set; }
+        public string action_name {get; set;}
+        public string targetted_report {get;set;}
+    }
+
+    public class PurchaseLog
+    {
+        public string cart_id { get; set; }
         public float purchase_amount { get; set; }
-        public string client_ip_address { get; set; }
-        public string authorization_number { get; set; }
-        public string number_of_reports { get; set; }
-        public string user_id { get; set; }
-        public string connection_to_crash { get; set; }
-        public string search_guid { get; set; }
-        
+        public DateTime initiated_at { get;set;}
+        public DateTime completed_at { get;set;}
+        public string stripe_src_token {get;set;}
+        public string src_token_result {get;set;}
+        public string stripe_charge_token {get;set;}
+        public string charge_token_result {get;set;}
     }
-    public class LogSearch
+
+    public class SearchLog
     {
-        public DateTime date_and_time { get; set; }
-        public string client_ip_address { get; set; }
-        public float type_of_search { get; set; }
+        public string type_of_search { get; set; }
         public string search_parameters { get; set; }
-        public string number_of_reports { get; set; }
-        public string user_id { get; set; }
-        public string connection_to_crash { get; set; }
-        public string search_guid { get; set; }
-        
+        public bool succeeded { get; set; }
+        public int number_of_reports { get; set; }
+        public DateTime executed_at {get;set;}
+
     }
 }

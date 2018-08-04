@@ -5,10 +5,12 @@ import { CartService } from '../../providers/cart.service';
   // tslint:disable-next-line:component-selector
   selector: 'cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['../checkout.scss']
+  styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
   isActive: boolean;
+  itemCount: number;
+
   constructor( private cart: CartService) { }
 
   ngOnInit() {

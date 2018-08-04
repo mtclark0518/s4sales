@@ -10,10 +10,10 @@ import { RegisterComponent } from './account/register/register.component';
 import { PasswordComponent } from './account/password/password.component';
 import { ProfileComponent } from './account/profile/profile.component';
 import { AuthGuard, AdminGuard } from './providers/auth.guard';
-import { CheckoutComponent } from './checkout/checkout.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { RedirectComponent } from './account/mi-response/mi-response.component';
+import { CheckoutComponent } from './components/checkout/checkout.component';
 
 export const routes: Routes = [
 

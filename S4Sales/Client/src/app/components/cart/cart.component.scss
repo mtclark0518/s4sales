@@ -1,0 +1,21 @@
+@import "../../../styles.scss";
+.cart-container{
+
+
+  .cart {
+    width: 5vh;
+    .overlap {
+      position:absolute;
+      margin-left: 2.5vh;
+    }
+    .cart-svg{
+      fill: $disabled;
+      transition: $basic-transition;
+
+    }
+    & .enabled{
+      fill: $enabled;
+    }
+
+  }
+}

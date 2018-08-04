@@ -7,22 +7,22 @@ import { ContactComponent } from './contact/contact.component';
 import { FaqsComponent } from './faqs/faqs.component';
 import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from '../app.routing';
 import { CollapseModule, BsDropdownMenuDirective, BsDropdownModule } from 'ngx-bootstrap';
-import { CheckoutModule } from '../checkout/checkout.module';
+import { CartComponent } from './cart/cart.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 @NgModule({
   imports: [
-    CommonModule, FormsModule, ReactiveFormsModule, CheckoutModule,
+    CommonModule, FormsModule, ReactiveFormsModule,
     AppRoutingModule, CollapseModule, BsDropdownModule
   ],
   declarations: [
-    NavbarComponent,
-    FooterComponent,
+    NavbarComponent, CheckoutComponent,
+    FooterComponent, CartComponent,
     CrashEventComponent, ContactComponent,
     FaqsComponent, TermsAndConditionsComponent,
   ],
-  exports: [ NavbarComponent, FooterComponent, CrashEventComponent]
+  exports: [CartComponent , NavbarComponent, FooterComponent, CrashEventComponent]
 })
 export class ComponentsModule { }
