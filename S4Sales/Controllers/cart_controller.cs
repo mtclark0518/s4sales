@@ -18,29 +18,31 @@ namespace S4Sales.Controllers
         }
 
         [HttpPost("add")]
-        public Task AddToCart([FromBody]string cart_id, string hsmv)
+        public Task<StandardResponse> AddToCart([FromBody]CartItemRequest req)
         {
             // irrelevant currently
             // verify the session we want to access
             var from = Request.HttpContext.Session.Id;
             // seems to be the place to make sure the item isn't already in the cart
             //make sure the request is for the correct cart
-            if(cart_id == _cart.GetCart())
+            if(req.cart_id == _cart.GetCart())
             {
-                var item = int.Parse(hsmv);
+                var item = int.Parse(req.hsmv);
                 var canAdd = _cart.AddToCart(item);
                 if(canAdd)
                 {
-                    var result = new
+                    var result = new StandardResponse()
                     {
+                        code = StatusCode(200),
                         message = "success"
                     };
                     return Task.FromResult(result);
                 }
             }
             
-            var error = new
+            var error = new StandardResponse()
             {
+                code = StatusCode(500),
                 message = @"Your trying to access a cart that 
                 isn't yours or isn't active bruh. Or maybe it didn't add the item correctly."
             };

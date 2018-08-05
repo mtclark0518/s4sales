@@ -5,9 +5,9 @@ import { HttpClient } from '@angular/common/http';
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   ip;
-  constructor(private http: HttpClient){
+  constructor(private http: HttpClient) {
 
   }
   ngOnInit() {

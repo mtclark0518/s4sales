@@ -26,4 +26,10 @@ namespace S4Sales.Models
         public string s4_role_name {get; set;}
         public string user_name {get; set;}
     }
+
+    public class CartItemRequest
+    {
+        public string cart_id {get; set;}
+        public string hsmv {get; set;}
+    }
 }

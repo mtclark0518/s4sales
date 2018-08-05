@@ -57,7 +57,7 @@ namespace S4Sales
             services.AddDistributedMemoryCache();
             services.AddSession( opts =>
             {
-                opts.IdleTimeout = TimeSpan.FromMinutes(10);
+                opts.IdleTimeout = TimeSpan.FromMinutes(60);
                 opts.Cookie.Name = "S4Sales.Session";
             });
             services.AddTransient<SessionUtility>();
