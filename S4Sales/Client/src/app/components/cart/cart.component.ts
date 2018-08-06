@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../providers/cart.service';
+import { CrashEvent } from '../../models/crash-event';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,13 +10,14 @@ import { CartService } from '../../providers/cart.service';
 })
 export class CartComponent implements OnInit {
   isActive: boolean;
-  itemCount: number;
+  items: Array<CrashEvent>;
 
   constructor( private cart: CartService) { }
 
   ngOnInit() {
     this.cart.initializeCart();
     this.cart.isActive.subscribe( state => this.isActive = state);
+    this.cart._items.subscribe(i => this.items = i);
   }
 
 

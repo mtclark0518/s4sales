@@ -5,16 +5,32 @@
       Back 2 Shop <i class="fa fa-dollar"></i>
     </a>
   </div>
+
+
   <div class="outer">
       <div>Checkout</div>
-      <div *ngFor="let item of Cart" class="item">
-        <div>Florida HSMV Accident Report {{item.hsmv_report_number}}</div>
-        <div>
-            <button><i class="fa fa-remove"></i></button>
-            <button><i class="fa fa-question"></i></button>
+
+
+      <div>                                              <!-- order review container -->
+        <div>                                            <!-- order item container-->
+          <div *ngFor="let item of Cart" class="item">   <!-- item detail container-->
+            <div>                                        <!-- item detail-->
+              FL HSMV Accident Report {{item.hsmv_report_number}}
+            </div>
+            <div>                                        <!-- item action container -->
+                <button><i class="fa fa-remove"></i></button>
+                <button><i class="fa fa-question"></i></button>
+            </div>
+          </div>
+        </div>
+        <div>                                              <!-- order total container -->
+          <div>Total:</div>
+          <div>{{Cart.length * 16}}</div>
         </div>
       </div>
-      <!-- <div>Total: {{Cart.length*16}}</div> -->
+
+
+
 
       <form [formGroup]='PurchaseForm' (submit)='onSubmit($event)'>
         <div>Payment Information</div>

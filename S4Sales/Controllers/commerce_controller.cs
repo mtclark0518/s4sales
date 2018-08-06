@@ -22,8 +22,8 @@ namespace S4Sales.Controllers
         [HttpPost("create")]
         public Task CreateOrder([FromBody] fkTransaction order)
         {
-            var charge =  _stripe.CreateCharge(order);
-            return Task.FromResult(charge);
+            var result = _ec_repo.HandleTransaction(order);
+            return Task.FromResult(result);
         }
     }
 }

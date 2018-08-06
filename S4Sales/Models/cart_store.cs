@@ -31,7 +31,11 @@ namespace S4Sales.Models
                 add_date = DateTime.Now
             };
 
-            var _query = $@"INSERT into cart_item VALUES(@hsmv, @cart, @date) ON CONFLICT ON CONSTRAINT cart_item_constraint DO NOTHING";
+            var _query = $@"INSERT into cart_item 
+                VALUES(@hsmv, @cart, @date) 
+                ON CONFLICT 
+                ON CONSTRAINT cart_item_constraint 
+                DO NOTHING";
             var _params = new 
             {
                 hsmv = item.hsmv_report_number,
@@ -56,7 +60,7 @@ namespace S4Sales.Models
             if(cvrt == GetCart())
             {
 
-                var _query = "SELECT * FROM cart_item WHERE cart = @cart";
+                var _query = "SELECT * FROM cart_item WHERE cart_id = @cart";
                 var _params = new {cart = cvrt};
                 using(var conn = new NpgsqlConnection(_conn))
                 {

@@ -3,4 +3,5 @@ export class Transaction {
   last_name?: string;
   amount: number;
   token: string;
+  cart_id: string;
 }

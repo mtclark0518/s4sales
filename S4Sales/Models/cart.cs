@@ -21,6 +21,8 @@ namespace S4Sales.Models
         public int hsmv_report_number {get;set;}
         public string cart {get;set;}
         public DateTime add_date {get;set;}
+        // default constructor
+        public CartItem() {}
         public CartItem(int hsmv)
         {
             hsmv_report_number = hsmv;

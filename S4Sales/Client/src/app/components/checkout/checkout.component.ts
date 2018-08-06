@@ -16,6 +16,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   private _card: any;
   public checkoutState;
   public Cart;
+  public cart_id;
   public PurchaseForm: FormGroup;
 
   constructor(
@@ -25,7 +26,9 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.cart.cart.subscribe(cart => this.Cart = cart);
+    this.cart._items.subscribe( i => this.Cart = i);
+    this.cart.cart.subscribe(c=> this.cart_id = c);
+    console.log(this.Cart);
     this.PurchaseForm = this.fb.group({
       'first': new FormControl(null, [Validators.required]),
       'last': new FormControl(null, [Validators.required])
@@ -58,7 +61,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
         first_name: this.first.value,
         last_name: this.last.value,
         amount: this.total(),
-        token: created.token.id
+        token: created.token.id,
+        cart_id: this.cart_id
       };
       this.ecomm.submit(order);
     } else {

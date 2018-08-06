@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 namespace S4Sales.Logging
 {
     /// <Note>
@@ -24,20 +26,10 @@ namespace S4Sales.Logging
         public string cart_id { get; set; }
         public DateTime event_time { get; set; }
         public string action_name {get; set;}
-        public string targetted_report {get;set;}
+        public string hsmv_report_number {get;set;}
     }
 
-    public class PurchaseLog
-    {
-        public string cart_id { get; set; }
-        public float purchase_amount { get; set; }
-        public DateTime initiated_at { get;set;}
-        public DateTime completed_at { get;set;}
-        public string stripe_src_token {get;set;}
-        public string src_token_result {get;set;}
-        public string stripe_charge_token {get;set;}
-        public string charge_token_result {get;set;}
-    }
+
 
     public class SearchLog
     {
@@ -46,6 +38,5 @@ namespace S4Sales.Logging
         public bool succeeded { get; set; }
         public int number_of_reports { get; set; }
         public DateTime executed_at {get;set;}
-
     }
 }
