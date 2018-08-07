@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 
 @Injectable({
@@ -8,9 +9,12 @@ import { BehaviorSubject } from 'rxjs';
 })
 
 export class ChartService {
+
   private initial: Highcharts.Options = {series: []};
   private ChartOptions = new BehaviorSubject<Highcharts.Options>(this.initial);
   public chartOptions = this.ChartOptions.asObservable();
+
+  constructor( private http: HttpClient) {}
 
   setChartOptions(data) {
     const options = {

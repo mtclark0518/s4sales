@@ -1,7 +1,9 @@
 
+using Dapper;
 using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using S4Sales.Models;
+using Npgsql;
 
 namespace S4Sales.Models
 {
@@ -32,6 +34,26 @@ namespace S4Sales.Models
         {
             _conn = config["ConnectionStrings:tc_dev"];
         }
+
+        // total incidents
+        public IEnumerable<Reimbursement> ReportIndex()
+        {
+            var _query = $@"SELECT * FROM reimbursement";
+            var _params = new {};
+            using (var conn = new NpgsqlConnection(_conn))
+            {
+                return conn.Query<Reimbursement>(_query, _params);
+            }
+        }
+
+        
+        // revenue by month
+
+        // reporting by month
+
+        // reimbursement by month
+
+        // timliness by month
 
 
     }

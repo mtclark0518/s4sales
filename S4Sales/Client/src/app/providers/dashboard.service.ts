@@ -6,8 +6,11 @@ import { ChartService } from './chart.service';
 
 export class Overview {
   name: string;
-  total: number;
   filter_state?: number;
+  total_reports: number;
+  total_revenue: number;
+  total_reimbursed: number;
+
 }
 
 
@@ -15,7 +18,7 @@ export class Overview {
   providedIn: 'root'
 })
 export class DashboardService {
-  domain = 'http://localhost:5000/api';
+  domain = 'http://localhost:5000/api/data/';
 
   private CurrentOverview = new BehaviorSubject<Overview>(null);
   private CurrentFilterState = new BehaviorSubject<number>(0);
@@ -25,18 +28,32 @@ export class DashboardService {
   constructor(private http: HttpClient, private chart: ChartService) { }
 
   // applyFilter() {// TODO}
+  getReportIndex() {
+    this.http.get(this.domain + 'chart')
+      .subscribe( response => this.formatOverview(response));
+  }
+  formatOverview(data) {
+    console.log(data);
 
+    const report = new Overview();
+    report.total_reports = data.length;
+    report.total_revenue = data.length * 16;
+    report.total_reimbursed = 0;
+    data.forEach((d => {
+      if (d.incentivized) {
+        report.total_reimbursed += 5;
+      }
+    });
+    console.log(report);
+    this.setOverview(report);
+  }
   getOverview(name: string) {
-
     let filter;
     this.currentFilterState.subscribe(f => filter = f);
-
     const TempData = new Overview();
-
       TempData.name = name;
-      TempData.total = parseInt(name, 8) * 10;
+      TempData.total_reports = parseInt(name, 8) * 10;
       TempData.filter_state = filter;
-
       this.setOverview(TempData);
 
 
@@ -67,7 +84,7 @@ export class DashboardService {
     this.CurrentFilterState.next(filter);
   }
 
-  private setOverview (overview: Overview) {
+  private setOverview (overview) {
     this.CurrentOverview.next(overview);
     this.setChartOptions(overview);
   }

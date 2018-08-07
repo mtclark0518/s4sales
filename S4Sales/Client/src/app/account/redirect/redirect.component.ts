@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'mi-response',
-  templateUrl: './mi-response.component.html',
-  styleUrls: ['./mi-response.component.scss']
+  selector: 'redirect',
+  templateUrl: './redirect.component.html',
+  styleUrls: ['./redirect.component.scss']
 })
 export class RedirectComponent implements OnInit {
 

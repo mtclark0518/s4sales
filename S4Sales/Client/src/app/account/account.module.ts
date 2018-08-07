@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app.routing';
 import { TooltipModule } from 'ngx-bootstrap';
 import { DashboardModule } from '../dashboard/dashboard.module';
-import { RedirectComponent } from './mi-response/mi-response.component';
+import { RedirectComponent } from './redirect/redirect.component';
 
 @NgModule({
   imports: [

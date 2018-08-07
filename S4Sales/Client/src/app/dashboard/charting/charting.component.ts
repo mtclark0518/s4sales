@@ -14,7 +14,7 @@ export class ChartingComponent implements OnInit {
   Options: Highcharts.Options;
 
   constructor( private chart: ChartService ) {}
-  ngOnInit(): void {
+  ngOnInit() {
     this.chart.chartOptions.subscribe( chartOpts => this.Options = chartOpts );
   }
 }

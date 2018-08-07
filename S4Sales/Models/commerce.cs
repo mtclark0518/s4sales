@@ -27,7 +27,10 @@ namespace S4Sales.Models
         public float reimbursement_amount { get; set; }
         public DateTime reimbursement_date { get; set;}
         // default constructor
-        public Reimbursement(){}
+        public Reimbursement()
+        {
+            
+        }
         
         // within purchase constructor
         public Reimbursement(CrashEvent e, string cart)
