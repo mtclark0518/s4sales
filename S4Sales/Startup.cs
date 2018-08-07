@@ -12,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 using S4Sales.Identity;
-using S4Sales.Logging;
 using S4Sales.Models;
 using S4Sales.Services;
 

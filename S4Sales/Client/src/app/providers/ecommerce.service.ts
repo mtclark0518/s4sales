@@ -9,7 +9,7 @@ declare const Stripe: any;
   providedIn: 'root'
 })
 export class EcommerceService {
-  private domain = 'http://localhost:5000/api';
+  private domain = 'http://localhost:5000/api/commerce/';
   public stripe = Stripe('pk_test_OFR63JYG6hjiehXdVkgprAin');
   constructor(private http: HttpClient) { }
 
@@ -18,12 +18,10 @@ export class EcommerceService {
         return res;
     });
   }
-
   submit(order: Transaction) {
-    this.http.post(this.domain + '/commerce/create', order)
+    this.http.post(this.domain + 'create', order)
       .subscribe(response => {
         console.log(response);
       });
   }
-
 }

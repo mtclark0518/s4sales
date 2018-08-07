@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
+using S4Sales.Services;
 
 namespace S4Sales.Models
 {
