@@ -46,7 +46,7 @@ namespace S4Sales.Services
         }
 
         ///<Note>
-            // Only public method is initiate response. It builds out the email response based on that response
+        // Only public method is initiate response. It builds out the email response based on that response
         ///</Note>
         public async Task<StandardResponse> initSendEmail(StandardResponse res, S4Response s4)
         {

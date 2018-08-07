@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace S4Sales.Models
+namespace S4Sales.Services
 {
     /// <Note>
     // Utility class to interact with session state

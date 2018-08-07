@@ -21,11 +21,7 @@ namespace S4Sales.Models
         public StatusCodeResult code {get; internal set;}
         public string s4_id { get; internal set; }
     }
-    public class UserRole
-    {
-        public string s4_role_name {get; set;}
-        public string user_name {get; set;}
-    }
+
 
     public class CartItemRequest
     {

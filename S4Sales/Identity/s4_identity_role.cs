@@ -20,8 +20,15 @@ namespace S4Sales.Identity
             s4_role_name = name;
             normalized_role_name = name.ToLower();
         }
-        public S4IdentityRole(){}
+        public S4IdentityRole()
+        {
+            
+        }
     }
-
+    public class UserRole
+    {
+        public string s4_role_name {get; set;}
+        public string user_name {get; set;}
+    }
 
 }
