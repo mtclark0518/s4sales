@@ -24,6 +24,8 @@ export class DashboardService {
   private CurrentFilterState = new BehaviorSubject<number>(0);
   public currentOverview = this.CurrentOverview.asObservable();
   public currentFilterState = this.CurrentFilterState.asObservable();
+  private SelectedChart = new BehaviorSubject<string>('Report Sales');
+  public selectedChart = this.SelectedChart.asObservable();
 
   constructor(private http: HttpClient, private chart: ChartService) { }
 
@@ -34,8 +36,12 @@ export class DashboardService {
   }
   formatOverview(data) {
     console.log(data);
+    let filter, chart_name;
+    this.currentFilterState.subscribe(f => filter = f);
+    this.selectedChart.subscribe(c => chart_name = c);
 
     const report = new Overview();
+    report.name = chart_name;
     report.total_reports = data.length;
     report.total_revenue = data.length * 16;
     report.total_reimbursed = 0;
@@ -43,41 +49,34 @@ export class DashboardService {
       if (d.incentivized) {
         report.total_reimbursed += 5;
       }
-    });
-    console.log(report);
+    }));
+
     this.setOverview(report);
   }
-  getOverview(name: string) {
-    let filter;
-    this.currentFilterState.subscribe(f => filter = f);
-    const TempData = new Overview();
-      TempData.name = name;
-      TempData.total_reports = parseInt(name, 8) * 10;
-      TempData.filter_state = filter;
-      this.setOverview(TempData);
 
+  // getOverview(name: string) {
+  //   // let filter;
+  //   // this.currentFilterState.subscribe(f => filter = f);
+  //   // const TempData = new Overview();
+  //   //   TempData.name = name;
+  //   //   TempData.total_reports = parseInt(name, 8) * 10;
+  //   //   TempData.filter_state = filter;
+  //   //   this.setOverview(TempData);
+  //   // let headers: HttpHeaders;
+  //   //   headers = new HttpHeaders({
+  //   //     'Accept': 'application/json',
+  //   //     'Content-Type': 'application/json',
+  //   //     'chart': name
+  //   //   });
+  //   //   this.http.get(this.domain + '/logging/chart', {headers: headers})
+  //   //     .subscribe(response => {
+  //   //       this.setOverview(response);
+  //   //   });
+  // }
 
-    // let headers: HttpHeaders;
-    //   headers = new HttpHeaders({
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //     'chart': name
-    //   });
-
-    //   this.http.get(this.domain + '/logging/chart', {headers: headers})
-    //     .subscribe(response => {
-    //       this.setOverview(response);
-    //   });
-  }
-
-  public setChart (name: string) {
-    this.getOverview(name);
-  }
-
-  public setChartOptions(overview: Overview) {
-    const chart_data = {};
-    this.chart.setChartOptions(chart_data);
-  }
+  // public setChart (name: string) {
+  //   this.getOverview(name);
+  // }
 
   public setFilterState (filter) {
     // this.applyFilter();
@@ -86,7 +85,7 @@ export class DashboardService {
 
   private setOverview (overview) {
     this.CurrentOverview.next(overview);
-    this.setChartOptions(overview);
+    this.chart.setChartOptions(overview);
   }
 
 

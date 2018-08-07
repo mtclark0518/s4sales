@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Overview } from './dashboard.service';
 
 
 @Injectable({
@@ -16,23 +17,25 @@ export class ChartService {
 
   constructor( private http: HttpClient) {}
 
-  setChartOptions(data) {
+  setChartOptions(data: Overview) {
+    console.log(data)
+
     const options = {
       chart: {
         type: 'column',
       },
-      colors: ['#ff7e08', '#1aad00'],
+      colors: ['#cf7ec8', '#1ea303'],
 
       title: {
-        text: 'Revenue'
+        text: data.name
       },
       xAxis: {
-        categories: ['April', 'May', 'June', 'July']
+        categories: ['Revenue']
       },
       yAxis: {
         min: 0,
         title: {
-          text: 'Total Reimbursements'
+          text: 'Total Revenue'
         }
       },
       tooltip: {
@@ -48,11 +51,11 @@ export class ChartService {
       series:
       [
         {
-          name: 'Local',
-          data: [20, 21, 26, 33]
+          name: 'HSMV',
+          data: [data.total_revenue - data.total_reimbursed]
         }, {
-          name: 'DHSMV',
-          data: [12, 12, 13, 16]
+          name: 'Reimbursed',
+          data: [data.total_reimbursed]
         }
       ],
       // responsive: {}
