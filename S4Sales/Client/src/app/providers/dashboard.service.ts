@@ -74,9 +74,9 @@ export class DashboardService {
   //   //   });
   // }
 
-  // public setChart (name: string) {
-  //   this.getOverview(name);
-  // }
+  public setChart (name: string) {
+    // this.getOverview(name);
+  }
 
   public setFilterState (filter) {
     // this.applyFilter();
