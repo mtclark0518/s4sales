@@ -13,7 +13,17 @@ namespace S4Sales.Log
         {
             _conn = config["ConnectionStrings:tc_dev"];
         }
+        // possibly quicker way to get connections
+        private NpgsqlConnection GetConnection()
+        {
+            return new NpgsqlConnection(_conn);
+        }
 
+        // after use function
+        private void Dispose(NpgsqlConnection conn)
+        {
+            conn.Dispose();
+        }
 
         public void Action(ActionLog log)
         {
@@ -70,17 +80,6 @@ namespace S4Sales.Log
             Dispose(conn);
         }
 
-        // possibly quicker way to get connections
-        private NpgsqlConnection GetConnection()
-        {
-            var conn = new NpgsqlConnection(_conn);
-            return conn;
-        }
 
-        // after use function
-        private void Dispose(NpgsqlConnection conn)
-        {
-            conn.Dispose();
-        }
     }
 }
