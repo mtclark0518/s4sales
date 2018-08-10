@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 
 using S4Sales.Identity;
+using S4Sales.Log;
 using S4Sales.Models;
 using S4Sales.Services;
 
@@ -114,6 +115,7 @@ namespace S4Sales
             // additonal services
             services.AddSingleton<S4Emailer>();
             services.AddSingleton<StripeService>();
+            services.AddSingleton<Logg>();
 
 
 

@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using S4Sales.Models;
 using S4Sales.Services;
+using S4Sales.Log;
 
 namespace S4Sales.Controllers
 {
@@ -12,10 +14,12 @@ namespace S4Sales.Controllers
     {
         private readonly SessionUtility _session;
         private readonly CartStore _cart;
-        public CartController(CartStore cart, SessionUtility sess)
+        private readonly Logg _log;        
+        public CartController(CartStore c, SessionUtility s, Logg l)
         {
-            _cart = cart;
-            _session = sess;
+            _cart = c;
+            _session = s;
+            _log = l;
         }
 
         [HttpPost("add")]
@@ -32,6 +36,15 @@ namespace S4Sales.Controllers
                 var canAdd = _cart.AddToCart(item);
                 if(canAdd)
                 {
+                    // record the addition to the cart
+                    var details = new ActionLog()
+                    {
+                        action = Log.Action.Add,
+                        target = item,
+                        cart_id = req.cart_id
+                    };
+                    _log.Action(details);
+
                     var result = new StandardResponse()
                     {
                         code = StatusCode(200),
@@ -45,7 +58,8 @@ namespace S4Sales.Controllers
             {
                 code = StatusCode(500),
                 message = @"Your trying to access a cart that 
-                isn't yours or isn't active bruh. Or maybe it didn't add the item correctly."
+                isn't yours or the session isn't active bruh. 
+                Or maybe the card didn't add the item correctly."
             };
             return Task.FromResult(error);
         }
@@ -73,11 +87,23 @@ namespace S4Sales.Controllers
                     var result = _session.GetSession("cart"); 
                     return result;
                 } 
-                // add a new cart to session and db log
+
+                // meta info
+                // hit upon starting new session
                 if( _cart.MakeNewCart().Result == true)
                 {
-                    var result = _session.GetSession("cart"); 
-                    return result;
+                    IPAddress ip = Request.HttpContext.Connection.LocalIpAddress;
+
+                    // log the session information
+                    var details = new SessionLog()
+                    {
+                        cart_id = _session.GetSession("cart"),
+                        session_id = _session.CurrentSession(),
+                        client_ip = ip.ToString()
+                    };
+                    _log.Session(details);
+                    // return with the cart id 
+                    return details.cart_id;
                 }
                 // error creating the new cart
             }

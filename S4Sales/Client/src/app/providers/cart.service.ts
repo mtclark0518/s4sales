@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line:import-blacklist
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { CrashEvent } from '../models/crash-event';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -12,8 +12,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CartService {
   // VARIABLES
   private domain = 'http://localhost:5000/api/cart/';
-
-  constructor(private http: HttpClient) { }
+  private IP = new BehaviorSubject<string>(null);
+  private ip = this.IP.asObservable();
+  constructor(private http: HttpClient) {
+   }
 
 
   // RXJS BEHAVIOR SUBJECTS
@@ -52,8 +54,7 @@ export class CartService {
     return this.http.get(this.domain + 'content', {headers: headers}).subscribe(res => res);
   }
 
-
-  public initializeCart() {
+  public async initializeCart() {
     this.http.get(this.domain + 'init', {responseType: 'text'})
     .subscribe( response => {
       this.setCart(response);
