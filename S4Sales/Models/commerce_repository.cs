@@ -111,7 +111,7 @@ namespace S4Sales.Models
             {
                 // adjsut fund allocation
                 funds.reimbursement_amount += 5;
-                funds.incentivized = true;
+                funds.timely = true;
             }
             return funds;
         }
@@ -136,7 +136,7 @@ namespace S4Sales.Models
         {
             var _query = $@"
             INSERT INTO reimbursement 
-                (cart_id, hsmv_report_number, incentivized, 
+                (cart_id, hsmv_report_number, timely, 
                 submitting_agency, reimbursement_amount, reimbursement_date) 
             VALUES
                 (@cart, @hsmv, @timely, @agency, @amount, @date)";
@@ -144,7 +144,7 @@ namespace S4Sales.Models
             {
                 cart = r.cart_id, 
                 hsmv = r.hsmv_report_number, 
-                timely = r.incentivized, 
+                timely = r.timely, 
                 agency = r.submitting_agency, 
                 amount = r.reimbursement_amount, 
                 date = DateTime.Now

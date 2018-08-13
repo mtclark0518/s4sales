@@ -22,7 +22,7 @@ namespace S4Sales.Models
     {
         public string cart_id {get; set;}
         public int hsmv_report_number { get; set; }
-        public bool incentivized {get;set;}
+        public bool timely {get;set;}
         public string submitting_agency { get; set; }
         public float reimbursement_amount { get; set; }
         public DateTime reimbursement_date { get; set;}
@@ -37,11 +37,12 @@ namespace S4Sales.Models
         {
             cart_id = cart;
             hsmv_report_number = e.hsmv_report_number;
-            incentivized = false;
+            timely = false;
             reimbursement_amount = 0;
             submitting_agency = e.reporting_agency; 
         }
     }
+    // FromBody client model
     public class fkTransaction
     {
         public string first_name {get;set;}        

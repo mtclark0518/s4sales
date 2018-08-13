@@ -46,7 +46,7 @@ export class DashboardService {
     report.total_revenue = data.length * 16;
     report.total_reimbursed = 0;
     data.forEach((d => {
-      if (d.incentivized) {
+      if (d.timely) {
         report.total_reimbursed += 5;
       }
     }));
