@@ -57,6 +57,7 @@ namespace S4Sales.Models
             if(type == 'county'){_query += JoinCounty(value);}
             // search by reporting agency
             if(type == 'agency'){_query += " WHERE r.reporting_agency = " + value;}
+            if(type == "all"){_query += " WHERE r.reporting_agency = *";}
             // extract date filter
             _query += " AND EXTRACT(@dkey FROM r.reimbursement_date) = @dvalue";
 
@@ -76,7 +77,7 @@ namespace S4Sales.Models
 
             if(a == "county"){_query += " WHERE c.county_of_crash = " + b;}
             if(a == "agency"){_query += " WHERE c.reporting_agency = " + b;}
-            if(a == null){_query += " WHERE c.reporting_agency = *";}
+            if(a == "all"){_query += " WHERE c.reporting_agency = *";}
             _query += " AND EXTRACT(@c FROM crash_date_and_time) = @d";
 
             var _params = new {c = c,d = d};
