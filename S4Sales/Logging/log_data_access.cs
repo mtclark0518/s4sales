@@ -58,6 +58,7 @@ namespace S4Sales.Log
                 count = log.return_count, 
                 date = DateTime.Now
             };
+            
             var conn = GetConnection();
             conn.Execute(_query, _params);
             Dispose(conn);

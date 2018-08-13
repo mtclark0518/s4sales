@@ -18,9 +18,10 @@ namespace S4Sales.Models
     }
     public class CartItem
     {
-        public int hsmv_report_number {get;set;}
-        public string cart {get;set;}
         public DateTime add_date {get;set;}
+        public string cart {get;set;}
+        public int cost = 16;
+        public int hsmv_report_number {get;set;}
         // default constructor
         public CartItem() {}
         public CartItem(int hsmv)
