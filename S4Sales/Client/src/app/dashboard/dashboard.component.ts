@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dash.getReportIndex();
+    this.dash.getNewChartData();
   }
 
 }

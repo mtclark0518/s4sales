@@ -1,10 +1,11 @@
 <div class="filter row">
 
   <form (change)="update()" [formGroup]="form">
-    <div *ngFor="let type of FilterState">
-      <input class="radio-input" type="radio" formControlName="filter" value={{type}}> {{type}}
+    <div *ngFor="let o of options; let i = index; async">
+      <input class="radio-input" type="radio" formControlName="filter" value={{o}}> {{o}}
     </div>
   </form>
-  <button class="radio-input" (click)="clear()">clear</button>
+
+  <button class="radio-input" (click)="reset()">reset</button>
 
 </div>

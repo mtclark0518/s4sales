@@ -3,6 +3,7 @@ using S4Sales.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace S4Sales.Controllers
 {
@@ -35,11 +36,11 @@ namespace S4Sales.Controllers
         }
 
         [HttpGet("reporting")]
-        public int Reporting()
+        public Task<IEnumerable<CrashEvent>> Reporting()
         {
             var a = Request.Headers["chart_type"];
             var b = Request.Headers["ct_value"];
-            var c = Request.Headers["date_type"];
+            var c = Request.Headers["data_type"];
             var d = Request.Headers["dt_value"];
             return _data.Reporting(a, b, c, d);        
         }

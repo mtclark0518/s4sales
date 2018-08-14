@@ -9,23 +9,28 @@ import { DashboardService, ChartType } from '../../providers/dashboard.service';
   styleUrls: ['../dashboard.scss']
 })
 export class ChartSelectComponent implements OnInit {
-
-  options: ChartType;
+  options;
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private dash: DashboardService) {}
 
   ngOnInit() {
+    this.enumerateOptions();
+
     this.form = this.fb.group({
       select: new FormControl(this.options[0])
     });
-    this.selectChart();
+  }
+
+  enumerateOptions = () => {
+    const keys = Object.keys(ChartType);
+    this.options = keys.slice(keys.length / 2);
   }
 
   get select() {return this.form.get('select'); }
 
-  selectChart() {
-    const choice = this.select.value;
-    this.dash.setChart(choice);
+  selectChart = () => {
+    this.dash.setCHART_TYPE(this.select.value);
   }
+
 }

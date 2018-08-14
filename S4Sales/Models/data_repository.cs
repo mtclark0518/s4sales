@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Npgsql;
+using System.Collections;
+using System.Threading.Tasks;
 
 namespace S4Sales.Models
 {
@@ -38,7 +40,7 @@ namespace S4Sales.Models
         // total incidents
         public IEnumerable<Reimbursement> ReportIndex()
         {
-            var _query = $@"SELECT * FROM reimbursement WHERE EXTRACT(YEAR FROM r.reimbursement_date) = @date";
+            var _query = $@"SELECT * FROM reimbursement";
 
             var _params = new {date = 2018};
             using (var conn = new NpgsqlConnection(_conn))
@@ -52,16 +54,16 @@ namespace S4Sales.Models
         public IEnumerable<Reimbursement> Reimbursements(string type, string value, string dkey, string dvalue)
         {
             // simplest revenue query is a count
-            var _query = $@"SELECT COUNT(*) FROM reimbursements r"
+            var _query = $@"SELECT COUNT(*) FROM reimbursements r";
             // search by county
-            if(type == 'County'){_query += JoinCounty(value);}
+            if(type == "County") {_query += JoinCounty(value); }
             // search by reporting agency
-            if(type == 'Agency'){_query += " WHERE r.reporting_agency = " + value;}
-            if(type == "State"){_query += " WHERE r.reporting_agency = *";}
+            if(type == "Agency") {_query += " WHERE r.reporting_agency = " + value; }
+            if(type == "State") {_query += " WHERE r.reporting_agency = *"; }
             // extract date filter
             _query += " AND EXTRACT(@dkey FROM r.reimbursement_date) = @dvalue";
 
-            var _params = new { dkey = dkey, dkvalue = dvalue }
+            var _params = new { dkey = dkey, dkvalue = dvalue };
             using(var conn = new NpgsqlConnection(_conn))
             {
                 return conn.Query<Reimbursement>(_query, _params);
@@ -71,19 +73,33 @@ namespace S4Sales.Models
         // county || agency -- all
         // date[year, month] || value
         // returns a count of the number of reports with provided params
-        public int Reporting(string a, string b, string c, string d)
+        public async Task<IEnumerable<CrashEvent>> Reporting(string a, string b, string c, string d)
         {
-            var _query = $@"SELECT COUNT(*) FROM crash_event c"
+            var _query = $@"SELECT * FROM event_crash c";
 
-            if(a == "County"){_query += " WHERE c.county_of_crash = " + b;}
-            if(a == "Agency"){_query += " WHERE c.reporting_agency = " + b;}
-            if(a == "State"){_query += " WHERE c.reporting_agency = *";}
-            _query += " AND EXTRACT(@c FROM crash_date_and_time) = @d";
+            if(a == "County") 
+            {
+                _query += " WHERE c.county_of_crash = " + b + " AND EXTRACT( " + c.ToString().ToUpper() + " FROM c.crash_date_and_time) = @date";
+            }
 
-            var _params = new {c = c, d = d};
+            if(a == "Agency") 
+            {
+                _query += " WHERE c.reporting_agency = " + b + " AND EXTRACT( " + c.ToString().ToUpper() + " FROM c.crash_date_and_time) = @date";
+            }
+
+            if(a == "State") 
+            {
+                _query += " WHERE EXTRACT( " + c.ToString().ToUpper() + " FROM c.crash_date_and_time) = @date";
+            }
+            var _params = new 
+            {
+                date =  int.Parse(d)
+            };
+
             using (var conn = new NpgsqlConnection(_conn))
             {
-                return conn.Execute(_query, _params);
+                var result = await conn.QueryAsync<CrashEvent>(_query,_params);
+                return result;
             }
         }
 
@@ -99,13 +115,12 @@ namespace S4Sales.Models
 
 
 
+// reports with time hsmv
+// SELECT hsmv_report_number 
+// FROM event_crash 
+// WHERE crash_date_and_time + interval '10 days' < hsmv_entry_date
 
-// SELECT hsmv_report_number, 
-// crash_date_and_time,
-// crash_date_and_time + interval '10 days' AS timely_date
-// FROM event_crash
-
-
+// most reports by county
 // SELECT county_of_crash,
 // COUNT(county_of_crash) as count
 // FROM event_crash

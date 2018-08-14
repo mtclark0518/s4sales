@@ -9,25 +9,30 @@ import { DashboardService, FilterState } from '../../providers/dashboard.service
   styleUrls: ['../dashboard.scss']
 })
 export class FilterComponent implements OnInit {
-  FilterState = FilterState;
+  options;
   form: FormGroup;
+
   constructor(private fb: FormBuilder, private dash: DashboardService) { }
 
   ngOnInit() {
+    this.enumerateOptions();
     this.form = this.fb.group({
-      filter: new FormControl('')
+      filter: new FormControl(this.options[0])
     });
   }
 
-  clear(): void {
-    this.filter.setValue('');
+  reset(): void {
+    this.filter.setValue(this.options[0]);
     this.update();
+  }
+
+  enumerateOptions = () => {
+    const keys = Object.keys(FilterState);
+    this.options = keys.slice(keys.length / 2);
   }
 
   get filter() { return this.form.get('filter'); }
 
+  update = () => this.dash.setFILTER_STATE(this.filter.value);
 
-  update() {
-    this.dash.setFilterState(this.filter.value);
-  }
 }
