@@ -54,10 +54,10 @@ namespace S4Sales.Models
             // simplest revenue query is a count
             var _query = $@"SELECT COUNT(*) FROM reimbursements r"
             // search by county
-            if(type == 'county'){_query += JoinCounty(value);}
+            if(type == 'County'){_query += JoinCounty(value);}
             // search by reporting agency
-            if(type == 'agency'){_query += " WHERE r.reporting_agency = " + value;}
-            if(type == "all"){_query += " WHERE r.reporting_agency = *";}
+            if(type == 'Agency'){_query += " WHERE r.reporting_agency = " + value;}
+            if(type == "State"){_query += " WHERE r.reporting_agency = *";}
             // extract date filter
             _query += " AND EXTRACT(@dkey FROM r.reimbursement_date) = @dvalue";
 
@@ -75,12 +75,12 @@ namespace S4Sales.Models
         {
             var _query = $@"SELECT COUNT(*) FROM crash_event c"
 
-            if(a == "county"){_query += " WHERE c.county_of_crash = " + b;}
-            if(a == "agency"){_query += " WHERE c.reporting_agency = " + b;}
-            if(a == "all"){_query += " WHERE c.reporting_agency = *";}
+            if(a == "County"){_query += " WHERE c.county_of_crash = " + b;}
+            if(a == "Agency"){_query += " WHERE c.reporting_agency = " + b;}
+            if(a == "State"){_query += " WHERE c.reporting_agency = *";}
             _query += " AND EXTRACT(@c FROM crash_date_and_time) = @d";
 
-            var _params = new {c = c,d = d};
+            var _params = new {c = c, d = d};
             using (var conn = new NpgsqlConnection(_conn))
             {
                 return conn.Execute(_query, _params);

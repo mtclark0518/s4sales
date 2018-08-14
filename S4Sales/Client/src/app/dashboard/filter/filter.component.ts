@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { DashboardService } from '../../providers/dashboard.service';
+import { DashboardService, FilterState } from '../../providers/dashboard.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,6 +9,7 @@ import { DashboardService } from '../../providers/dashboard.service';
   styleUrls: ['../dashboard.scss']
 })
 export class FilterComponent implements OnInit {
+  FilterState = FilterState;
   form: FormGroup;
   constructor(private fb: FormBuilder, private dash: DashboardService) { }
 

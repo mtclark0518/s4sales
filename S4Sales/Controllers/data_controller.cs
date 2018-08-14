@@ -18,10 +18,30 @@ namespace S4Sales.Controllers
             _data = repo;
         }
 
-       [HttpGet("chart")]
-        public IEnumerable<Reimbursement> GetChartIndex()
+       [HttpGet("index")]
+        public IEnumerable<Reimbursement> Index()
         {
             return _data.ReportIndex();
+        }
+
+        [HttpGet("reimbursement")]
+        public IEnumerable<Reimbursement> Reimbursements()
+        {
+            var a = Request.Headers["chart_type"];
+            var b = Request.Headers["ct_value"];
+            var c = Request.Headers["date_type"];
+            var d = Request.Headers["dt_value"];
+            return _data.Reimbursements(a, b, c, d);
+        }
+
+        [HttpGet("reporting")]
+        public int Reporting()
+        {
+            var a = Request.Headers["chart_type"];
+            var b = Request.Headers["ct_value"];
+            var c = Request.Headers["date_type"];
+            var d = Request.Headers["dt_value"];
+            return _data.Reporting(a, b, c, d);        
         }
     }
 }

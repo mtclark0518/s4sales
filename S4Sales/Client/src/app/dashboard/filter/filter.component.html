@@ -1,9 +1,9 @@
 <div class="filter row">
 
   <form (change)="update()" [formGroup]="form">
-    <input class="radio-input" type="radio" formControlName="filter" value="one" > One
-    <input class="radio-input" type="radio" formControlName="filter" value="two" /> Two
-    <input class="radio-input" type="radio" formControlName="filter" value="three" /> Three
+    <div *ngFor="let type of FilterState">
+      <input class="radio-input" type="radio" formControlName="filter" value={{type}}> {{type}}
+    </div>
   </form>
   <button class="radio-input" (click)="clear()">clear</button>
 

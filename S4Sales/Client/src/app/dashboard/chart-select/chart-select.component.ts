@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
-import { DashboardService } from '../../providers/dashboard.service';
+import { DashboardService, ChartType } from '../../providers/dashboard.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,7 +10,7 @@ import { DashboardService } from '../../providers/dashboard.service';
 })
 export class ChartSelectComponent implements OnInit {
 
-  options = ['Revenue by Month', '2'];
+  options: ChartType;
   form: FormGroup;
 
   constructor(private fb: FormBuilder, private dash: DashboardService) {}

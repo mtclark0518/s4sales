@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, AsyncSubject } from 'rxjs';
 import { ChartService } from './chart.service';
+import { FDOT_AGENCIES } from '../models/fdot';
+import { COUNTIES } from '../models/county.enum';
 
 
 export class Overview {
@@ -10,9 +12,21 @@ export class Overview {
   total_reports: number;
   total_revenue: number;
   total_reimbursed: number;
-
+}
+export enum FilterState {
+  State,
+  County,
+  Agency
 }
 
+export enum DateFilter {
+  Month,
+  Year
+}
+export enum ChartType {
+  Reporting,
+  Reimbursing
+}
 
 @Injectable({
   providedIn: 'root'
@@ -21,25 +35,92 @@ export class DashboardService {
   domain = 'http://localhost:5000/api/data/';
 
   private CurrentOverview = new BehaviorSubject<Overview>(null);
-  private CurrentFilterState = new BehaviorSubject<number>(0);
   public currentOverview = this.CurrentOverview.asObservable();
+
+  private CurrentFilterState = new BehaviorSubject<FilterState>(FilterState.State);
   public currentFilterState = this.CurrentFilterState.asObservable();
-  private SelectedChart = new BehaviorSubject<string>('Report Sales');
+
+  private SelectedChart = new BehaviorSubject<ChartType>(ChartType.Reimbursing);
   public selectedChart = this.SelectedChart.asObservable();
 
-  constructor(private http: HttpClient, private chart: ChartService) { }
+  private AGENCY = new BehaviorSubject<FDOT_AGENCIES>(null);
+  public fdotAgency = this.AGENCY.asObservable();
 
-  // applyFilter() {// TODO}
+  private COUNTY = new BehaviorSubject<COUNTIES>(null);
+  public county = this.COUNTY.asObservable();
+
+  private DATE_FILTER = new BehaviorSubject<DateFilter>(DateFilter.Year);
+  public dateFilter = this.DATE_FILTER.asObservable();
+
+  private DATE_VALUE = new BehaviorSubject<number>(2018);
+  public dateValue = this.DATE_VALUE.asObservable();
+
+  constructor(private http: HttpClient, private chart: ChartService) { }
+  // accesssor methods to update dashboard values
+  public setAGENCY = value => this.AGENCY.next(value);
+  public setCOUNTY = value => this.COUNTY.next(value);
+  public setDATE_FILTER = value => this.DATE_FILTER.next(value);
+  public setDATE_VALUE = value => this.DATE_VALUE.next(value);
+  public setFilterState = value => this.CurrentFilterState.next(value);
+
+  public getNewChartData(): void {
+    let filter, value, name, date_filter, date_value;
+
+    this.dateFilter.subscribe(df => date_filter = df);
+    this.dateValue.subscribe(dv => date_value = dv);
+
+    this.currentFilterState.subscribe(f => filter = f);
+    if (filter === FilterState.County) {
+      this.county.subscribe(v => value = v);
+    }
+    if (filter === FilterState.Agency) {
+      this.fdotAgency.subscribe(v => value = v);
+    }
+    if (filter === FilterState.State) {
+      value = '*';
+    }
+
+    this.selectedChart.subscribe(c => name = c);
+    name === ChartType.Reimbursing ?
+      this.getReimbursementChart(filter, value, date_filter, date_value) :
+      this.getReportingChart(filter, value, date_filter, date_value);
+  }
+
+  private getReportingChart(a, b, c, d ) {
+    const headers = new HttpHeaders({
+      chart_type: a,
+      ct_value: b,
+      data_type: c,
+      dt_value:  d
+    });
+
+    this.http.get(this.domain + 'reporting', {headers})
+      .subscribe(res =>
+        this.setChart(res));
+  }
+
+  private getReimbursementChart(a, b, c, d) {
+    const headers = new HttpHeaders({
+      chart_type: a,
+      ct_value: b,
+      data_type: c,
+      dt_value: d
+    });
+
+    this.http.get(this.domain + 'reimbursement', {headers})
+    .subscribe(res =>
+      this.setChart(res));
+  }
+
+
   getReportIndex() {
     this.http.get(this.domain + 'chart')
       .subscribe( response => this.formatOverview(response));
   }
-  formatOverview(data) {
-    console.log(data);
+  public formatOverview(data) {
     let filter, chart_name;
     this.currentFilterState.subscribe(f => filter = f);
     this.selectedChart.subscribe(c => chart_name = c);
-
     const report = new Overview();
     report.name = chart_name;
     report.total_reports = data.length;
@@ -50,43 +131,18 @@ export class DashboardService {
         report.total_reimbursed += 5;
       }
     }));
-
     this.setOverview(report);
   }
-
-  // getOverview(name: string) {
-  //   // let filter;
-  //   // this.currentFilterState.subscribe(f => filter = f);
-  //   // const TempData = new Overview();
-  //   //   TempData.name = name;
-  //   //   TempData.total_reports = parseInt(name, 8) * 10;
-  //   //   TempData.filter_state = filter;
-  //   //   this.setOverview(TempData);
-  //   // let headers: HttpHeaders;
-  //   //   headers = new HttpHeaders({
-  //   //     'Accept': 'application/json',
-  //   //     'Content-Type': 'application/json',
-  //   //     'chart': name
-  //   //   });
-  //   //   this.http.get(this.domain + '/logging/chart', {headers: headers})
-  //   //     .subscribe(response => {
-  //   //       this.setOverview(response);
-  //   //   });
-  // }
-
-  public setChart (name: string) {
-    // this.getOverview(name);
+  public setOverview = (value) => {
+    this.CurrentOverview.next(value);
+    this.chart.setChartOptions(value);
   }
 
-  public setFilterState (filter) {
-    // this.applyFilter();
-    this.CurrentFilterState.next(filter);
+  public setChart (data) {
+    console.log(data);
   }
 
-  private setOverview (overview) {
-    this.CurrentOverview.next(overview);
-    this.chart.setChartOptions(overview);
-  }
+
 
 
 }
