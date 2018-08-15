@@ -35,6 +35,7 @@ export class Overview {
   total_reports?: number;
   total_revenue?: number;
   total_reimbursed?: number;
-  count?: any;
+  month_count?: any;
   agencies?: any;
+  chart?: string;
 }

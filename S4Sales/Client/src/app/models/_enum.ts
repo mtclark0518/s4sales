@@ -3,10 +3,12 @@ export enum FilterState {
   County,
   Agency
 }
+
 export enum DateFilter {
   Month,
   Year
 }
+
 export enum ChartType {
   Reports,
   Reimbursements
@@ -26,12 +28,14 @@ export enum Month {
   November,
   December
 }
+
 export enum Action {
   Add,
   Remove,
   Clear,
   Checkout
 }
+
 export enum AccountRequestType {
   Administrator,
   Individual,
@@ -46,6 +50,7 @@ export enum Status {
   Approved,
   Rejected
 }
+
 // tslint:disable:max-line-length
 export enum ReasonsForQuery {
   'I am a party involved in the accident',

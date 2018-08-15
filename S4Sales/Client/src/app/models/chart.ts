@@ -3,43 +3,14 @@ import { AsyncSubject } from 'rxjs';
 import { ElementRef } from '@angular/core';
 
 export type Point = number | [number, number] | Highcharts.DataPoint;
-export class Chart {
 
+
+export class Chart {
   private chartReference = new AsyncSubject<Highcharts.ChartObject>();
   ref$ = this.chartReference.asObservable();
   ref: Highcharts.ChartObject;
 
   constructor( private options: Highcharts.Options = { series: []}) {}
-
-  addPoint(point: Point, series: number = 0, redraw: boolean = true): void {
-    this.ref$.subscribe(chart => {
-      if (chart.series.length > series) {
-        chart.series[series].addPoint(point, redraw);
-      }
-    });
-  }
-
-  addSeries (config: Highcharts.SeriesOptions, redraw: boolean = true, animation: boolean = false): void {
-    this.ref$.subscribe(chart => {
-      chart.addSeries(config, redraw, animation);
-    });
-  }
-
-  removePoint (point: number, series: number): void {
-    this.ref$.subscribe(chart => {
-      if (chart.series.length > series && chart.series[series].data.length > point) {
-        chart.series[series].removePoint(point, true);
-      }
-    });
-  }
-
-  removeSeries (series: number): void {
-    this.ref$.subscribe(chart => {
-      if (chart.series.length > series) {
-        chart.series[series].remove(true);
-      }
-    });
-  }
 
   init (el: ElementRef): void {
     Highcharts.chart(el.nativeElement, this.options, chart => {
@@ -58,5 +29,37 @@ export class Chart {
       this.chartReference = new AsyncSubject();
       this.ref$ = this.chartReference.asObservable();
     }
+  }
+
+
+  addSeries (config: Highcharts.SeriesOptions, redraw: boolean = true, animation: boolean = false): void {
+    this.ref$.subscribe(chart => {
+      chart.addSeries(config, redraw, animation);
+    });
+  }
+
+  addPoint(point: Point, series: number = 0, redraw: boolean = true): void {
+    this.ref$.subscribe(chart => {
+      if (chart.series.length > series) {
+        chart.series[series].addPoint(point, redraw);
+      }
+    });
+  }
+
+
+  removePoint (point: number, series: number): void {
+    this.ref$.subscribe(chart => {
+      if (chart.series.length > series && chart.series[series].data.length > point) {
+        chart.series[series].removePoint(point, true);
+      }
+    });
+  }
+
+  removeSeries (series: number): void {
+    this.ref$.subscribe(chart => {
+      if (chart.series.length > series) {
+        chart.series[series].remove(true);
+      }
+    });
   }
 }

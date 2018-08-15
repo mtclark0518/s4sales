@@ -39,7 +39,10 @@ export class DashboardService {
   private DATE_VALUE = new BehaviorSubject<string>('2018');
   public dateValue = this.DATE_VALUE.asObservable();
 
+
   constructor(private http: HttpClient, private chart: ChartService) { }
+
+
   // accesssor methods to update dashboard values
   public setAGENCY = value => this.AGENCY.next(value);
   public setCHART_TYPE = value => this.CURRENT_CHART_TYPE.next(value);
@@ -52,7 +55,6 @@ export class DashboardService {
   public getNewChartData(): void {
     // variable definitions
     let filter, value, name, date_filter, date_value;
-    // value of filter component
     this.dateFilter.subscribe(df => date_filter = df);
     this.dateValue.subscribe(dv => date_value = dv);
     this.currentFilterState.subscribe(f => filter = f);
@@ -108,9 +110,10 @@ export class DashboardService {
     overview.name = 'Reports by Month';
     overview.total_reports = data.length;
     overview.agencies = reports_by_agency;
-    overview.count = reports_by_month;
+    overview.month_count = reports_by_month;
+    overview.chart = 'line';
+
     this.chart.setChartOptions(overview);
-    console.log(overview);
   }
 
   public setReimbursementChart (data) {

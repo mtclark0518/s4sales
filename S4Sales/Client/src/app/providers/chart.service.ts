@@ -16,76 +16,57 @@ import { Overview } from '../models/_class';
 
 export class ChartService {
 
-  private initial: Highcharts.Options = {series: []};
+  private initial: Highcharts.Options = { series: [{ data: [1, 2]}] };
+
   private ChartOptions = new BehaviorSubject<Highcharts.Options>(this.initial);
   public chartOptions = this.ChartOptions.asObservable();
 
   constructor( private http: HttpClient) {}
 
+
   setChartOptions(data: Overview) {
-    const xax = [];
+    const keys = Object.keys(data.month_count);
+    const xaxis = [];
     const series = [];
     let month;
-    const k = Object.keys(data.count);
 
-    k.forEach( j => {
-      const p = parseInt(j);
-      month = Month[p - 1];
-      xax.push(month);
+    keys.forEach( key => {
+      const mn = parseInt(key);
+      month = Month[mn - 1];
+      xaxis.push(month);
     });
 
-    const l = Object.values(data.count);
-    l.forEach((v, i) => {
-      const m = {};
-      const n = [];
-      n.push(v);
-      m[Month[i]] = n;
-      series.push(m);
-    });
+    const values = Object.values(data.month_count);
+    const dt = [];
+    const cht = {};
 
-    console.log(series);
-    const options = {
+    values.forEach( val => dt.push(val) );
+    cht['data'] = dt;
+    series.push(cht);
+
+
+    const options: Highcharts.Options = {
       chart: {
-        type: 'bar',
+        type: data.chart
       },
-
-      colors: ['#cf7ec8', '#1ea303'],
-
       title: {
         text: data.name
       },
-
       xAxis: {
-        categories: xax
+        categories: xaxis
       },
-      yAxis: {
-        min: 0,
-        title: {
-          text: 'Total Revenue'
-        }
-      },
-      tooltip: {
-        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-        shared: true
-      },
-      plotOptions: {
-        column: {
-          stacking: 'normal'
-        }
-      },
-      series:
-      [
-        {
-          name: 'HSMV',
-          data: [100]
-        }, {
-          name: 'Reimbursed',
-          data: [200]
-        }
-      ],
+      series: series
     };
     console.log(options);
     this.ChartOptions.next(options);
   }
+
+  // what type of chart should i render
+
+  // what options are consistent across renders
+
+
+
+
 }
 
