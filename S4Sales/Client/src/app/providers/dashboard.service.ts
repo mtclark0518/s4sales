@@ -5,31 +5,12 @@ import { ChartService } from './chart.service';
 import { FDOT_AGENCIES } from '../models/fdot';
 import { COUNTIES } from '../models/county.enum';
 import { formatDate } from '../../../node_modules/@angular/common';
+import { FilterState, ChartType, DateFilter } from '../models/_enum';
+import { Overview } from '../models/_class';
 
 
-export class Overview {
-  name: string;
-  filter_state?: number;
-  total_reports?: number;
-  total_revenue?: number;
-  total_reimbursed?: number;
-  count?: any;
-  agencies?: any;
-}
-export enum FilterState {
-  State,
-  County,
-  Agency
-}
 
-export enum DateFilter {
-  Month,
-  Year
-}
-export enum ChartType {
-  Reports,
-  Reimbursements
-}
+
 
 @Injectable({
   providedIn: 'root'

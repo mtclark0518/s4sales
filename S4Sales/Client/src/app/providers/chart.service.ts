@@ -2,25 +2,13 @@ import { Injectable } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Overview } from './dashboard.service';
 import { formatDate } from '@angular/common';
+import { Month } from '../models/_enum';
+import { Overview } from '../models/_class';
       // tslint:disable:radix
 
 
-export enum Month {
-  January,
-  February,
-  March,
-  April,
-  May,
-  June,
-  July,
-  August,
-  September,
-  October,
-  November,
-  December
-}
+
 
 @Injectable({
   providedIn: 'root'

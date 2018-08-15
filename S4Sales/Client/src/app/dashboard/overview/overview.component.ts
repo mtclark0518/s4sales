@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DashboardService, Overview } from '../../providers/dashboard.service';
+import { DashboardService } from '../../providers/dashboard.service';
+import { Overview } from '../../models/_class';
 
 @Component({
   // tslint:disable-next-line:component-selector

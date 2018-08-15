@@ -2,8 +2,8 @@ import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angula
 import { EcommerceService } from '../../providers/ecommerce.service';
 import { SearchService } from '../../providers/search.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Transaction } from '../../models/transaction';
 import { CartService } from '../../providers/cart.service';
+import { Transaction } from '../../models/_class';
 
 @Component({
   // tslint:disable-next-line:component-selector

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CrashEvent } from '../../models/crash-event';
+import { CrashEvent } from '../../models/_interface';
 
 @Component({
   // tslint:disable-next-line:component-selector

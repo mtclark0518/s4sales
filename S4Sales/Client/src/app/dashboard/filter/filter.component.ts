@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { DashboardService, FilterState } from '../../providers/dashboard.service';
+import { DashboardService } from '../../providers/dashboard.service';
+import { FilterState } from '../../models/_enum';
 
 @Component({
   // tslint:disable-next-line:component-selector

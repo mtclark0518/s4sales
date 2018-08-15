@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../providers/account.service';
-import { AccountProfile } from '../../models/account';
+import { AccountProfile } from '../../models/_class';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'navbar',

@@ -1,10 +1,50 @@
-export interface SearchQuery {
-  crashDate?: string;
-  reportNumber?: string;
-  vehicleVIN?: string;
-  participant?: string;
-  queryType: string;
-  reasonForQuery: ReasonsForQuery;
+export enum FilterState {
+  State,
+  County,
+  Agency
+}
+export enum DateFilter {
+  Month,
+  Year
+}
+export enum ChartType {
+  Reports,
+  Reimbursements
+}
+
+export enum Month {
+  January,
+  February,
+  March,
+  April,
+  May,
+  June,
+  July,
+  August,
+  September,
+  October,
+  November,
+  December
+}
+export enum Action {
+  Add,
+  Remove,
+  Clear,
+  Checkout
+}
+export enum AccountRequestType {
+  Administrator,
+  Individual,
+  Global,
+  Member,
+  Organization
+}
+
+export enum Status {
+  Unverified,
+  Pending,
+  Approved,
+  Rejected
 }
 // tslint:disable:max-line-length
 export enum ReasonsForQuery {

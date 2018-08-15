@@ -3,7 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../../providers/admin.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { AccountRequestType, Status } from '../../models/account';
+import { Status } from '../../models/_enum';
 
 @Component({
   // tslint:disable-next-line:component-selector

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Transaction } from '../models/transaction';
+import { Transaction } from '../models/_class';
 
 // declare stripe variable bc stripe.js has to be added to index.html
 declare const Stripe: any;

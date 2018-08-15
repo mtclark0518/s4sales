@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line:import-blacklist
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
-import { CrashEvent } from '../models/crash-event';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CrashEvent } from '../models/_interface';
 
 
 

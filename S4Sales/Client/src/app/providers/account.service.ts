@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Password } from '../models/password';
 import { BehaviorSubject, AsyncSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AccountProfile, Credentials, S4Request } from '../models/account';
+import { AccountProfile, Credentials, S4Request } from '../models/_class';
+import { Password } from '../models/_interface';
 
 
 export class UserCheck {

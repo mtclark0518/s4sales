@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { CrashEvent } from '../models/crash-event';
-import { SearchQuery } from '../models/search-query';
+import { CrashEvent, SearchQuery } from '../models/_interface';
 
 @Injectable({
   providedIn: 'root'

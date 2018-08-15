@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Password } from '../../models/password';
 import { AccountService } from '../../providers/account.service';
+import { Password } from '../../models/_interface';
 
 @Component({
   selector: 'app-password',
