@@ -1,12 +1,9 @@
-
 <div>
-  <form [formGroup]="form">
-      <select (change)="this.selectChart()" class="form-control" formControlName="select">
+  <form (change)="_select()"  [formGroup]="form">
+      <select class="form-control" formControlName="select">
         <option *ngFor="let option of options; let i = index; async" value={{option}}>
           {{option}}
         </option>
       </select>
   </form>
-
-
 </div>

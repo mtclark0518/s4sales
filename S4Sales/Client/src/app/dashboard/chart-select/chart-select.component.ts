@@ -17,10 +17,10 @@ export class ChartSelectComponent implements OnInit {
 
   ngOnInit() {
     this.enumerateOptions();
-    let v;
-    this.dash.currentChart.subscribe(z => v = z);
+    let chart_name;
+    this.dash.currentChart.subscribe(current => chart_name = current);
     this.form = this.fb.group({
-      select: new FormControl(v)
+      select: new FormControl(ChartType[chart_name])
     });
   }
 
@@ -31,11 +31,8 @@ export class ChartSelectComponent implements OnInit {
 
   get select() {return this.form.get('select'); }
 
-  selectChart = () => {
-    console.log('testing')
-
+  _select = () => {
     this.dash.setCHART_TYPE(this.select.value);
-    this.dash.getNewChartData();
   }
 
 }

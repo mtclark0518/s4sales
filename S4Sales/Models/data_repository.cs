@@ -51,23 +51,23 @@ namespace S4Sales.Models
         
         // build string and execute query
         // return reimbursement list
-        public async Task<IEnumerable<Reimbursement>> Reimbursements(string type, string value, string dkey, string dvalue)
+        public async Task<IEnumerable<Reimbursement>> Reimbursements(string filter, string value, string dkey, string dvalue)
         {
             // simplest revenue query is a count
             var _query = $@"SELECT * FROM reimbursement r";
             // search by county
-            if(type == "County") 
+            if(filter == "County") 
             {
                 _query += JoinCounty(value);
                 _query += " AND EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date"; 
             }
             // search by reporting agency
-            if(type == "Agency") 
+            if(filter == "Agency") 
             {
-                 _query += " WHERE r.reporting_agency = " + value; 
+                 _query += " WHERE r.reporting_agency = " + value.ToString().ToUpper(); 
                  _query += " AND EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date"; 
             }
-            if(type == "State") 
+            if(filter == "State") 
             {
                 _query += " WHERE EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date";
 
@@ -88,26 +88,27 @@ namespace S4Sales.Models
         // county || agency -- all
         // date[year, month] || value
         // returns a count of the number of reports with provided params
-        public async Task<IEnumerable<CrashEvent>> Reporting(string a, string b, string c, string d)
+        public async Task<IEnumerable<CrashEvent>> Reporting(string filter, string b, string c, string d)
         {
             var _query = $@"SELECT * FROM event_crash c";
 
-            if(a == "County") 
+            if(filter == "County") 
             {
-                _query += " WHERE c.county_of_crash = " + b + " AND EXTRACT( " + c.ToString().ToUpper() + " FROM c.crash_date_and_time) = @date";
+                _query += " WHERE c.county_of_crash = @value AND EXTRACT( " + c.ToString().ToUpper() + " FROM c.crash_date_and_time) = @date";
             }
 
-            if(a == "Agency") 
+            if(filter == "Agency") 
             {
-                _query += " WHERE c.reporting_agency = " + b + " AND EXTRACT( " + c.ToString().ToUpper() + " FROM c.crash_date_and_time) = @date";
+                _query += " WHERE c.reporting_agency = @value AND EXTRACT( " + c.ToString().ToUpper() + " FROM c.crash_date_and_time) = @date";
             }
 
-            if(a == "State") 
+            if(filter == "State") 
             {
                 _query += " WHERE EXTRACT( " + c.ToString().ToUpper() + " FROM c.crash_date_and_time) = @date";
             }
             var _params = new 
             {
+                value = b.ToUpper(),
                 date =  int.Parse(d)
             };
 
@@ -122,7 +123,7 @@ namespace S4Sales.Models
         {
             return $@" JOIN event_crash c 
             ON c.hsmv_report_number = r.hsmv_report_number 
-            WHERE c.county_of_crash = " + county;
+            WHERE c.county_of_crash = " + county.ToUpper();
         }
         // timliness by month
     }

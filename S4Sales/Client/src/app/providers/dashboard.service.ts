@@ -10,8 +10,6 @@ import { Overview } from '../models/_class';
 
 
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -57,7 +55,7 @@ export class DashboardService {
     let filter, value, name, date_filter, date_value;
     this.dateFilter.subscribe(df => date_filter = df);
     this.dateValue.subscribe(dv => date_value = dv);
-    this.currentFilterState.subscribe(f => filter = f);
+    this.currentFilterState.subscribe(f => filter = FilterState[f]);
 
     if (filter === FilterState.County) {
       this.county.subscribe(v => value = v);
@@ -68,8 +66,10 @@ export class DashboardService {
     if (filter === FilterState.State) {
       value = '*';
     }
-    // value of chart-select-component
     this.currentChart.subscribe(c => name = c);
+
+    console.log(FilterState[filter], value , DateFilter[date_filter], date_value);
+    // value of chart-select-component
     name === 'Reimbursements' ?
       this.getReimbursementChart(FilterState[filter], value, DateFilter[date_filter], date_value) :
       this.getReportingChart(FilterState[filter], value, DateFilter[date_filter], date_value);
@@ -77,7 +77,7 @@ export class DashboardService {
 
   private getReportingChart(a, b, c, d ) {
     const headers = new HttpHeaders({
-      chart_type: a,
+      filter: a,
       ct_value: b,
       date_type: c,
       dt_value:  d
@@ -90,7 +90,7 @@ export class DashboardService {
 
   private getReimbursementChart(a, b, c, d) {
     const headers = new HttpHeaders({
-      chart_type: a,
+      filter: a,
       ct_value: b,
       date_type: c,
       dt_value: d
