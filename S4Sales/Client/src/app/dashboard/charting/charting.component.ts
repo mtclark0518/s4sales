@@ -1,6 +1,7 @@
-import {Component, OnInit, ElementRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ChartService } from '../../providers/chart.service';
 import * as Highcharts from 'highcharts';
+import { DashboardService } from '../../providers/dashboard.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -12,9 +13,11 @@ import * as Highcharts from 'highcharts';
 export class ChartingComponent implements OnInit {
   Highcharts = Highcharts;
   Options: Highcharts.Options;
-  constructor( private chart: ChartService ) {}
+
+  constructor( private chart: ChartService, private dash: DashboardService ) {}
   ngOnInit() {
     this.chart.chartOptions.subscribe( chartOpts => this.Options = chartOpts );
   }
+
 }
 

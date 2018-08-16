@@ -137,7 +137,7 @@ namespace S4Sales.Models
             var _query = $@"
             INSERT INTO reimbursement 
                 (cart_id, hsmv_report_number, timely, 
-                submitting_agency, reimbursement_amount, reimbursement_date) 
+                reporting_agency, reimbursement_amount, reimbursement_date) 
             VALUES
                 (@cart, @hsmv, @timely, @agency, @amount, @date)";
             var _params = new 

@@ -29,7 +29,6 @@ namespace S4Sales.Models
         // default constructor
         public Reimbursement()
         {
-            
         }
         
         // within purchase constructor

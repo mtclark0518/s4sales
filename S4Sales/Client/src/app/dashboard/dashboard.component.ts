@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { DashboardService } from '../providers/dashboard.service';
+import { Component } from '@angular/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -7,13 +6,6 @@ import { DashboardService } from '../providers/dashboard.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.scss']
 })
-export class DashboardComponent implements OnInit {
-  constructor( private dash: DashboardService) {
-
-  }
-
-  ngOnInit() {
-    this.dash.getNewChartData();
-  }
+export class DashboardComponent {
 
 }

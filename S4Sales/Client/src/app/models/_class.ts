@@ -38,4 +38,5 @@ export class Overview {
   month_count?: any;
   agencies?: any;
   chart?: string;
+  details?: any;
 }

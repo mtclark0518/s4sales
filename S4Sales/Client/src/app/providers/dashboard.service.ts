@@ -70,8 +70,7 @@ export class DashboardService {
     }
     // value of chart-select-component
     this.currentChart.subscribe(c => name = c);
-
-    name === ChartType.Reimbursements ?
+    name === 'Reimbursements' ?
       this.getReimbursementChart(FilterState[filter], value, DateFilter[date_filter], date_value) :
       this.getReportingChart(FilterState[filter], value, DateFilter[date_filter], date_value);
   }
@@ -80,7 +79,7 @@ export class DashboardService {
     const headers = new HttpHeaders({
       chart_type: a,
       ct_value: b,
-      data_type: c,
+      date_type: c,
       dt_value:  d
     });
 
@@ -93,7 +92,7 @@ export class DashboardService {
     const headers = new HttpHeaders({
       chart_type: a,
       ct_value: b,
-      data_type: c,
+      date_type: c,
       dt_value: d
     });
 
@@ -105,20 +104,35 @@ export class DashboardService {
   public setReportingChart (data) {
     const reports_by_month = this.getMonthCount(data, 'crash_date_and_time');
     const reports_by_agency = this.getAgencyCount(data, 'reporting_agency');
-    console.log(reports_by_agency, reports_by_month);
+
     const overview = new Overview();
     overview.name = 'Reports by Month';
     overview.total_reports = data.length;
     overview.agencies = reports_by_agency;
     overview.month_count = reports_by_month;
     overview.chart = 'line';
-
+    overview['details'] = {...this.currentSettings()};
     this.chart.setChartOptions(overview);
+
   }
 
+
+
+
   public setReimbursementChart (data) {
-    const count = this.getMonthCount(data, 'reimbursement_date');
-    const agencies = this.getAgencyCount(data, 'reporting_agency');
+    let amount = 0;
+    data.forEach( x => { if (x.timely) {  amount += 5; } } );
+    const sales_per_month = this.getMonthCount(data, 'reimbursement_date');
+    const overview = new Overview();
+
+    overview.name = 'Monthly Sales';
+    overview.total_reports = data.length;
+    overview.month_count = sales_per_month;
+    overview.chart = 'column';
+    overview.total_revenue = overview.total_reports * 16;
+    overview.total_reimbursed = amount;
+    overview['details'] = {...this.currentSettings()};
+    this.chart.setChartOptions(overview);
   }
 
   // gets incoming items and
@@ -153,35 +167,19 @@ export class DashboardService {
   }
 
 
-
-
-
-
-  getReportIndex() {
-    this.http.get(this.domain + 'index')
-      .subscribe( response => this.formatOverview(response));
-  }
-
-  public formatOverview(data) {
-    let filter, chart_name;
-
-    this.currentFilterState.subscribe(f => filter =  FilterState[f]);
-    this.currentChart.subscribe(c => chart_name = ChartType[c]);
-
-    const overview = new Overview();
-    overview.name = chart_name;
-    overview.total_reports = data.length;
-    overview.total_revenue = data.length * 16;
-    overview.total_reimbursed = 0;
-
-    data.forEach( d => {
-      if (d.timely) {
-        overview.total_reimbursed += 5;
-      }
-    });
-    this.CurrentOverview.next(overview);
-    this.chart.setChartOptions(overview);
-  }
+currentSettings(): Object {
+  let v1, v2, v3, v4;
+  this.currentChart.subscribe(x1 => v1 = ChartType[x1]);
+  this.currentFilterState.subscribe(x2 => v2 = FilterState[x2]);
+  this.dateFilter.subscribe(x3 => v3 = DateFilter[x3]);
+  this.dateValue.subscribe(x4 => v4 = x4);
+  return {
+    chart_name: v1,
+    filter: v2,
+    date_filter: v3,
+    date_value : v4
+  };
+}
 
 
 

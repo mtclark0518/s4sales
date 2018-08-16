@@ -26,7 +26,7 @@ namespace S4Sales.Controllers
         }
 
         [HttpGet("reimbursement")]
-        public IEnumerable<Reimbursement> Reimbursements()
+        public Task<IEnumerable<Reimbursement>> Reimbursements()
         {
             var a = Request.Headers["chart_type"];
             var b = Request.Headers["ct_value"];
@@ -40,7 +40,7 @@ namespace S4Sales.Controllers
         {
             var a = Request.Headers["chart_type"];
             var b = Request.Headers["ct_value"];
-            var c = Request.Headers["data_type"];
+            var c = Request.Headers["date_type"];
             var d = Request.Headers["dt_value"];
             return _data.Reporting(a, b, c, d);        
         }

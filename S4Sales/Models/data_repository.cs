@@ -51,22 +51,37 @@ namespace S4Sales.Models
         
         // build string and execute query
         // return reimbursement list
-        public IEnumerable<Reimbursement> Reimbursements(string type, string value, string dkey, string dvalue)
+        public async Task<IEnumerable<Reimbursement>> Reimbursements(string type, string value, string dkey, string dvalue)
         {
             // simplest revenue query is a count
-            var _query = $@"SELECT COUNT(*) FROM reimbursements r";
+            var _query = $@"SELECT * FROM reimbursement r";
             // search by county
-            if(type == "County") {_query += JoinCounty(value); }
+            if(type == "County") 
+            {
+                _query += JoinCounty(value);
+                _query += " AND EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date"; 
+            }
             // search by reporting agency
-            if(type == "Agency") {_query += " WHERE r.reporting_agency = " + value; }
-            if(type == "State") {_query += " WHERE r.reporting_agency = *"; }
-            // extract date filter
-            _query += " AND EXTRACT(@dkey FROM r.reimbursement_date) = @dvalue";
+            if(type == "Agency") 
+            {
+                 _query += " WHERE r.reporting_agency = " + value; 
+                 _query += " AND EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date"; 
+            }
+            if(type == "State") 
+            {
+                _query += " WHERE EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date";
 
-            var _params = new { dkey = dkey, dkvalue = dvalue };
+            }
+
+            var _params = new 
+            {
+                date = int.Parse(dvalue) 
+            };
+
             using(var conn = new NpgsqlConnection(_conn))
             {
-                return conn.Query<Reimbursement>(_query, _params);
+                var result = await conn.QueryAsync<Reimbursement>(_query, _params);
+                return result;            
             }
         }
 
