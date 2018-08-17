@@ -22,7 +22,7 @@ export class DashboardService {
   private CURRENT_FILTER_STATE = new BehaviorSubject<FilterState>(FilterState.State);
   public currentFilterState = this.CURRENT_FILTER_STATE.asObservable();
 
-  private CURRENT_CHART_TYPE = new BehaviorSubject<ChartType>(ChartType.Reports);
+  private CURRENT_CHART_TYPE = new BehaviorSubject<ChartType>(ChartType['Select A Chart']);
   public currentChart = this.CURRENT_CHART_TYPE.asObservable();
 
   private AGENCY = new BehaviorSubject<FDOT_AGENCIES>(null);
@@ -78,11 +78,10 @@ export class DashboardService {
   private getReportingChart(a, b, c, d ) {
     const headers = new HttpHeaders({
       filter: a,
-      ct_value: b,
-      date_type: c,
-      dt_value:  d
+      filter_lookup: b,
+      date_filter: c,
+      date_lookup:  d
     });
-
     this.http.get(this.domain + 'reporting', {headers})
       .subscribe( res =>
         this.setReportingChart(res));
@@ -91,11 +90,10 @@ export class DashboardService {
   private getReimbursementChart(a, b, c, d) {
     const headers = new HttpHeaders({
       filter: a,
-      ct_value: b,
-      date_type: c,
-      dt_value: d
+      filter_lookup: b,
+      date_filter: c,
+      date_lookup: d
     });
-
     this.http.get(this.domain + 'reimbursement', {headers})
     .subscribe( res =>
       this.setReimbursementChart(res));

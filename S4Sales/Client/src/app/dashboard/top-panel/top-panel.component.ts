@@ -3,7 +3,7 @@ import { AccountService } from '../../providers/account.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'top-panel',
+  selector: 'toppanel',
   templateUrl: './top-panel.component.html',
   styleUrls: ['../dashboard.scss']
 })

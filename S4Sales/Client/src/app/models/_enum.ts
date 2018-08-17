@@ -1,3 +1,5 @@
+// tslint:disable:max-line-length
+
 export enum FilterState {
   State,
   County,
@@ -10,6 +12,7 @@ export enum DateFilter {
 }
 
 export enum ChartType {
+  'Select A Chart',
   Reports,
   Reimbursements
 }
@@ -51,7 +54,7 @@ export enum Status {
   Rejected
 }
 
-// tslint:disable:max-line-length
+
 export enum ReasonsForQuery {
   'I am a party involved in the accident',
   'I am a legal representative to a party involved in the accident',

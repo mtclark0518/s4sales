@@ -5,7 +5,7 @@ import { AccountProfile } from '../../models/_class';
   // tslint:disable-next-line:component-selector
   selector: 'navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
   isExpanded = false;

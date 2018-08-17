@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'side-panel',
+  selector: 'sidepanel',
   templateUrl: './side-panel.component.html',
   styleUrls: ['../dashboard.scss']
 })

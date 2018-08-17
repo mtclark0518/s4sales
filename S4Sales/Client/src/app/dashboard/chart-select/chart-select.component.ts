@@ -5,7 +5,7 @@ import { ChartType } from '../../models/_enum';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'chart-select',
+  selector: 'chartselect',
   templateUrl: './chart-select.component.html',
   styleUrls: ['../dashboard.scss']
 })

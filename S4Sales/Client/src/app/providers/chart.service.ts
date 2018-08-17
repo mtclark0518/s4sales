@@ -53,7 +53,7 @@ export class ChartService {
         xAxis: {
           categories: xaxis
         },
-        colors: ['#269AAE', '#8a8a91'],
+        colors: ['#C2493C', '#8a8a91'],
 
         plotOptions: {
           column: {

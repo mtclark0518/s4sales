@@ -58,13 +58,12 @@ namespace S4Sales.Models
             // search by county
             if(filter == "County") 
             {
-                _query += JoinCounty(value);
-                _query += " AND EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date"; 
+                _query += " JOIN event_crash c ON c.hsmv_report_number = r.hsmv_report_number WHERE c.county_of_crash = @value AND EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date"; 
             }
             // search by reporting agency
             if(filter == "Agency") 
             {
-                 _query += " WHERE r.reporting_agency = " + value.ToString().ToUpper(); 
+                 _query += " WHERE r.reporting_agency = @value";
                  _query += " AND EXTRACT( " + dkey.ToString().ToUpper() + " FROM r.reimbursement_date) = @date"; 
             }
             if(filter == "State") 
@@ -75,7 +74,8 @@ namespace S4Sales.Models
 
             var _params = new 
             {
-                date = int.Parse(dvalue) 
+                date = int.Parse(dvalue),
+                value = value.ToUpper()
             };
 
             using(var conn = new NpgsqlConnection(_conn))
@@ -123,7 +123,7 @@ namespace S4Sales.Models
         {
             return $@" JOIN event_crash c 
             ON c.hsmv_report_number = r.hsmv_report_number 
-            WHERE c.county_of_crash = " + county.ToUpper();
+            WHERE c.county_of_crash = " + county.ToString().ToUpper();
         }
         // timliness by month
     }

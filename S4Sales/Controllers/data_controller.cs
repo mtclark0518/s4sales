@@ -29,9 +29,9 @@ namespace S4Sales.Controllers
         public Task<IEnumerable<Reimbursement>> Reimbursements()
         {
             var a = Request.Headers["filter"];
-            var b = Request.Headers["ct_value"];
-            var c = Request.Headers["date_type"];
-            var d = Request.Headers["dt_value"];
+            var b = Request.Headers["filter_lookup"];
+            var c = Request.Headers["date_filter"];
+            var d = Request.Headers["date_lookup"];
             return _data.Reimbursements(a, b, c, d);
         }
 
@@ -39,9 +39,9 @@ namespace S4Sales.Controllers
         public Task<IEnumerable<CrashEvent>> Reporting()
         {
             var a = Request.Headers["filter"];
-            var b = Request.Headers["ct_value"];
-            var c = Request.Headers["date_type"];
-            var d = Request.Headers["dt_value"];
+            var b = Request.Headers["filter_lookup"];
+            var c = Request.Headers["date_filter"];
+            var d = Request.Headers["date_lookup"];
             return _data.Reporting(a, b, c, d);        
         }
     }
