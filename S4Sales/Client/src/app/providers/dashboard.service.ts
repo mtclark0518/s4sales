@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { ChartService } from './chart.service';
-import { FDOT_AGENCIES } from '../models/fdot';
+import { FDOT_AGENCIES } from '../models/fdot.enum';
 import { COUNTIES } from '../models/county.enum';
 import { formatDate } from '../../../node_modules/@angular/common';
 import { FilterState, ChartType, DateFilter } from '../models/_enum';

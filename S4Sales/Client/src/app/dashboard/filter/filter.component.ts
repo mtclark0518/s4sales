@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { DashboardService } from '../../providers/dashboard.service';
 import { FilterState } from '../../models/_enum';
-import { FDOT_AGENCIES } from '../../models/fdot';
+import { FDOT_AGENCIES } from '../../models/fdot.enum';
 import { COUNTIES } from '../../models/county.enum';
 
 @Component({
