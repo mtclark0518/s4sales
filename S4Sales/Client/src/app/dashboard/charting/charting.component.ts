@@ -11,12 +11,13 @@ import * as Highcharts from 'highcharts';
 
 export class ChartingComponent implements OnInit {
   public Highcharts = Highcharts;
-  public Options: Highcharts.Options;
-
+  public Options;
+  public updateFlag;
   constructor( private chart: ChartService ) {}
 
   ngOnInit() {
     this.chart.chartOptions.subscribe( chartOpts => this.Options = chartOpts );
+    this.chart.shouldUPDATE.subscribe( bool => this.updateFlag = bool );
   }
 
 }

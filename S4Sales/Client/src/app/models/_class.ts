@@ -32,7 +32,7 @@ export class Transaction {
 export class Overview {
   name: string;
   filter_state?: number;
-  total_reports?: number;
+  total_count?: number;
   total_revenue?: number;
   total_reimbursed?: number;
   month_count?: any;

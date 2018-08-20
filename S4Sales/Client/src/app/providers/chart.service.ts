@@ -1,15 +1,9 @@
 import { Injectable } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { BehaviorSubject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { formatDate } from '@angular/common';
 import { Month, ChartType } from '../models/_enum';
 import { Overview } from '../models/_class';
-      // tslint:disable:radix
-
-
-
-
+// tslint:disable:radix
 @Injectable({
   providedIn: 'root'
 })
@@ -17,107 +11,67 @@ import { Overview } from '../models/_class';
 export class ChartService {
 
   private initial: Highcharts.Options = {
-        series: [{
-            name: 'HSMV',
-            data: [],
-          }, {
-            name: 'Local',
-            data: [],
-          }
-        ]
+    chart: {},
+    title: {},
+    plotOptions: {column: {stacking: 'normal'}},
+    xAxis: {},
+    yAxis: { min: 0, title: {} },
+    colors: ['#C2493C', '#8a8a91'],
+    series: [{}, {}]
   };
 
   private ChartOptions = new BehaviorSubject<Highcharts.Options>(this.initial);
   public chartOptions = this.ChartOptions.asObservable();
   private UPDATE = new BehaviorSubject<boolean>(false);
   public shouldUPDATE = this.UPDATE.asObservable();
-  constructor( private http: HttpClient) {}
+
+  constructor() {}
 
 
-  setChartOptions(data: Overview) {
+  setChartOptions(opts: Overview) {
+    // initialize the chart options
+    let options;
+    this.chartOptions.subscribe(current => options = current);
+    if (opts['details']) {
+      const month_keys = [];
+      Object.keys( opts['month_count']).forEach( key => month_keys.push( Month[parseInt(key) - 1] ) );
+      const _values = Object.values(opts['month_count']);
 
 
-    if (data['details']) {
-      console.log(data['details']);
-      const xaxis = [];
-      const _keys = Object.keys(data.month_count);
-      _keys.forEach( key => xaxis.push(Month[parseInt(key) - 1]));
-
-      const options: Highcharts.Options = {
-        chart: {
-          type: data.chart
-        },
-        title: {
-          text: data.name
-        },
-        xAxis: {
-          categories: xaxis
-        },
-        colors: ['#C2493C', '#8a8a91'],
-
-        plotOptions: {
-          column: {
-            stacking: 'normal'
-          }
-        },
-      };
-
-
-
-      switch (data.details['chart_name']) {
+      // set chart options
+      switch (opts.details['chart_type']) {
         case ChartType.Reimbursements :
-          console.log('thisis is is is isiiiiiis reimbbbursing');
-
-
+          options['chart']['type'] = 'column';
+          options['title']['text'] = 'Monthly Sales';
+          options['xAxis']['categories'] = month_keys;
+          options['yAxis']['title']['text'] = 'Total Reimbursements';
           options['series'] = [
-            {
-              name: 'HSMV',
-              data: [data.total_revenue - data.total_reimbursed]
-            }, {
-              name: 'Local',
-              data: [data.total_reimbursed]
-            }
+            { name: 'HSMV', data: [(opts['total_count'] * 16) - opts['total_reimbursed']] },
+            { name: 'Local', data: [opts['total_reimbursed']] }
           ];
-          options['yAxis'] = {
-            min: 0,
-            title: {
-              text: 'Total Reimbursements'
-            }
-          };
-
         break;
 
-        case ChartType.Reports :
-          console.log('reeeportsings');
-
-
-          const _values = Object.values(data.month_count);
-          options['series'] = [{name: 'Reports', data: _values}, {name: 'Timely', data: [0]}];
-          options['yAxis'] = {
-            min: 0,
-            title: {
-              text: 'Reports Entered'
-            }
-          };
-
+        case ChartType.Reporting :
+          options['chart']['type'] = 'spline';
+          options['title']['text'] = 'Monthly Reporting';
+          options['xAxis']['categories'] = month_keys;
+          options['yAxis']['title']['text'] = 'Reports Entered';
+          options['series'] = [{name: 'Reports', data: _values}, { name: 'Timely', data: []}];
         break;
         default : console.log('this means that its not working yet');
       }
-      //   colors: ['#ff7e08', '#1aad00'],
-      //   tooltip: {
-      //     pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-      //     shared: true
-      //   },
-      //   plotOptions: {
-      //     column: {
-      //       stacking: 'normal'
-      //     }
-      //   },
+
       this.ChartOptions.next(options);
+      this.UPDATE.next(true);
+
+
+      console.log(this.chartOptions);
+      console.log(this.shouldUPDATE);
+
     }
   }
 
-  // what options are consistent across renders
+
 
 
 

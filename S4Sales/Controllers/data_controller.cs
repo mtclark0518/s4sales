@@ -25,7 +25,7 @@ namespace S4Sales.Controllers
             return _data.ReportIndex();
         }
 
-        [HttpGet("reimbursement")]
+        [HttpGet("Reimbursements")]
         public Task<IEnumerable<Reimbursement>> Reimbursements()
         {
             var a = Request.Headers["filter"];
@@ -35,7 +35,7 @@ namespace S4Sales.Controllers
             return _data.Reimbursements(a, b, c, d);
         }
 
-        [HttpGet("reporting")]
+        [HttpGet("Reporting")]
         public Task<IEnumerable<CrashEvent>> Reporting()
         {
             var a = Request.Headers["filter"];

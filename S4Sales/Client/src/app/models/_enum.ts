@@ -13,7 +13,7 @@ export enum DateFilter {
 
 export enum ChartType {
   'Select A Chart',
-  Reports,
+  Reporting,
   Reimbursements
 }
 
@@ -53,7 +53,6 @@ export enum Status {
   Approved,
   Rejected
 }
-
 
 export enum ReasonsForQuery {
   'I am a party involved in the accident',

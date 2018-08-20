@@ -140,7 +140,7 @@ export enum FDOT_AGENCIES {
   'Haines City PD',
   'Hallandale Beach PD',
   'Hamilton Co SO',
-  'Hampton PD'
+  'Hampton PD',
   'Hardee Co SO',
   'Havana PD',
   'Hendry Co SO',
