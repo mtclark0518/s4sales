@@ -10,13 +10,12 @@ import { ChartingComponent } from './charting/charting.component';
 import { ChartSelectComponent } from './chart-select/chart-select.component';
 import { DisplayHeadComponent } from './display-head/display-head.component';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { ChartDirective } from '../directives/chart.directive';
 @NgModule({
   imports: [
     CommonModule, FormsModule, ReactiveFormsModule, HighchartsChartModule
   ],
   declarations: [
-    DashboardComponent, ChartDirective,
+    DashboardComponent,
     SidePanelComponent, TopPanelComponent,
     FilterComponent, OverviewComponent, ChartingComponent,
     ChartSelectComponent, DisplayHeadComponent
