@@ -28,4 +28,24 @@ namespace S4Sales.Models
         public string cart_id {get; set;}
         public string hsmv {get; set;}
     }
+
+    public class Overview 
+    {
+        public int total_reports { get; set;}
+        public int total_revenue {get;set;}
+        public int total_reimbursed {get;set;}
+        public DateTime as_of_date {get;set;}
+    }
+
+    public class Timeliness
+    {
+        public int total_incidents {get;set;}
+        public int total_timely {get;set;}
+        public float percent_timely {get;set;}
+        public int avg_days2_upload {get;set;}
+        public int total_sales {get;set;}
+        public int total_reimbursed {get;set;}
+        public float percent_sales {get;set;}
+        public TimeSpan report_span {get;set;}
+    }
 }

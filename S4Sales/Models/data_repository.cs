@@ -9,26 +9,6 @@ using System.Threading.Tasks;
 
 namespace S4Sales.Models
 {
-    public class Overview 
-    {
-        public int total_reports { get; set;}
-        public int total_revenue {get;set;}
-        public int total_reimbursed {get;set;}
-        public DateTime as_of_date {get;set;}
-    }
-
-    public class Timeliness
-    {
-        public int total_incidents {get;set;}
-        public int total_timely {get;set;}
-        public float percent_timely {get;set;}
-        public int avg_days2_upload {get;set;}
-        public int total_sales {get;set;}
-        public int total_reimbursed {get;set;}
-        public float percent_sales {get;set;}
-        public TimeSpan report_span {get;set;}
-    }
-
     public class DataRepository
     {
         private string _conn;
@@ -52,7 +32,7 @@ namespace S4Sales.Models
         // build string and execute query
         // return reimbursement list
         public async Task<IEnumerable<Reimbursement>> Reimbursements(
-                string filter, string value, string dkey, string dvalue)
+                string filter, string value, string date_filter, string dvalue)
         {
             // simplest revenue query is a count
             var _query = $@"SELECT * FROM reimbursement r";
@@ -62,28 +42,34 @@ namespace S4Sales.Models
                 _query += $@" 
                     JOIN event_crash c 
                     ON c.hsmv_report_number = r.hsmv_report_number 
-                    WHERE c.county_of_crash = @value 
-                    AND EXTRACT( " + dkey.ToString().ToUpper() + 
+                    WHERE c.county_of_crash = UPPER(@value)
+                    AND EXTRACT( " + date_filter.ToString().ToUpper() + 
                     " FROM r.reimbursement_date) = @date"; 
             }
+
             // search by reporting agency
+            // checks abv and long name
+            // checks std and upper casing
             if(filter == "Agency") 
             {
-                 _query += $@" 
-                    WHERE r.reporting_agency = @value 
-                    AND EXTRACT( " + dkey.ToString().ToUpper() + 
-                    " FROM r.reimbursement_date) = @date"; 
+                _query += $@" WHERE r.reporting_agency IN (
+                    (SELECT a.agency_name FROM dim_agency a WHERE a.agency_short_name = @value),
+                    (SELECT a.agency_short_name FROM dim_agency a WHERE a.agency_short_name = @value),
+                    (SELECT UPPER(a.agency_name) FROM dim_agency a WHERE a.agency_short_name = @value),
+                    (SELECT UPPER(a.agency_short_name) FROM dim_agency a WHERE a.agency_short_name = @value)
+                ) AND 
+                EXTRACT ( " + date_filter.ToUpper() + " FROM c.crash_date_and_time) = @date";
             }
+
             if(filter == "State") 
             {
                 _query += $@" 
-                    WHERE EXTRACT( " + dkey.ToString().ToUpper() + 
+                    WHERE EXTRACT( " + date_filter.ToString().ToUpper() + 
                     " FROM r.reimbursement_date) = @date";
 
             }
 
-            var _params = new {date = int.Parse(dvalue), value = value.ToUpper()};
-
+            var _params = new {date = int.Parse(dvalue), value = value};
             using(var conn = new NpgsqlConnection(_conn))
             {
                 var result = await conn.QueryAsync<Reimbursement>(_query, _params);
@@ -95,33 +81,37 @@ namespace S4Sales.Models
         // date[year, month] || value
         // returns reports with provided params
         public async Task<IEnumerable<CrashEvent>> Reporting(
-                string filter, string b, string c, string d)
+                string filter, string value, string date_filter, string df_value)
         {
             var _query = $@"SELECT * FROM event_crash c";
 
             if(filter == "County") 
             {
                 _query += $@" 
-                    WHERE c.county_of_crash = @value 
-                    AND EXTRACT( " + c.ToString().ToUpper() + 
+                    WHERE c.county_of_crash = UPPER(@value) 
+                    AND EXTRACT( " + date_filter.ToString().ToUpper() + 
                     " FROM c.crash_date_and_time) = @date";
             }
 
             if(filter == "Agency") 
             {
-                _query += $@" 
-                    WHERE c.reporting_agency = @value 
-                    AND EXTRACT( " + c.ToString().ToUpper() + 
-                    " FROM c.crash_date_and_time) = @date";
+                _query += $@" WHERE c.reporting_agency IN (
+                    (SELECT a.agency_name FROM dim_agency a WHERE a.agency_short_name = @value),
+                    (SELECT a.agency_short_name FROM dim_agency a WHERE a.agency_short_name = @value),
+                    (SELECT UPPER(a.agency_name) FROM dim_agency a WHERE a.agency_short_name = @value),
+                    (SELECT UPPER(a.agency_short_name) FROM dim_agency a WHERE a.agency_short_name = @value)
+                ) AND 
+                EXTRACT ( " + date_filter.ToUpper() + " FROM c.crash_date_and_time) = @date";
             }
 
             if(filter == "State") 
             {
                 _query += $@" 
-                    WHERE EXTRACT( " + c.ToString().ToUpper() + 
+                    WHERE EXTRACT( " + date_filter.ToUpper() + 
                     " FROM c.crash_date_and_time) = @date";
             }
-            var _params = new { value = b.ToUpper(), date =  int.Parse(d) };
+
+            var _params = new { value = value, date = int.Parse(df_value) };
 
             using (var conn = new NpgsqlConnection(_conn))
             {
@@ -129,6 +119,7 @@ namespace S4Sales.Models
                 return result;
             }
         }
+
     }
 }
 
