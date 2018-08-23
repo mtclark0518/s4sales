@@ -27,6 +27,8 @@
   justify-content: space-between;
   align-content: center;
   height: 100%;
+  .m-left-5{ margin-left: 5%; }
+  .m-right-10{ margin-right: 10%; }
   .section{
     display: flex;
     align-items: center;
@@ -51,14 +53,7 @@
       }
     }
   }
-  .m-left-5{
-    margin-left: 5%;
 
-  }
-  .m-right-10{
-    margin-right: 10%;
-
-  }
 }
 
 .top-panel{
@@ -66,7 +61,6 @@
   height: 10vh;
   border: 1px solid $primary;
   border-top:none; border-bottom: none;
-
 }
 .side-panel{
   height: 75vh;
@@ -86,8 +80,6 @@
     height: 7vh;
     text-align: center;
     background: $accent1;
-    border-bottom: 1px solid $primary;
-    box-shadow: $shadow;
   }
   .display-main{
     justify-content: space-between;
@@ -99,25 +91,20 @@
       background: $bg;
       border: 1px solid $primary;
       box-shadow: $shadow;
-
     }
-    .charting{
-      flex-grow: 3;
-    }
-  }
-  .chart-select{
-    margin-bottom: 0.25em;
   }
 }
+
 .filter{
   background: $primary;
   color: $bg;
   box-shadow: $shadow;
+  padding: 0.21em;
+  .radio-input{ margin-left: 1em; }
   .filter-form {
     display: flex;
     flex-direction: row;
     align-items: center;
-
     .section {
       display: flex;
       flex-direction: row;
@@ -129,9 +116,33 @@
       }
     }
   }
-  .radio-input{
+}
+.charting {
+  background: blue;
+}
+
+.tabs{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+  .item {
+    border: 1px solid $accent1;
+    border-top: none;
+    border-bottom: none;
     margin-left: 1em;
+    padding: 0 1em;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: $primary;
+    color: $disabled;
+    transition: $transition;
   }
-
-
+  .active{
+    background: $accent2;
+    color: $bg;
+  }
 }

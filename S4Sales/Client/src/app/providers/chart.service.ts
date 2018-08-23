@@ -11,7 +11,10 @@ import { Overview } from '../models/_class';
 export class ChartService {
 
   private initial: Highcharts.Options = {
-    chart: {},
+    chart: {
+      backgroundColor: 'rgba(255,255,255,1)',
+      plotBackgroundColor: 'rgba(250,250,250,0.5)',
+    },
     title: {},
     plotOptions: {column: {stacking: 'normal'}},
     xAxis: {},
@@ -63,18 +66,7 @@ export class ChartService {
 
       this.ChartOptions.next(options);
       this.UPDATE.next(true);
-
-
-      console.log(this.chartOptions);
-      console.log(this.shouldUPDATE);
-
     }
   }
-
-
-
-
-
-
 }
 

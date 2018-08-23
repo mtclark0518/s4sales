@@ -6,10 +6,10 @@
     <displayhead class="head item"></displayhead>
     <filter class="item filter"></filter>
 
-    <div class="row display-main">
-      <overview class="item overview"></overview>
-      <charting class="item charting"></charting>
+    <div [ngSwitch]="displaying" class="display-main">
+      <charting *ngSwitchCase="'summary'"></charting>
+      <reporting *ngSwitchCase="'reporting'"></reporting>
     </div>
-
   </div>
+
 </div>

@@ -37,6 +37,9 @@ export class DashboardService {
     private DATE_VALUE = new BehaviorSubject<string>('2018');
     public dateValue = this.DATE_VALUE.asObservable();
 
+    private DISPLAYING = new BehaviorSubject<string>('summary');
+    public displaying = this.DISPLAYING.asObservable();
+
 
     constructor(private http: HttpClient, private chart: ChartService) { }
 
@@ -48,6 +51,7 @@ export class DashboardService {
     public setDATE_FILTER = value => this.DATE_FILTER.next(value);
     public setDATE_VALUE = value => this.DATE_VALUE.next(value);
     public setFILTER_STATE = value => this.CURRENT_FILTER_STATE.next(value);
+    public setDISPLAYING = value => this.DISPLAYING.next(value);
 
 
     public getNewChartData(): void {

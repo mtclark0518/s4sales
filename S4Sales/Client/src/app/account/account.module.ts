@@ -9,7 +9,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app.routing';
 import { TooltipModule } from 'ngx-bootstrap';
 import { DashboardModule } from '../dashboard/dashboard.module';
-import { RedirectComponent } from './redirect/redirect.component';
 
 @NgModule({
   imports: [
@@ -17,6 +16,6 @@ import { RedirectComponent } from './redirect/redirect.component';
     FormsModule, ReactiveFormsModule,
     AppRoutingModule, TooltipModule, DashboardModule,
   ],
-  declarations: [ PasswordComponent, ProfileComponent, ProfileEditComponent, LoginComponent, RegisterComponent, RedirectComponent]
+  declarations: [ PasswordComponent, ProfileComponent, ProfileEditComponent, LoginComponent, RegisterComponent]
 })
 export class AccountModule { }

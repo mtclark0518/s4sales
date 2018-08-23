@@ -48,13 +48,13 @@ namespace S4Sales.Models
             }
 
             // search by reporting agency
-            // checks abv and long name
-            // checks std and upper casing
+            // checks abv and long name + std and upper casing
+            // still not hitting everything
             if(filter == "Agency") 
             {
                 _query += $@" WHERE r.reporting_agency IN (
-                    (SELECT a.agency_name FROM dim_agency a WHERE a.agency_short_name = @value),
-                    (SELECT a.agency_short_name FROM dim_agency a WHERE a.agency_short_name = @value),
+                    (SELECT a.agency_name as long FROM dim_agency a WHERE a.agency_short_name = @value),
+                    (SELECT a.agency_short_name as short FROM dim_agency a WHERE a.agency_short_name = @value),
                     (SELECT UPPER(a.agency_name) FROM dim_agency a WHERE a.agency_short_name = @value),
                     (SELECT UPPER(a.agency_short_name) FROM dim_agency a WHERE a.agency_short_name = @value)
                 ) AND 

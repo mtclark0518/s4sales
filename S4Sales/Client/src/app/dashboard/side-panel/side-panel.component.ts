@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ModalService } from '../../components/alert-modal/modal.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -7,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['../dashboard.scss']
 })
 export class SidePanelComponent implements OnInit {
-
-  constructor() { }
+  modal = 'modal';
+  constructor( private modalService: ModalService) { }
 
   ngOnInit() {
   }
+
+
+  open(name) {
+    this.modalService.open(name);
+  }
+
 
 }

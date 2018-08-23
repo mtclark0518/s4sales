@@ -23,7 +23,7 @@ namespace S4Sales.Models
         public string cart_id {get; set;}
         public int hsmv_report_number { get; set; }
         public bool timely {get;set;}
-        public string submitting_agency { get; set; }
+        public string reporting_agency { get; set; }
         public float reimbursement_amount { get; set; }
         public DateTime reimbursement_date { get; set;}
         // default constructor
@@ -38,7 +38,7 @@ namespace S4Sales.Models
             hsmv_report_number = e.hsmv_report_number;
             timely = false;
             reimbursement_amount = 0;
-            submitting_agency = e.reporting_agency; 
+            reporting_agency = e.reporting_agency; 
         }
     }
     // FromBody client model

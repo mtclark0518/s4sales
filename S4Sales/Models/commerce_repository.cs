@@ -145,7 +145,7 @@ namespace S4Sales.Models
                 cart = r.cart_id, 
                 hsmv = r.hsmv_report_number, 
                 timely = r.timely, 
-                agency = r.submitting_agency, 
+                agency = r.reporting_agency, 
                 amount = r.reimbursement_amount, 
                 date = DateTime.Now
             };
