@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { DashboardService } from '../../providers/dashboard.service';
 import { FilterState } from '../../models/_enum';
@@ -12,7 +12,7 @@ import { COUNTIES } from '../../models/county.enum';
   styleUrls: ['../dashboard.scss']
 })
 export class FilterComponent implements OnInit {
-
+  @Input('displaying') displaying: string;
   public form: FormGroup;
   public fs: FilterState;
   public yr;
@@ -31,13 +31,17 @@ export class FilterComponent implements OnInit {
       filter: new FormControl(FilterState[this.fs]),
       year: new FormControl(this.yr),
       agency: new FormControl(this.agencies[0]),
-      county: new FormControl(this.counties[0])
+      county: new FormControl(this.counties[0]),
+      date_start: new FormControl(null),
+      date_end: new FormControl(null)
     });
   }
   get filter() { return this.form.get('filter'); }
   get agency() { return this.form.get('agency'); }
   get county() { return this.form.get('county'); }
   get year() { return this.form.get('year'); }
+  get date_start() { return this.form.get('date_start'); }
+  get date_end() { return this.form.get('date_end'); }
 
   enumerateOptions = () => {
     let keys;
@@ -47,13 +51,6 @@ export class FilterComponent implements OnInit {
     this.agencies = keys.slice(keys.length / 2);
     keys = Object.keys(COUNTIES);
     this.counties = keys.slice(keys.length / 2);
-  }
-  reset(): void {
-    this.filter.setValue(this.filters[0]);
-    this.year.setValue('2018');
-    this.agency.setValue(this.agencies[0]);
-    this.county.setValue(this.counties[0]);
-    this.update();
   }
 
   update = () => {
@@ -65,6 +62,8 @@ export class FilterComponent implements OnInit {
 
 
   handle() {
-    this.dash.getNewChartData();
+    this.displaying === 'summary' ?
+    this.dash.getNewChartData() :
+    this.dash.generateReport(this.date_start.value, this.date_end.value);
   }
 }

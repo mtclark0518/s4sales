@@ -12,9 +12,10 @@ import { DisplayHeadComponent } from './display-head/display-head.component';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ComponentsModule } from '../components/components.module';
 import { ReportingComponent } from './reporting/reporting.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 @NgModule({
   imports: [
-    CommonModule, FormsModule, ReactiveFormsModule, HighchartsChartModule, ComponentsModule
+    CommonModule, FormsModule, ReactiveFormsModule, HighchartsChartModule, ComponentsModule, BsDatepickerModule
   ],
   declarations: [
     DashboardComponent,

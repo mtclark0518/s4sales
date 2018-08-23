@@ -4,8 +4,7 @@
 
   <div class="column display">
     <displayhead class="head item"></displayhead>
-    <filter class="item filter"></filter>
-
+    <filter [displaying]='displaying' class="item filter"></filter>
     <div [ngSwitch]="displaying" class="display-main">
       <charting *ngSwitchCase="'summary'"></charting>
       <reporting *ngSwitchCase="'reporting'"></reporting>

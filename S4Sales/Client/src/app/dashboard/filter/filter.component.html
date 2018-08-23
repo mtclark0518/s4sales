@@ -1,36 +1,62 @@
 <div class="filter">
-  <form class='filter-form' (change)="update()" [formGroup]="form">
-    <div class="section">
-          <chartselect class="item chart-select"></chartselect>
-    </div>
-    <div class='section'>
-      <select formControlName='year'>
-          <option [value]='yr'>{{yr}}</option>
-      </select>
-    </div>
+  <form class="filter-form" (change)="update()" [formGroup]="form">
 
-    <div class='section'>
-      <div class="radio-input" *ngFor="let f of filters; let i = index; async">
-        <input type="radio" formControlName="filter" value={{f}}> {{f}}
+    <div *ngIf="displaying === 'summary'" class='filter-form section'>
+      <div class="section">
+            <chartselect class="item chart-select"></chartselect>
+      </div>
+      <div class='section'>
+        <select formControlName='year'>
+            <option [value]='yr'>{{yr}}</option>
+        </select>
+      </div>
+
+      <div class='section'>
+        <div class="radio-input" *ngFor="let f of filters; let i = index; async">
+          <input type="radio" formControlName="filter" value={{f}}> {{f}}
+        </div>
+      </div>
+
+      <div class='section' *ngIf="fs !== 0 && fs.toString() !== 'State'">
+          <select *ngIf="fs.toString() === 'County'" formControlName='county'>
+              <option *ngFor="let c of counties" value={{c}}>{{c}}</option>
+          </select>
+          <select *ngIf="fs.toString() === 'Agency'" formControlName='agency'>
+              <option *ngFor="let a of agencies" value={{a}}>{{a}}</option>
+          </select>
       </div>
     </div>
 
-    <div class='section' *ngIf="fs !== 0 && fs.toString() !== 'State'">
-        <select *ngIf="fs.toString() === 'County'" formControlName='county'>
-            <option *ngFor="let c of counties" value={{c}}>{{c}}</option>
-        </select>
-        <select *ngIf="fs.toString() === 'Agency'" formControlName='agency'>
-            <option *ngFor="let a of agencies" value={{a}}>{{a}}</option>
-        </select>
+    <div *ngIf="displaying === 'reports'" class='filter-form section'>
+
+      <div class="section">
+          <input
+          type="text"
+          formControlName="date_start"
+          placeholder="search from"
+          bsDatepicker [bsConfig]=" {
+            dateInputFormat: 'MM-DD-YYYY',
+            showWeekNumbers: false
+          }"
+        />
+      </div>
+      <div class="section">
+          <input
+          type="text"
+          formControlName="date_end"
+          placeholder="search to"
+          bsDatepicker [bsConfig]=" {
+            dateInputFormat: 'MM-DD-YYYY',
+            showWeekNumbers: false
+          }"
+        />
+      </div>
     </div>
+
 
     <div class="section">
       <input type='button' class="input" (click)="handle()" value='Generate'/>
-      <!-- <input type='button' class="input" (click)="reset()" value='reset'/> -->
     </div>
-
-
-
   </form>
 
 </div>

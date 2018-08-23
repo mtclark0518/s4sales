@@ -76,6 +76,9 @@ export class DashboardService {
         this.getChartData(FilterState[filter], value, DateFilter[date_filter], date_value, name);
     }
 
+    public generateReport(from, to) {
+      console.log(from, to);
+    }
 
 
     private getChartData(a, b, c, d, path ) {

@@ -105,10 +105,11 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
     .section {
       display: flex;
       flex-direction: row;
-      padding-left: 1em;
+      padding: 0 1em;
       input, select, option {
         background: $bg;
         color:$primary;
@@ -120,7 +121,9 @@
 .charting {
   background: blue;
 }
-
+.il{
+  display: inline;
+}
 .tabs{
   display: flex;
   flex-direction: row;
