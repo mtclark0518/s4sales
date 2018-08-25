@@ -110,18 +110,32 @@ namespace S4Sales.Models
         public async Task<IEnumerable> RnTReport(string date_start, string date_end)
         {
 
-            var _query = $@"SELECT c.reporting_agency as agency,
-                        COUNT(c.reporting_agency) as total_incidents,
-                        COUNT(c.reporting_agency) FILTER(WHERE(date_part('doy', c.hsmv_entry_date) - date_part('doy', c.crash_date_and_time) < 10)) as total_timely,
-                        ROUND(AVG(date_part('day', age(c.hsmv_entry_date, c.crash_date_and_time)))) as avg_days2_upload,
-                        ROUND(((100 * COUNT(c.reporting_agency)
-                        FILTER(WHERE (date_part('doy', c.hsmv_entry_date) - date_part('doy', c.crash_date_and_time) < 10))) / COUNT(c.reporting_agency)), 2) as percent_timely,
-                        COUNT(r.reporting_agency) as total_sales,
-                        SUM(r.reimbursement_amount) as total_reimbursed
-                        FROM event_crash c 
-                        FULL JOIN reimbursement r
-                        ON c.reporting_agency = r.reporting_agency AND c.hsmv_report_number = r.hsmv_report_number
-                        GROUP BY agency ORDER BY agency";
+            var _query = $@"
+            SELECT c.reporting_agency as agency,
+                COUNT(c.reporting_agency) as total_incidents,
+                COUNT(c.reporting_agency) 
+                    FILTER(WHERE(
+                            date_part('doy', c.hsmv_entry_date) - 
+                            date_part('doy', c.crash_date_and_time) < 10)) as total_timely,
+                ROUND(AVG(
+                        date_part('day', age(c.hsmv_entry_date, c.crash_date_and_time)))) as avg_days2_upload,
+                ROUND(((100 * COUNT(c.reporting_agency) 
+                        FILTER(WHERE(
+                                date_part('doy', c.hsmv_entry_date) - 
+                                date_part('doy', c.crash_date_and_time) < 10))) 
+                                / 
+                                COUNT(c.reporting_agency)), 2) as percent_timely,
+                COUNT(r.reporting_agency) as total_sales,
+                SUM(r.reimbursement_amount) as total_reimbursed
+                FROM event_crash c 
+                    FULL JOIN reimbursement r
+                        ON c.reporting_agency = r.reporting_agency 
+                            AND c.hsmv_report_number = r.hsmv_report_number
+ 							WHERE CAST(c.crash_date_and_time as DATE) 
+ 								BETWEEN @date_start
+ 								AND @date_end
+                                GROUP BY agency 
+                                ORDER BY agency";
             
             var _params = new {date_start = date_start, date_end = date_end};
             using (var conn = new NpgsqlConnection(_conn))
@@ -132,41 +146,3 @@ namespace S4Sales.Models
         }
     }
 }
-
-
-
-
-// SELECT c.reporting_agency as agency,
-
-// COUNT(c.reporting_agency) as total_incidents,
-
-// COUNT(c.reporting_agency) FILTER(WHERE(date_part('doy', c.hsmv_entry_date) - date_part('doy', c.crash_date_and_time) < 10)) 
-// 	as total_timely,
-									   
-// ROUND(AVG(date_part('day', age(c.hsmv_entry_date, c.crash_date_and_time)))) 
-// 	as avg_days2_upload,
-							   
-// ROUND(((100 * COUNT(c.reporting_agency)
-// 	FILTER( 
-// 		WHERE (date_part('doy', c.hsmv_entry_date) - date_part('doy', c.crash_date_and_time) < 10))) / 
-// 		   COUNT(c.reporting_agency)), 2) 
-// 		   as percent_timely,
-// r.reporting_agency as agency2,
-// COUNT(r.reporting_agency) as total_sales,
-// SUM(r.reimbursement_amount) as total_reimbursed
-	
-// FROM event_crash c 
-// 			   FULL JOIN reimbursement r
-// 			   ON c.reporting_agency = r.reporting_agency
-// 	GROUP BY agency, agency2
-			  
-			   
-		   
-
-
-
-
-
-// UPDATE event_crash 
-// SET hsmv_entry_date = (crash_date_and_time + 
-// (FLOOR(RANDOM() * (h - l + 1) + l) * interval '1 day'))"
