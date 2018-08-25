@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections;
 
 namespace S4Sales.Controllers
 {
@@ -13,16 +14,9 @@ namespace S4Sales.Controllers
     {
         private readonly DataRepository _data;
 
-
         public DataController(DataRepository repo)
         {
             _data = repo;
-        }
-
-       [HttpGet("index")]
-        public IEnumerable<Reimbursement> Index()
-        {
-            return _data.ReportIndex();
         }
 
         [HttpGet("Reimbursements")]
@@ -43,6 +37,14 @@ namespace S4Sales.Controllers
             var c = Request.Headers["date_filter"];
             var d = Request.Headers["date_lookup"];
             return _data.Reporting(a, b, c, d);        
+        }
+        
+        [HttpGet("RnT")]
+        public Task<IEnumerable> RnTReport()
+        {
+            var a = Request.Headers["date_start"];
+            var b = Request.Headers["date_end"];
+            return _data.RnTReport(a, b);        
         }
     }
 }
