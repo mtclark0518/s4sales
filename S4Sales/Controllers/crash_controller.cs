@@ -34,7 +34,7 @@ namespace S4Sales.Controllers
                 details.succeeded = true;
                 details.return_count = 1;
             }
-            _log.Query(details);
+            // _log.Query(details);
             return new OkObjectResult(result);
         }
 
@@ -52,10 +52,10 @@ namespace S4Sales.Controllers
                     details.return_count = result.Count();
                     details.succeeded = true;
                 }
-                _log.Query(details);
+                // _log.Query(details);
                 return new OkObjectResult(result);
             }
-            _log.Query(details);
+            // _log.Query(details);
             return new BadRequestObjectResult(ModelState);
         }
 
@@ -76,7 +76,7 @@ namespace S4Sales.Controllers
                 details.succeeded = true;
                 details.return_count = result.Count();
             }
-            _log.Query(details);
+            // _log.Query(details);
             return new OkObjectResult(result);
         }
 

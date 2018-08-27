@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
+import { formatDate } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject } from 'rxjs';
 import { ChartService } from './chart.service';
 import { FDOT_AGENCIES } from '../models/fdot.enum';
 import { COUNTIES } from '../models/county.enum';
-import { formatDate } from '../../../node_modules/@angular/common';
 import { FilterState, ChartType, DateFilter } from '../models/_enum';
 import { Overview } from '../models/_class';
-
-
 
 @Injectable({
 providedIn: 'root'
@@ -40,9 +38,7 @@ export class DashboardService {
     private DISPLAYING = new BehaviorSubject<string>('summary');
     public displaying = this.DISPLAYING.asObservable();
 
-
     constructor(private http: HttpClient, private chart: ChartService) { }
-
 
     // accesssor methods to update dashboard values
     public setAGENCY = value => this.AGENCY.next(value);
@@ -52,7 +48,6 @@ export class DashboardService {
     public setDATE_VALUE = value => this.DATE_VALUE.next(value);
     public setFILTER_STATE = value => this.CURRENT_FILTER_STATE.next(value);
     public setDISPLAYING = value => this.DISPLAYING.next(value);
-
 
     public getNewChartData(): void {
         // variable definitions
@@ -76,27 +71,37 @@ export class DashboardService {
         this.getChartData(FilterState[filter], value, DateFilter[date_filter], date_value, name);
     }
 
-    public generateReport(from, to) {
-      console.log(from, to);
+    public generateReport(start, end) {
+      const s = formatDate(start, 'MM/dd/yyyy', 'en-us', 'UTC');
+      const e = formatDate(end, 'MM/dd/yyyy', 'en-us', 'UTC');
+      console.log(s);
+      const headers = new HttpHeaders({
+        'date_start': s.toString(),
+        'date_end': e.toString()
+    });
+    this.http.get(this.domain + 'RnT', {headers})
+        .subscribe( res => {
+          this.setReportData(res);
+        });
     }
-
 
     private getChartData(a, b, c, d, path ) {
         const headers = new HttpHeaders({
-            filter: a,
-            filter_lookup: b,
-            date_filter: c,
-            date_lookup:  d
+            'filter': a,
+            'filter_lookup': b,
+            'date_filter': c,
+            'date_lookup':  d
         });
         this.http.get(this.domain + path, {headers})
             .subscribe( res => {
               this.setChartData(res);
             });
     }
+    private setReportData = data => {
+      console.log(data);
+    }
 
-
-
-    private setChartData = (data) => {
+    private setChartData = data => {
 
       const chartOptions = new Overview();
       chartOptions['total_count'] = data.length;

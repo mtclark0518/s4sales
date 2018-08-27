@@ -7,7 +7,7 @@
     <filter [displaying]='displaying' class="item filter"></filter>
     <div [ngSwitch]="displaying" class="display-main">
       <charting *ngSwitchCase="'summary'"></charting>
-      <reporting *ngSwitchCase="'reporting'"></reporting>
+      <reporting *ngSwitchCase="'reports'"></reporting>
     </div>
   </div>
 

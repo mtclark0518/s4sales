@@ -16,14 +16,8 @@ namespace S4Sales.Models
     // Search for report methods by -- number -- vin -- name/date
     ///</Note>
 
-    public interface ICrashRepository<CrashEvent>
-    {
-        CrashEvent FindByHsmvReportNumber(int hsmv);
-        IEnumerable<CrashEvent> FindByVIN(string vin);
-        IEnumerable<CrashEvent> FindByDateAndName(string participant, string date);
-    }
     
-    public class CrashRepository : ICrashRepository<CrashEvent>
+    public class CrashRepository
     {
         private string _conn;
         public CrashRepository(IConfiguration config)
@@ -67,7 +61,11 @@ namespace S4Sales.Models
             using (var conn = new NpgsqlConnection(_conn))
             {
                 CultureInfo provider = CultureInfo.InvariantCulture;
-                return conn.Query<CrashEvent>(_query, new {participant = participant, crash_date = DateTime.Parse(crash_date)});
+                return conn.Query<CrashEvent>(_query, new 
+                {
+                    participant = participant, 
+                    crash_date = DateTime.Parse(crash_date)
+                });
             }
         }
     }

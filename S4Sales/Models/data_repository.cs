@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Collections;
 using System.Threading.Tasks;
+using System.Globalization;
 
 namespace S4Sales.Models
 {
@@ -131,13 +132,16 @@ namespace S4Sales.Models
                     FULL JOIN reimbursement r
                         ON c.reporting_agency = r.reporting_agency 
                             AND c.hsmv_report_number = r.hsmv_report_number
- 							WHERE CAST(c.crash_date_and_time as DATE) 
- 								BETWEEN @date_start
- 								AND @date_end
+ 							WHERE c.crash_date_and_time::timestamp without time zone
+ 							BETWEEN @start AND @end
                                 GROUP BY agency 
                                 ORDER BY agency";
             
-            var _params = new {date_start = date_start, date_end = date_end};
+            var _params = new 
+            {
+                start = DateTime.Parse(date_start), 
+                end = DateTime.Parse(date_end) 
+            };
             using (var conn = new NpgsqlConnection(_conn))
             {
                 var result = await conn.QueryAsync(_query, _params);

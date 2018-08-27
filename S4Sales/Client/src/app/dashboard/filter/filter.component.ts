@@ -64,6 +64,7 @@ export class FilterComponent implements OnInit {
   handle() {
     this.displaying === 'summary' ?
     this.dash.getNewChartData() :
+
     this.dash.generateReport(this.date_start.value, this.date_end.value);
   }
 }
