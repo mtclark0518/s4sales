@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { BehaviorSubject } from 'rxjs';
-import { Month, ChartType } from '../models/_enum';
-import { Overview } from '../models/_class';
+import { Month, ChartType } from '../models/_enums';
+import { Overview } from '../models/_classes';
 // tslint:disable:radix
 @Injectable({
   providedIn: 'root'

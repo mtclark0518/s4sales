@@ -5,8 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { ChartService } from './chart.service';
 import { FDOT_AGENCIES } from '../models/fdot.enum';
 import { COUNTIES } from '../models/county.enum';
-import { FilterState, ChartType, DateFilter } from '../models/_enum';
-import { Overview } from '../models/_class';
+import { FilterState, ChartType, DateFilter } from '../models/_enums';
+import { Overview } from '../models/_classes';
 
 @Injectable({
 providedIn: 'root'
@@ -35,8 +35,12 @@ export class DashboardService {
     private DATE_VALUE = new BehaviorSubject<string>('2018');
     public dateValue = this.DATE_VALUE.asObservable();
 
+    private REPORT_DETAILS = new BehaviorSubject<Array<any>>([]);
+    public reportDetails = this.REPORT_DETAILS.asObservable();
+
     private DISPLAYING = new BehaviorSubject<string>('summary');
     public displaying = this.DISPLAYING.asObservable();
+
 
     constructor(private http: HttpClient, private chart: ChartService) { }
 
@@ -48,6 +52,7 @@ export class DashboardService {
     public setDATE_VALUE = value => this.DATE_VALUE.next(value);
     public setFILTER_STATE = value => this.CURRENT_FILTER_STATE.next(value);
     public setDISPLAYING = value => this.DISPLAYING.next(value);
+    public setREPORT_DETAILS = value => this.REPORT_DETAILS.next(value);
 
     public getNewChartData(): void {
         // variable definitions
@@ -72,12 +77,11 @@ export class DashboardService {
     }
 
     public generateReport(start, end) {
-      const s = formatDate(start, 'MM/dd/yyyy', 'en-us', 'UTC');
-      const e = formatDate(end, 'MM/dd/yyyy', 'en-us', 'UTC');
-      console.log(s);
+      const _start = formatDate(start, 'MM/dd/yyyy', 'en-us', 'UTC');
+      const _end = formatDate(end, 'MM/dd/yyyy', 'en-us', 'UTC');
       const headers = new HttpHeaders({
-        'date_start': s.toString(),
-        'date_end': e.toString()
+        'date_start': _start.toString(),
+        'date_end': _end.toString()
     });
     this.http.get(this.domain + 'RnT', {headers})
         .subscribe( res => {
@@ -97,9 +101,7 @@ export class DashboardService {
               this.setChartData(res);
             });
     }
-    private setReportData = data => {
-      console.log(data);
-    }
+
 
     private setChartData = data => {
 
@@ -131,6 +133,15 @@ export class DashboardService {
         date_filter:  v3,
         date_lookup : v4
       };
+    }
+
+    private setReportData = data => {
+      console.log(data);
+      const arr = [];
+      data.forEach(item => {
+        arr.push(item);
+      });
+      this.setREPORT_DETAILS(arr);
     }
 
     private getItemCount(dt: Array<any>, param: string) {

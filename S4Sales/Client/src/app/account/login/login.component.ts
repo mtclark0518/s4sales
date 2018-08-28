@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../providers/account.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { CustomValidators } from '../../models/validators';
-import { Credentials } from '../../models/_class';
+import { Credentials } from '../../models/_classes';
 
 @Component({
   selector: 'app-login',

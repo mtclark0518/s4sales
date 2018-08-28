@@ -1,4 +1,4 @@
-import { AccountRequestType, Action } from './_enum';
+import { AccountRequestType, Action } from './_enums';
 
 export class AccountProfile {
   first_name?: string;

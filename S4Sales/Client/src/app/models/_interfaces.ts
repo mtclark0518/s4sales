@@ -1,4 +1,4 @@
-import { ReasonsForQuery } from './_enum';
+import { ReasonsForQuery } from './_enums';
 
 export interface CrashEvent {
   hsmv_report_number: number;

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DashboardService } from '../../providers/dashboard.service';
 
 @Component({
   selector: 'reporting',
@@ -6,11 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['../dashboard.scss']
 })
 export class ReportingComponent implements OnInit {
-
-  constructor() { }
-
+  public items = [];
+  constructor(private dash: DashboardService) { }
   ngOnInit() {
     console.log('init');
+    this.dash.reportDetails.subscribe(tails_ => this.items = tails_);
   }
 
 }

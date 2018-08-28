@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../providers/account.service';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidators } from '../../models/validators';
-import { AccountRequestType } from '../../models/_enum';
-import { S4Request } from '../../models/_class';
+import { AccountRequestType } from '../../models/_enums';
+import { S4Request } from '../../models/_classes';
 
 @Component({
   selector: 'app-register',

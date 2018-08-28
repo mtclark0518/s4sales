@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { DashboardService } from '../../providers/dashboard.service';
-import { FilterState } from '../../models/_enum';
+import { FilterState } from '../../models/_enums';
 import { FDOT_AGENCIES } from '../../models/fdot.enum';
 import { COUNTIES } from '../../models/county.enum';
 
@@ -16,7 +16,6 @@ export class FilterComponent implements OnInit {
   public form: FormGroup;
   public fs: FilterState;
   public yr;
-
   public agencies: string[];
   public counties: string[];
   public filters: string[];
@@ -36,6 +35,7 @@ export class FilterComponent implements OnInit {
       date_end: new FormControl(null)
     });
   }
+
   get filter() { return this.form.get('filter'); }
   get agency() { return this.form.get('agency'); }
   get county() { return this.form.get('county'); }
@@ -60,11 +60,9 @@ export class FilterComponent implements OnInit {
     this.dash.setCOUNTY(this.county.value);
   }
 
-
   handle() {
     this.displaying === 'summary' ?
     this.dash.getNewChartData() :
-
     this.dash.generateReport(this.date_start.value, this.date_end.value);
   }
 }

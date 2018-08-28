@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { SearchService } from '../../providers/search.service';
-import { ReasonsForQuery } from '../../models/_enum';
-import { SearchQuery } from '../../models/_interface';
+import { ReasonsForQuery } from '../../models/_enums';
+import { SearchQuery } from '../../models/_interfaces';
 
 @Component({
   // tslint:disable-next-line:component-selector

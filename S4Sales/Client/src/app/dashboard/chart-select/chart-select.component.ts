@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import { DashboardService } from '../../providers/dashboard.service';
-import { ChartType } from '../../models/_enum';
+import { ChartType } from '../../models/_enums';
 
 @Component({
   // tslint:disable-next-line:component-selector

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AdminService } from '../../providers/admin.service';
-import { AccountRequestType } from '../../models/_enum';
+import { AccountRequestType } from '../../models/_enums';
 
 @Component({
   // tslint:disable-next-line:component-selector

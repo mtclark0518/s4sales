@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../providers/account.service';
-import { AccountProfile } from '../../models/_class';
+import { AccountProfile } from '../../models/_classes';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'navbar',
@@ -13,7 +13,6 @@ export class NavbarComponent implements OnInit {
 
   constructor( private acc: AccountService ) {}
   ngOnInit() {
-    // this.acc.restoreSession();
     this.acc.currentAccount.subscribe(account => this.account = account);
   }
 

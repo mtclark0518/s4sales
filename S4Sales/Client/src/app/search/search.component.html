@@ -2,9 +2,9 @@
   <search-header [status]="status"></search-header>
   <div class="search-content">
     <div *ngIf="status == ''" class="page-container search-body">
-      <div class="card" (click)="selectQueryType('report')">I have my HSMV report number</div>
-      <div class="card" (click)="selectQueryType('vehicle')">I'd like to search for reports attached to my vehicles VIN number</div>
-      <div class="card" (click)="selectQueryType('detailed')">I'm really unprepared...lets take a shot in the dark</div>
+      <div class="card" (click)="selectQueryType('report')"><i class="fa fa-search"></i>Report Number</div>
+      <div class="card" (click)="selectQueryType('vehicle')"><i class="fa fa-car"></i>Vehicle VIN</div>
+      <div class="card" (click)="selectQueryType('detailed')"><span><i class="fa fa-user-circle"></i><i class="fa fa-calendar"></i></span>Last Name & Date</div>
     </div>
     <div *ngIf="status == 'searching'"class="page-container search-body">
       <search-form></search-form>

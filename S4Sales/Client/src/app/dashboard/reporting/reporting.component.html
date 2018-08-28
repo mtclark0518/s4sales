@@ -1,9 +1,42 @@
-<div>
-  1
-  <div>11</div>
-  <div>111</div>
-  <div>1111</div>
-  <div>111111</div>
-  <div>1111111</div>
-  <div>11111111</div>
+<div class='rep-header column'>
+  <div class="rep-title">Revenue and Timilieness Report</div>
+  <div class="parent rep-categories">
+    <div class="child">Agency</div>
+    <div class="child">
+      <div class="col-name">Incidents</div>
+      <div class="col-name">Timely Reports</div>
+      <div class="col-name">Avg Upload Time</div>
+      <div class="col-name">% Timely</div>
+      <div class="col-name">Agency Sales</div>
+      <div class="col-name">Agency Reimbursements</div>
+    </div>
+  </div>
+</div>
+
+<div class='report'>
+  <div *ngFor='let item of items' class="parent">
+    <div class="child">
+      {{item.agency | titlecase}}
+    </div>
+    <div class="child">
+      <div class="col-name">
+        {{item.total_incidents}}
+      </div>
+      <div class="col-name">
+        {{item.total_timely}}
+      </div>
+      <div class="col-name">
+        {{item.avg_days2_upload}} day<span *ngIf="item.avg_days2_upload !== 1">s</span>
+      </div>
+      <div class="col-name">
+        {{item.percent_timely}}%
+      </div>
+      <div class="col-name">
+        {{item.total_sales}}
+      </div>
+      <div class="col-name">
+        <span *ngIf="item.total_reimbursed">$</span>{{item.total_reimbursed}}
+      </div>
+    </div>
+  </div>
 </div>

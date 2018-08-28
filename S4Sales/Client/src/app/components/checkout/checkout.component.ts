@@ -3,7 +3,7 @@ import { EcommerceService } from '../../providers/ecommerce.service';
 import { SearchService } from '../../providers/search.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CartService } from '../../providers/cart.service';
-import { Transaction } from '../../models/_class';
+import { Transaction } from '../../models/_classes';
 
 @Component({
   // tslint:disable-next-line:component-selector

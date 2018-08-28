@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../providers/cart.service';
-import { CrashEvent } from '../../models/_interface';
+import { CrashEvent } from '../../models/_interfaces';
 
 @Component({
   // tslint:disable-next-line:component-selector
