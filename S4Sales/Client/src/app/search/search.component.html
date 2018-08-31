@@ -1,5 +1,16 @@
 <div class="search-container wrap">
-  <search-header [status]="status"></search-header>
+  <div class="search-header">
+    <div *ngIf="status == ''" class="header-item">
+      <div>How would you like to search for a report?</div>
+    </div>
+    <div *ngIf="status == 'searching'" class="header-item">
+      <div class="">Please fill out the fields below</div>
+    </div>
+    <div *ngIf="status == 'returning'" class="header-item">
+      <div *ngIf="SearchResults.length == 1">{{SearchResults.length}} Crash event found</div>
+      <div *ngIf="SearchResults.length == 0 || SearchResults.length > 1" class="">{{SearchResults.length}} Crash events found</div>
+    </div>
+  </div>
   <div class="search-content">
     <div *ngIf="status == ''" class="page-container search-body">
       <div class="card" (click)="selectQueryType('report')"><i class="fa fa-search"></i>Report Number</div>

@@ -44,7 +44,7 @@ export enum AccountRequestType {
   Individual,
   Global,
   Member,
-  Organization
+  Agency
 }
 
 export enum Status {

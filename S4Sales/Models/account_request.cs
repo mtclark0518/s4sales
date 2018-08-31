@@ -13,7 +13,7 @@ namespace S4Sales.Models
     {
         Admin,
         Member,
-        Organization,
+        Agency,
         Primary,
     }
     public class S4Request

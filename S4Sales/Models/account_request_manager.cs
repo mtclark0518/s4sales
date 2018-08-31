@@ -147,11 +147,11 @@ namespace S4Sales.Models
             {
                 // if the request is to create a new organization do that first
                 // TODO error handler preventing org request if org already exists
-                if(config.request_type == RequestType.Organization)
+                if(config.request_type == RequestType.Agency)
                 {
 
                     // returns truthy if insert executes
-                    var new_organization = AddOrganization(config);
+                    var new_organization = AddAgency(config);
                     if(!new_organization)
                     {
                         Messages.message += " Error in adding the organization. ";
@@ -183,10 +183,10 @@ namespace S4Sales.Models
         }
 
         #region private methods
-        private bool AddOrganization(S4Response res)
+        private bool AddAgency(S4Response res)
         {
             // adds a new organization
-            Organization org = new Organization(res.request.organization);
+            Agency org = new Agency(res.request.organization);
             var _query = 
                 $@"INSERT INTO organization (organization_id, name, active, approved_date)
                 VALUES (@orgid, @name, @active, @date)";

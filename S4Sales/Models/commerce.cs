@@ -8,7 +8,7 @@ namespace S4Sales.Models
     public class Purchase
     {
         public string cart_id { get; set; }
-        public float purchase_amount { get; set; }
+        public float purchase_amount = 1425;
         public DateTime initiated_at { get;set;}
         public DateTime completed_at { get;set;}
         public string stripe_src_token {get;set;}
@@ -27,9 +27,7 @@ namespace S4Sales.Models
         public float reimbursement_amount { get; set; }
         public DateTime reimbursement_date { get; set;}
         // default constructor
-        public Reimbursement()
-        {
-        }
+        public Reimbursement(){}
         
         // within purchase constructor
         public Reimbursement(CrashEvent e, string cart)
@@ -41,6 +39,8 @@ namespace S4Sales.Models
             reporting_agency = e.reporting_agency; 
         }
     }
+
+
     // FromBody client model
     public class fkTransaction
     {

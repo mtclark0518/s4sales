@@ -1,6 +1,6 @@
 @import "../../styles.scss";
 
-.dashboard{
+.dashboard {
   background: $bg;
   box-shadow: $shadow-raised;
   height: 93vh;
@@ -48,10 +48,12 @@
     }
   }
 }
+
 .top-panel{
   width: 100%;
   height: 10vh;
 }
+
 .side-panel{
   height: 75vh;
   width: 20%;
@@ -85,7 +87,7 @@
   }
 }
 
-.filter{
+.filter {
   background: $primary;
   color: $bg;
   box-shadow: $shadow;
@@ -112,7 +114,8 @@
 .charting {
   background: blue;
 }
-.il{
+
+.il {
   display: inline;
 }
 
@@ -160,7 +163,6 @@
     justify-content: center;
     align-items: center;
     font-size: 0.8em;
-
     .col-name{
       width: 120px;
       text-align: center;
@@ -168,6 +170,7 @@
     }
   }
 }
+
 .rep-header{
   background: $bg;
   color: $primary;
@@ -196,7 +199,7 @@
   padding-bottom: 4vh;
   border-bottom: 2px solid $primary;
   box-shadow: $shadow;
-  .parent{
+  .parent {
     background: $bg;
     border-bottom: 1px solid $primary;
   }

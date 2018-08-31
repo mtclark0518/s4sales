@@ -34,11 +34,10 @@ namespace S4Sales.Models
         // steps through transaction event
         public Task HandleTransaction(fkTransaction order)
         {
-            // create a purchase
-            Purchase po = FormatNewPurchase(order); 
+            Purchase po = FormatNewPurchase(order); // create a purchase order
             
-            // create a time charge
-            var charge =  _stripe.CreateCharge(order);
+            
+            var charge =  _stripe.CreateCharge(order); // create a time charge
             
             // add charge results to purchase
             po.stripe_charge_token = charge.Id;
@@ -46,18 +45,16 @@ namespace S4Sales.Models
 
             if( charge.Status == "succeeded")
             {
-                // pull the item-list from order.cart_id
-                var cart = _cart.GetContent(order.cart_id);
-                
-                // pull purchased crash event
+                var cart = _cart.GetContent(order.cart_id); // pull the item-list from order
                 List<CrashEvent> purchased = new List<CrashEvent>();
+                // pull purchased crash events
+                // Add purchased reports for download list
+                // create the agency receipt / log
                 foreach(var c in cart)
                 {
                     CrashEvent crash_report = _crash.FindByHsmvReportNumber(c.hsmv_report_number);
-                    // Add purchased report four download list
                     purchased.Add(crash_report);
                     
-                    // create the agency receipt / log
                     Reimbursement funds = FormatReimbursement(crash_report, order.cart_id);
                     if ( !LogReimbursement(funds) )
                     {
@@ -95,6 +92,7 @@ namespace S4Sales.Models
             }
         }
 
+
         #region Private methods
         private Reimbursement FormatReimbursement(CrashEvent crash_report, string cart_id)
         {
@@ -116,16 +114,17 @@ namespace S4Sales.Models
             return funds;
         }
 
+
         private Purchase FormatNewPurchase(fkTransaction order)
         {
             return new Purchase()
             {
                 cart_id = order.cart_id,
-                purchase_amount = order.amount/100, //convert from cent to dollar amount
                 initiated_at = DateTime.Now,
                 stripe_src_token = order.token,
             };
         }
+
         // Date check ??? did b occur within c days of a
         private bool isWithinDateRange(DateTime a, DateTime b, int c)
         {

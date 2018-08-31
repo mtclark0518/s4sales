@@ -6,7 +6,7 @@
 
             <input type="radio" (change)="updateView()" value='Individual' formControlName="request_type">Individual
             <input type="radio" (change)="updateView()" value="Member" formControlName="request_type">Join my organization
-            <input type="radio" (change)="updateView()" value="Organization" formControlName="request_type">Add an organization
+            <input type="radio" (change)="updateView()" value="Agency" formControlName="request_type">Add an organization
             <input type="radio" (change)="updateView()" value="Global" formControlName="request_type">GlobalAcctForTesting
           </div>
           <div *ngIf="request_type.value === '3'">

@@ -68,7 +68,7 @@ namespace S4Sales.Models
                     return conn.Query<CartItem>(_query, _params);
                 }
             }
-            var error = @"i am a temporary error handler, i show up if something went wrong trying to get cart items";
+            var error = @"i am an error handler, i show up if something went wrong trying to get cart items";
             throw new ApplicationException(nameof(error));
         }
 
@@ -96,7 +96,8 @@ namespace S4Sales.Models
                     return true;
                 }
             }
-            // should add some feedback, but basically unless everything works we fails yo
+            // TODO should add some feedback,
+            // but basically unless everything works we fails yo
             return false;
         }
 
@@ -105,11 +106,11 @@ namespace S4Sales.Models
             _session.RemoveKey("cart");
         }
 
+        
         public bool NeedACart()
         {
             var cart = _session.GetSession("cart");
-            var result = cart == null;
-            return result;
+            return cart == null;
         }
     }
 }

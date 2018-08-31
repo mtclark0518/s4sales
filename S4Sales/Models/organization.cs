@@ -2,7 +2,7 @@ using System;
 
 namespace S4Sales.Models
 {    
-    public class Organization
+    public class Agency
     {
         public string organization_id { get; set;}
         public string name {get;set;}
@@ -11,7 +11,7 @@ namespace S4Sales.Models
         public bool pending { get;set;}
         public string approved_by { get; set;}
         public DateTime approved_date {get; set;}
-        public Organization(string org_name)
+        public Agency(string org_name)
         {
             organization_id = Guid.NewGuid().ToString();
             name = org_name;
@@ -20,7 +20,7 @@ namespace S4Sales.Models
             approved_date = DateTime.Now;
         }
     }
-    public class OrganizationMember
+    public class AgencyMember
     {
         public string organization { get; internal set;}
         public string member { get; internal set; }

@@ -105,14 +105,3 @@ namespace S4Sales.Identity
         #endregion
     }
 }
-
-
-// var existence = await conn.QuerySingleAsync<int>(already_exists_text, new 
-                    // { 
-                    //     role_name = role.normalized_role_name,
-                    // });
-
-                    // if (existence > 0)
-                    // {
-                    //     return IdentityResult.Failed(new[] { new IdentityError() { Description = "Role already exists" } }); 
-                    // }
