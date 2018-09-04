@@ -3,11 +3,11 @@ import { DashboardService } from '../../providers/dashboard.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
-  selector: 'displayhead',
-  templateUrl: './display-head.component.html',
+  selector: 'tabs',
+  templateUrl: './switch-tabs.html',
   styleUrls: ['../dashboard.scss']
 })
-export class DisplayHeadComponent implements OnInit {
+export class SwitchTabsComponent implements OnInit {
   public summary = 'item';
   public reports = 'item';
 

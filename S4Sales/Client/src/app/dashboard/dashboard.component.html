@@ -3,7 +3,7 @@
   <sidepanel class="side-panel item"></sidepanel>
 
   <div class="column display">
-    <displayhead class="head item"></displayhead>
+    <tabs class="head item"></tabs>
     <filter [displaying]='displaying' class="item filter"></filter>
     <div [ngSwitch]="displaying" class="display-main">
       <charting *ngSwitchCase="'summary'"></charting>

@@ -32,7 +32,7 @@ namespace S4Sales.Models
         }
 
         // steps through transaction event
-        public Task HandleTransaction(fkTransaction order)
+        public Task HandleTransaction(reqTransaction order)
         {
             Purchase po = FormatNewPurchase(order); // create a purchase order
             

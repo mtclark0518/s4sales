@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '../../../node_modules/@angular/forms';
   imports: [
     CommonModule, ReactiveFormsModule
   ],
-  declarations: [NewAccountRequestComponent, AdminComponent, RequestContainerComponent, ProfileBuilderComponent]
+  declarations: [NewAccountRequestComponent, AdminComponent, RequestContainerComponent, ProfileBuilderComponent],
+  exports: [AdminComponent]
 })
 export class AdminModule { }

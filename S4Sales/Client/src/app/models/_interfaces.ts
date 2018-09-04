@@ -1,6 +1,6 @@
 import { ReasonsForQuery } from './_enums';
 
-export interface CrashEvent {
+export interface CrashReport {
   hsmv_report_number: number;
   city_of_crash?: string;
   county_of_crash?: string;

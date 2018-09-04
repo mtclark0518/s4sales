@@ -8,13 +8,12 @@ namespace S4Sales.Models
     public class Purchase
     {
         public string cart_id { get; set; }
-        public float purchase_amount = 1425;
+        public int purchase_amount {get;set;}
         public DateTime initiated_at { get;set;}
         public DateTime completed_at { get;set;}
         public string stripe_src_token {get;set;}
         public string stripe_charge_token {get;set;}
         public string charge_token_result {get;set;}
-        
         // default constructor
         public Purchase(){}
     }
@@ -42,7 +41,7 @@ namespace S4Sales.Models
 
 
     // FromBody client model
-    public class fkTransaction
+    public class reqTransaction
     {
         public string first_name {get;set;}        
         public string last_name {get;set;}        
