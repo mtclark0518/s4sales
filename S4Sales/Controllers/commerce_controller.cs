@@ -20,7 +20,7 @@ namespace S4Sales.Controllers
         }
         
         [HttpPost("create")]
-        public Task CreateOrder([FromBody] fkTransaction order)
+        public Task CreateOrder([FromBody] reqTransaction order)
         {
             var result = _ec_repo.HandleTransaction(order);
             return Task.FromResult(result);

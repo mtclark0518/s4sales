@@ -40,6 +40,7 @@ namespace S4Sales.Models
     }
 
 
+
     // FromBody client model
     public class reqTransaction
     {

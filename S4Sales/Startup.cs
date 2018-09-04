@@ -108,7 +108,7 @@ namespace S4Sales
             // add data access layers
             services.AddSingleton<CartStore>();
             services.AddSingleton<CommerceRepository>();
-            services.AddSingleton<CrashRepository>();
+            services.AddSingleton<SearchRepository>();
             services.AddSingleton<AccountRequestManager>();
             services.AddSingleton<DataRepository>();
 

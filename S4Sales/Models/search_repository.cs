@@ -17,10 +17,10 @@ namespace S4Sales.Models
     ///</Note>
 
     
-    public class CrashRepository
+    public class SearchRepository
     {
         private string _conn;
-        public CrashRepository(IConfiguration config)
+        public SearchRepository(IConfiguration config)
         {
             _conn = config["ConnectionStrings:tc_dev"];
         }

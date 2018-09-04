@@ -17,12 +17,12 @@ namespace S4Sales.Models
     {
         private string _conn;
         private StripeService _stripe;
-        private CrashRepository _crash;
+        private SearchRepository _crash;
         private CartStore _cart;
         public CommerceRepository( 
             IConfiguration config, 
             StripeService str, 
-            CrashRepository cr, 
+            SearchRepository cr, 
             CartStore cs)
         {
             _conn = config["ConnectionStrings:tc_dev"];
@@ -86,9 +86,7 @@ namespace S4Sales.Models
                 {
                     message =   charge.FailureMessage
                 };
-
                 return Task.FromResult(failure);
-                
             }
         }
 
@@ -115,7 +113,7 @@ namespace S4Sales.Models
         }
 
 
-        private Purchase FormatNewPurchase(fkTransaction order)
+        private Purchase FormatNewPurchase(reqTransaction order)
         {
             return new Purchase()
             {

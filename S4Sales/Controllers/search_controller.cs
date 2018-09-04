@@ -9,12 +9,12 @@ using S4Sales.Services;
 namespace S4Sales.Controllers
 {
     [Route("api/[controller]")]
-    public class CrashController : Controller
+    public class SearchController : Controller
     {
-        private readonly CrashRepository _repo;
+        private readonly SearchRepository _repo;
         private readonly Logg _log;
         private readonly SessionUtility _sess;
-        public CrashController(CrashRepository repo, Logg log, SessionUtility sess)
+        public SearchController(SearchRepository repo, Logg log, SessionUtility sess)
         {
             _repo = repo;
             _log = log;
