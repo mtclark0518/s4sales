@@ -21,17 +21,18 @@ namespace S4Sales.Controllers
         private readonly IOptions<IdentityOptions> _identity_options;
         private readonly UserManager<S4Identity> _user_manager;
         private readonly SignInManager<S4Identity> _signin_manager;
-        private readonly AccountRequestManager _s4request;
+        // private readonly AccountRequestManager _s4request;
         public IdentityController(
             IOptions<IdentityOptions> identity_options,
             UserManager<S4Identity> user_manager, 
-            SignInManager<S4Identity> signins,
-            AccountRequestManager s4)
+            SignInManager<S4Identity> signins
+            // AccountRequestManager s4
+            )
         {
             _identity_options = identity_options;
             _user_manager = user_manager;
             _signin_manager = signins;
-            _s4request = s4;
+            // _s4request = s4;
         }
 
         [HttpPost("login")]
@@ -60,6 +61,8 @@ namespace S4Sales.Controllers
             await _signin_manager.SignOutAsync();
             return new ObjectResult(new { success = true });
         }
+
+       
         
         [HttpPost("register")]
         [AllowAnonymous]
