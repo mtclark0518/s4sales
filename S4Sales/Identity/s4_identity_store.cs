@@ -68,6 +68,8 @@ namespace S4Sales.Identity
                     return IdentityResult.Success;
                 }
             }
+
+
             public Task<IdentityResult> DeleteAsync(S4Identity user, CancellationToken cancellationToken)
             {
                 throw new NotImplementedException();
@@ -301,18 +303,5 @@ namespace S4Sales.Identity
                 return Task.FromResult(0);
             }
         #endregion
-
     }
 }
-
-
-
-
-                // check that username does not already exist
-                // var existing = new 
-                // {
-                //     _query = $@"SELECT COUNT(*) FROM s4_identity user 
-                //         WHERE user.normalized_user_name = @normal_name",
-
-                //     _params = new { normal_name = user.normalized_user_name }
-                // };

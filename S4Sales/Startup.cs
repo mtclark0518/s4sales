@@ -109,7 +109,7 @@ namespace S4Sales
             services.AddSingleton<CartStore>();
             services.AddSingleton<CommerceRepository>();
             services.AddSingleton<SearchRepository>();
-            services.AddSingleton<AccountRequestManager>();
+            services.AddSingleton<AgencyOnboarding>();
             services.AddSingleton<DataRepository>();
 
             // additonal services

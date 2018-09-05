@@ -10,10 +10,6 @@ using System.Collections.Generic;
 
 namespace S4Sales.Controllers
 {
-
-
-
-
     [Route("api/[controller]")]
     [Authorize]
     public class IdentityController: Controller
@@ -21,18 +17,17 @@ namespace S4Sales.Controllers
         private readonly IOptions<IdentityOptions> _identity_options;
         private readonly UserManager<S4Identity> _user_manager;
         private readonly SignInManager<S4Identity> _signin_manager;
-        // private readonly AccountRequestManager _s4request;
+        private readonly AgencyOnboarding _new_agency;
         public IdentityController(
             IOptions<IdentityOptions> identity_options,
             UserManager<S4Identity> user_manager, 
-            SignInManager<S4Identity> signins
-            // AccountRequestManager s4
-            )
+            SignInManager<S4Identity> signins,
+            AgencyOnboarding new_agency)
         {
             _identity_options = identity_options;
             _user_manager = user_manager;
             _signin_manager = signins;
-            // _s4request = s4;
+            _new_agency = new_agency;
         }
 
         [HttpPost("login")]
@@ -62,17 +57,55 @@ namespace S4Sales.Controllers
             return new ObjectResult(new { success = true });
         }
 
-       
-        
-        [HttpPost("register")]
-        [AllowAnonymous]
-        public async Task<StandardResponse> Register([FromBody] S4Request requested)
+        [HttpPut("activate")]
+        public void ActivateAgencyAccount([FromBody]string agency, string stripe_token)
         {
-            StandardResponse registration_attempt = await _s4request.InitiateS4IdRequest(requested);
-            return registration_attempt;
+            var onboard = _new_agency.ActivateAgency(agency, stripe_token);
+            if(!onboard)
+            {
+            // if we fail
+
+            }
+            // if we win
         }
 
 
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody]AgencyRequest requested)
+        {
+            string FailureMessage = "";
+
+
+            IdentityResult registration_attempt = await _new_agency.ClaimAgencyAsync(requested);
+            if(registration_attempt != IdentityResult.Success)
+            {
+                FailureMessage += "";
+                return BadRequest(FailureMessage);             
+            }
+
+            S4Identity agency = await _user_manager.FindByNameAsync(requested.agency);
+            
+            if (agency == null) 
+            { 
+                FailureMessage += "";
+                return BadRequest(FailureMessage); 
+            }
+
+            Microsoft.AspNetCore.Identity.SignInResult signin_result = 
+                await _signin_manager.PasswordSignInAsync(
+                    agency, 
+                    agency.password_hash, 
+                    false, false);
+
+            if(signin_result == Microsoft.AspNetCore.Identity.SignInResult.Failed)
+            {
+                FailureMessage += "";
+                return BadRequest(FailureMessage); 
+            }
+
+            return new OkObjectResult(registration_attempt);
+        }
 
         [HttpGet("current")]
         [AllowAnonymous]
