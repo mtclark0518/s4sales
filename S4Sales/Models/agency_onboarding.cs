@@ -52,7 +52,7 @@ namespace S4Sales.Models
                 // again, send to login
                 return IdentityResult.Failed();
             }
-            
+
             S4LookupNormalizer normalizer = new S4LookupNormalizer();
             S4Identity agency = new S4Identity(dhsmv.agency)
             {
@@ -81,7 +81,6 @@ namespace S4Sales.Models
 
             return IdentityResult.Success;
         }
-        
         public bool ActivateAgency(string agency, string stripe_id)
         {
             var _query = $@"

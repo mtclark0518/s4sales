@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { AccountProfile, Credentials, S4Request } from '../models/_classes';
 import { Password } from '../models/_interfaces';
 
-
 export class UserCheck {
   user: boolean;
   name?: string;
@@ -82,6 +81,11 @@ export class AccountService {
   public resetPassword(pass: Password) {}
   public recoverAccount(email) {}
 }
+
+// to onboard accounts with stripe
+// https://connect.stripe.com/oauth/authorize?response_type=code
+// &client_id=ca_DK4LfgjwY5CxXBlZetcDNriX0eW0Zs2M&scope=read_write&state=******
+
 
   // Needs backend counterpart
   // public checkServerSession(): Observable<boolean> {
