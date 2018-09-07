@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 // tslint:disable-next-line:import-blacklist
 import {  BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { CrashEvent } from '../models/_interfaces';
+import { CrashReport } from '../models/_interfaces';
 
 
 
@@ -29,11 +29,11 @@ export class CartService {
   public cartItems = this.ItemCount.asObservable();
 
 
-  private Items = new BehaviorSubject<Array<CrashEvent>>([]);
+  private Items = new BehaviorSubject<Array<CrashReport>>([]);
   public _items = this.Items.asObservable();
 
   // PUBLIC METHODS
-  public addToCart(item: CrashEvent): void {
+  public addToCart(item: CrashReport): void {
     const hsmv = item.hsmv_report_number.toString();
     let cart_id: string;
     this.cart.subscribe(id => cart_id = id);
@@ -67,7 +67,7 @@ export class CartService {
 
 
   // PRIVATE METHODS
-  private addCartResponse(response, item: CrashEvent) {
+  private addCartResponse(response, item: CrashReport) {
     const result = response.message;
     result === 'success' ?
       this.updateCart(item) :
@@ -96,7 +96,7 @@ export class CartService {
     this.Cart.next(cart);
   }
 
-  private updateCart(item: CrashEvent) {
+  private updateCart(item: CrashReport) {
     let items;
     this._items.subscribe(i => items = i);
     items.push(item);

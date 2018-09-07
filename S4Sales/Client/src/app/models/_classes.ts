@@ -1,6 +1,6 @@
 import { AccountRequestType, Action } from './_enums';
 
-export class AccountProfile {
+export class AgencyAccount {
   first_name?: string;
   last_name?: number;
   email?: string;
@@ -9,9 +9,8 @@ export class S4Request {
   email: string;
   first_name: string;
   last_name: string;
-  organization?: string;
-  request_type: AccountRequestType;
-  user_name: string;
+  agency_name: string;
+  password: string;
 }
 export class Credentials {
   user_name?: string;

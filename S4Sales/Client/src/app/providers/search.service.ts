@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { CrashEvent, SearchQuery } from '../models/_interfaces';
+import { CrashReport, SearchQuery } from '../models/_interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class SearchService {
   private SearchStatus = new BehaviorSubject<string>('');
   public Status = this.SearchStatus.asObservable();
 
-  private SearchResults = new BehaviorSubject<Array<CrashEvent>>([]);
+  private SearchResults = new BehaviorSubject<Array<CrashReport>>([]);
   public searchResults = this.SearchResults.asObservable();
 
   public selectQueryType($event) {

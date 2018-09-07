@@ -4,6 +4,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { CustomValidators } from '../../models/validators';
 import { AccountRequestType } from '../../models/_enums';
 import { S4Request } from '../../models/_classes';
+import { FDOT_AGENCIES } from '../../models/fdot.enum';
 
 @Component({
   selector: 'app-register',
@@ -14,33 +15,31 @@ export class RegisterComponent implements OnInit {
   public registrationForm: FormGroup;
   public validator: CustomValidators;
   public requestTypes = AccountRequestType;
-  constructor(private formBuilder: FormBuilder, private account: AccountService) {
-    this.validator = new CustomValidators();
+  public agencies = [];
+  constructor(
+    private formBuilder: FormBuilder,
+    private account: AccountService) {
+      this.validator = new CustomValidators();
   }
 
   ngOnInit() {
-    console.log(this.requestTypes);
+    this.agencies = Object.values(FDOT_AGENCIES);
+    console.log(this.agencies);
+
     this.registrationForm = this.formBuilder.group({
-      'user_name': new FormControl(null, [Validators.required]),
+      'agency_name': new FormControl(null, [Validators.required]),
       'email': new FormControl(null, [Validators.required]),
       'first_name': new FormControl(null, [Validators.required]),
       'last_name': new FormControl(null, [Validators.required]),
-      'organization': new FormControl(null),
-      'request_type': new FormControl(null)
+      'password': new FormControl(null, [Validators.required]),
     });
   }
   get email() { return this.registrationForm.get('email'); }
   get first_name() { return this.registrationForm.get('first_name'); }
   get last_name() { return this.registrationForm.get('last_name'); }
-  get organization() { return this.registrationForm.get('organization'); }
-  get request_type() { return this.registrationForm.get('request_type'); }
-  get user_name() { return this.registrationForm.get('user_name'); }
+  get agency_name() { return this.registrationForm.get('agency_name'); }
+  get password() { return this.registrationForm.get('password'); }
 
-
-  updateView() {
-    console.log(this.request_type.value);
-    console.log(AccountRequestType[0]);
-  }
 
   register($event) {
     $event.preventDefault();
@@ -48,9 +47,8 @@ export class RegisterComponent implements OnInit {
         email: this.email.value,
         first_name: this.first_name.value,
         last_name: this.last_name.value,
-        organization: this.organization.value,
-        request_type: this.request_type.value,
-        user_name: this.user_name.value
+        agency_name: this.agency_name.value,
+        password: this.password.value
       };
       console.log(account);
       this.account.register(account);

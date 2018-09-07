@@ -1,6 +1,6 @@
 
-<div *ngFor="let crashEvent of searchResults" class="search-result card search-result-item">
-  <crash-event [report]="crashEvent"></crash-event>
+<div *ngFor="let report of searchResults" class="search-result card search-result-item">
+  <crash-report [report]="report"></crash-report>
   <input type="text" placeholder="Optional Reference/Claim #">
-  <div (click)="addToCart(crashEvent)" class="btn btn-sm btn-success">Add to Cart</div>
+  <div (click)="addToCart(report)" class="btn btn-sm btn-success">Add to Cart</div>
 </div>

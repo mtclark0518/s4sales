@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../../providers/account.service';
-import { AccountProfile } from '../../models/_classes';
+import { AgencyAccount } from '../../models/_classes';
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'navbar',
@@ -9,7 +9,7 @@ import { AccountProfile } from '../../models/_classes';
 })
 export class NavbarComponent implements OnInit {
   isExpanded = false;
-  account: AccountProfile;
+  account: AgencyAccount;
 
   constructor( private acc: AccountService ) {}
   ngOnInit() {

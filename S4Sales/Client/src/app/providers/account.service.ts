@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, AsyncSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AccountProfile, Credentials, S4Request } from '../models/_classes';
+import { AgencyAccount, Credentials, S4Request } from '../models/_classes';
 import { Password } from '../models/_interfaces';
 
 export class UserCheck {
@@ -25,7 +25,7 @@ export class AccountService {
   public isUser = this.Authenticated.asObservable();
 
   private serverChecked = false;
-  private CurrentAccount = new AsyncSubject<AccountProfile>();
+  private CurrentAccount = new AsyncSubject<AgencyAccount>();
   public currentAccount = this.CurrentAccount.asObservable();
 
   private AccountStatus = new BehaviorSubject<string>('');
@@ -73,7 +73,7 @@ export class AccountService {
   // redirects to the handler component
   private handleRegister (data) {
     console.log(data);
-    this.router.navigateByUrl('/request');
+
   }
 
   // TODO
