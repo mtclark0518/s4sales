@@ -22,4 +22,9 @@ namespace S4Sales.Models
         public string last_name {get;set;}
         public AgencyRequest(){} // default constructor
     }
+    public class OnboardingDetails 
+    {
+        public string agency {get;set;}
+        public string token {get;set;}
+    }
 }

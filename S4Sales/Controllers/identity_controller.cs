@@ -58,15 +58,9 @@ namespace S4Sales.Controllers
         }
 
         [HttpPut("activate")]
-        public void ActivateAgencyAccount([FromBody]string agency, string stripe_token)
+        public async Task<bool> ActivateAgencyAccount([FromBody]OnboardingDetails details)
         {
-            var onboard = _new_agency.ActivateAgency(agency, stripe_token);
-            if(!onboard)
-            {
-            // if we fail
-
-            }
-            // if we win
+            return await _new_agency.ActivateAgency(details);
         }
 
 
@@ -74,21 +68,16 @@ namespace S4Sales.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]AgencyRequest requested)
         {
-            string FailureMessage = "";
-
-
             IdentityResult registration_attempt = await _new_agency.ClaimAgencyAsync(requested);
             if(registration_attempt != IdentityResult.Success)
             {
-                FailureMessage += "";
-                return BadRequest(FailureMessage);             
+                return BadRequest(registration_attempt);             
             }
 
             S4Identity agency = await _user_manager.FindByNameAsync(requested.agency);
-            
             if (agency == null) 
             { 
-                FailureMessage += "";
+                string FailureMessage = "error locating new account";
                 return BadRequest(FailureMessage); 
             }
 
@@ -100,8 +89,7 @@ namespace S4Sales.Controllers
 
             if(signin_result == Microsoft.AspNetCore.Identity.SignInResult.Failed)
             {
-                FailureMessage += "";
-                return BadRequest(FailureMessage); 
+                return BadRequest(signin_result); 
             }
 
             return new OkObjectResult(registration_attempt);

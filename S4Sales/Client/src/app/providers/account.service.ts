@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, AsyncSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AgencyAccount, Credentials, S4Request } from '../models/_classes';
+import { AgencyAccount, Credentials, NewAgency, OnboardingDetails } from '../models/_classes';
 import { Password } from '../models/_interfaces';
 
 export class UserCheck {
@@ -36,27 +36,33 @@ export class AccountService {
 
   constructor( private http: HttpClient, private router: Router ) { }
 
+  // method to be used by auth guard to verify current user
+  public getCurrentUser = (): void => {
+    this.http.get(this.domain + '/identity/current').subscribe(response =>
+      this.handleCurrentUser(response));
+  }
   public login(account: Credentials) {
     return this.http.post(`${this.domain}/identity/login`, account).subscribe(response => {
       this.handleLogin(response);
     });
   }
+
   public logout(): void {
     this.http.post(`${this.domain}/identity/logout`, {}).subscribe(response => {
       this.CurrentAccount.next({});
     });
   }
 
-  public register(account: S4Request) {
+  public register(account: NewAgency) {
     this.http.post(`${this.domain}/identity/register`, account)
     .subscribe(response => { this.handleRegister(response); });
   }
-
-  // methods to be used by auth guard to verify current user
-  public getCurrentUser = (): void => {
-    this.http.get(this.domain + '/identity/current').subscribe(response =>
-      this.handleCurrentUser(response));
+  public onboard(account: OnboardingDetails) {
+    this.http.put(`${this.domain}/identity/activate`, account)
+    .subscribe(response =>  this.handleOnboard(response));
   }
+
+
 
   private handleCurrentUser(data): void {
     console.log(data);
@@ -69,11 +75,15 @@ export class AccountService {
     this.router.navigateByUrl('/account/dashboard');
   }
 
-  // submits a request for account
-  // redirects to the handler component
   private handleRegister (data) {
     console.log(data);
-
+    // if success send the user to the profile page
+    // else
+    // display the failure msg
+  }
+  private handleOnboard (data) {
+    console.log(data);
+    if (data) { } else { }
   }
 
   // TODO

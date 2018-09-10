@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../providers/cart.service';
-import { CrashEvent } from '../../models/_interfaces';
+import { CrashReport } from '../../models/_interfaces';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -10,7 +10,7 @@ import { CrashEvent } from '../../models/_interfaces';
 })
 export class CartComponent implements OnInit {
   isActive: boolean;
-  items: Array<CrashEvent>;
+  items: Array<CrashReport>;
 
   constructor( private cart: CartService) { }
 

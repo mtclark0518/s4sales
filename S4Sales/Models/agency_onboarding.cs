@@ -29,15 +29,15 @@ namespace S4Sales.Models
             _email = email;
         }
         
-        // Agency Account User Flow
+        // Agency Registration Process
         public async Task<IdentityResult> ClaimAgencyAsync(AgencyRequest dhsmv)
         {
             if(AlreadyOnboard(dhsmv.agency)) // check that agency has an active account
             {
-                // Account is active already
-                // send to login
-
-                return IdentityResult.Failed();
+                // Account is active already send to login
+                var msg = "This agency has already completed the onboarding process";
+                IdentityError error = BuildError(msg);
+                return IdentityResult.Failed(error);
             }
 
 
@@ -45,12 +45,11 @@ namespace S4Sales.Models
             {
 
                 // agency has registered s4sales identity
-                // but not clicked the onboarded with stripe button
-                // and NOW is attempting to re-register with
+                // but not clicked the onboarded with stripe button and NOW is attempting to re-register with
                 // a different email address
-
-                // again, send to login
-                return IdentityResult.Failed();
+                var msg = "This agency has already begun onboarding with a different email";
+                IdentityError error = BuildError(msg);
+                return IdentityResult.Failed(error);
             }
 
             S4LookupNormalizer normalizer = new S4LookupNormalizer();
@@ -64,7 +63,10 @@ namespace S4Sales.Models
             IdentityResult creating = await _user_manager.CreateAsync(agency, dhsmv.password);
             if(creating != IdentityResult.Success)
             {
-                return IdentityResult.Failed();
+
+                var msg = "Error claiming agency";
+                IdentityError error = BuildError(msg);
+                return IdentityResult.Failed(error);
             }
             
             IList<string> roles = new List<string>(); // add roles to account
@@ -76,12 +78,14 @@ namespace S4Sales.Models
 
             if(!AddAgencyDetails(dhsmv, agency))
             {
-                return IdentityResult.Failed();
+                var msg = "Error adding the agency details";
+                IdentityError error = BuildError(msg);
+                return IdentityResult.Failed(error);
             }
 
             return IdentityResult.Success;
         }
-        public bool ActivateAgency(string agency, string stripe_id)
+        public async Task<bool> ActivateAgency(OnboardingDetails agency)
         {
             var _query = $@"
                 UPDATE 
@@ -94,15 +98,15 @@ namespace S4Sales.Models
                     agency = @agency";
             var _params = new 
             { 
-                agency = agency,
-                stripe_account_id = stripe_id,
+                agency = agency.agency,
+                stripe_account_id = agency.token,
                 active = true,
                 timestamp = DateTime.Now,
             };
 
             using (var conn = new NpgsqlConnection(_conn))
             {
-                var result = conn.Execute(_query, _params);
+                var result = await conn.ExecuteAsync(_query, _params);
                 return result == 1;
             }
         }
@@ -168,6 +172,13 @@ namespace S4Sales.Models
                 var result = conn.Execute(_query, _params);
                 return result == 1;
             }
+        }
+
+        private IdentityError BuildError(string str)
+        {
+            IdentityError error = new IdentityError();
+            error.Description = str;
+            return error;
         }
 
     }

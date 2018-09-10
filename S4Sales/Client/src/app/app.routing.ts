@@ -12,7 +12,6 @@ import { ProfileComponent } from './account/profile/profile.component';
 import { AuthGuard, AdminGuard } from './providers/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
-import { RedirectComponent } from './components/redirect/redirect.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 
 export const routes: Routes = [
@@ -26,7 +25,6 @@ export const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'checkout', component: CheckoutComponent },
-  { path: 'request', component: RedirectComponent },
 
   { path: 'account',
     canActivate: [AuthGuard],

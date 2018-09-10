@@ -5,15 +5,19 @@ export class AgencyAccount {
   last_name?: number;
   email?: string;
 }
-export class S4Request {
+export class NewAgency {
+  agency_name: string;
   email: string;
+  password: string;
   first_name: string;
   last_name: string;
+}
+export class OnboardingDetails {
   agency_name: string;
-  password: string;
+  token: string;
 }
 export class Credentials {
-  user_name?: string;
+  agency_name?: string;
   email?: string;
   password: string;
 }
