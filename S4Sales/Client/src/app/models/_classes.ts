@@ -1,4 +1,5 @@
 import { AccountRequestType, Action } from './_enums';
+import { Password } from './_interfaces';
 
 export class AgencyAccount {
   first_name?: string;
@@ -6,11 +7,11 @@ export class AgencyAccount {
   email?: string;
 }
 export class NewAgency {
-  agency_name: string;
+  agency: string;
   email: string;
-  password: string;
   first_name: string;
   last_name: string;
+  password: string;
 }
 export class OnboardingDetails {
   agency_name: string;

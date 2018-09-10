@@ -1,10 +1,11 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace S4Sales.Models
 {    
     public class Agency
     {
-        public string agency { get;}
+        public string agency { get; set;}
         public string contact_email {get;set;}
         public string contact_first_name {get;set;}
         public string contact_last_name {get;set;}
@@ -17,10 +18,9 @@ namespace S4Sales.Models
     {
         public string agency {get;set;}
         public string email {get;set;}
-        public string password {get;}
         public string first_name {get;set;}
         public string last_name {get;set;}
-        public AgencyRequest(){} // default constructor
+        public string password {get; set;}
     }
     public class OnboardingDetails 
     {

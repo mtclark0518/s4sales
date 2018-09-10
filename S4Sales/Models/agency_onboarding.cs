@@ -52,11 +52,13 @@ namespace S4Sales.Models
                 return IdentityResult.Failed(error);
             }
 
+
+            int agencyId = await GetAgencyId(dhsmv.agency);
             S4LookupNormalizer normalizer = new S4LookupNormalizer();
-            S4Identity agency = new S4Identity(dhsmv.agency)
+            S4Identity agency = new S4Identity(agencyId.ToString())
             {
                 email = dhsmv.email,
-                normalized_user_name = normalizer.Normalize(dhsmv.agency),
+                normalized_user_name = normalizer.Normalize(agencyId.ToString()),
                 normalized_email = normalizer.Normalize(dhsmv.email)
             };
 
@@ -119,7 +121,7 @@ namespace S4Sales.Models
                     contact_email = @email,
                     contact_first_name = @first,
                     contact_last_name = @last,
-                    s4_id = @s4_id,
+                    s4_id = @s4_id
                 WHERE 
                     agency = @agency";
             var _params = new 
@@ -152,6 +154,21 @@ namespace S4Sales.Models
             {
                 var result = conn.Execute(_query, _params);
                 return result == 1;
+            }
+        }
+        private async Task<int> GetAgencyId(string agency)
+        {
+            var _query = $@"
+                SELECT agency_id FROM agency_account 
+                WHERE agency = @agency";
+            var _params = new 
+            { 
+                agency = agency
+            };
+
+            using (var conn = new NpgsqlConnection(_conn))
+            {
+                return await conn.QueryFirstAsync<int>(_query, _params);
             }
         }
         private bool IsInProgress(string agency, string email)

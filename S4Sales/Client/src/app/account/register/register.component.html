@@ -4,10 +4,11 @@
 
       <form [formGroup]="registrationForm" (submit)="register($event)">
           <div class="form-group" >
-            <input formControlName="agency_name"
-                [typeahead]="agencies"
-                class="form-control"
-                placeholder="Agency" />
+            <input type="text"
+              formControlName="agency"
+              [typeahead]="agencies"
+              class="form-control"
+              placeholder="Agency" />
           </div>
           <div class="form-group">
             <div class="form-row">
@@ -36,11 +37,11 @@
           </div>
 
           <div class="form-group">
-              <input type="password"
-                class="form-control"
-                name="password"
-                formControlName="password"
-                placeholder="Password">
+            <input type="password"
+              class="form-control"
+              name="password"
+              formControlName="password"
+              placeholder="Password">
           </div>
           <div class="form-group">
             <input type="submit"

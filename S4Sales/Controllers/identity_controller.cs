@@ -57,11 +57,7 @@ namespace S4Sales.Controllers
             return new ObjectResult(new { success = true });
         }
 
-        [HttpPut("activate")]
-        public async Task<bool> ActivateAgencyAccount([FromBody]OnboardingDetails details)
-        {
-            return await _new_agency.ActivateAgency(details);
-        }
+
 
 
         [HttpPost("register")]
@@ -74,17 +70,17 @@ namespace S4Sales.Controllers
                 return BadRequest(registration_attempt);             
             }
 
-            S4Identity agency = await _user_manager.FindByNameAsync(requested.agency);
+            S4Identity agency = await _user_manager.FindByEmailAsync(requested.email);
             if (agency == null) 
             { 
                 string FailureMessage = "error locating new account";
                 return BadRequest(FailureMessage); 
             }
 
-            Microsoft.AspNetCore.Identity.SignInResult signin_result = 
+            var signin_result = 
                 await _signin_manager.PasswordSignInAsync(
                     agency, 
-                    agency.password_hash, 
+                    requested.password,
                     false, false);
 
             if(signin_result == Microsoft.AspNetCore.Identity.SignInResult.Failed)
@@ -95,6 +91,11 @@ namespace S4Sales.Controllers
             return new OkObjectResult(registration_attempt);
         }
 
+        [HttpPut("activate")]
+        public async Task<bool> ActivateAgencyAccount([FromBody]OnboardingDetails details)
+        {
+            return await _new_agency.ActivateAgency(details);
+        }
         [HttpGet("current")]
         [AllowAnonymous]
         public async Task<IActionResult> GetCurrentUser()

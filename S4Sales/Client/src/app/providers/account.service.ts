@@ -41,6 +41,7 @@ export class AccountService {
     this.http.get(this.domain + '/identity/current').subscribe(response =>
       this.handleCurrentUser(response));
   }
+
   public login(account: Credentials) {
     return this.http.post(`${this.domain}/identity/login`, account).subscribe(response => {
       this.handleLogin(response);
@@ -57,12 +58,11 @@ export class AccountService {
     this.http.post(`${this.domain}/identity/register`, account)
     .subscribe(response => { this.handleRegister(response); });
   }
+
   public onboard(account: OnboardingDetails) {
     this.http.put(`${this.domain}/identity/activate`, account)
     .subscribe(response =>  this.handleOnboard(response));
   }
-
-
 
   private handleCurrentUser(data): void {
     console.log(data);
@@ -81,6 +81,7 @@ export class AccountService {
     // else
     // display the failure msg
   }
+
   private handleOnboard (data) {
     console.log(data);
     if (data) { } else { }
@@ -95,6 +96,10 @@ export class AccountService {
 // to onboard accounts with stripe
 // https://connect.stripe.com/oauth/authorize?response_type=code
 // &client_id=ca_DK4LfgjwY5CxXBlZetcDNriX0eW0Zs2M&scope=read_write&state=******
+
+
+
+
 
 
   // Needs backend counterpart
