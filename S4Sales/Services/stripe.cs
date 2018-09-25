@@ -29,16 +29,5 @@ namespace S4Sales.Services
             StripeCharge charge = service.Create(options);
             return charge;
         }
-        public StripePayout CreatePayout(dynamic opt)
-        {
-            var options = new StripePayoutCreateOptions()
-            {
-                Amount = opt.amount,
-                Currency = "usd",
-                Destination = opt.payment_to,
-            };
-            var payout = new StripePayoutService();
-            return payout.Create(options);
-        } 
     }
 }
