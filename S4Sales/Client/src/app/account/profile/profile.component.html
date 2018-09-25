@@ -1,0 +1,11 @@
+<div class="wrap">
+  <div class="page-container profile">
+    <div *ngIf="profile">
+      {{profile.agency}}
+    </div>
+    <button class="stripe-connect light-blue"
+      (click)="sendToOnboarding()">
+    <span>Connect with Stripe</span>
+    </button>
+  </div>
+</div>

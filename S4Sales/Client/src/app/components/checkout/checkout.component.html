@@ -1,13 +1,12 @@
 <div class="wrap">
-  <div class="head">
-    <button (click)="clearCart()" class="btn btn-sm">Clear Cart</button>
-    <a class='nav-item' [routerLink]='["/"]' (click)="continueShopping()">
-      Back 2 Shop <i class="fa fa-dollar"></i>
-    </a>
-  </div>
-
-
-  <div class="outer">
+  <div class="page-container">
+    <div class="head">
+      <button (click)="clearCart()" class="btn btn-sm">Clear Cart</button>
+      <a class='nav-item' [routerLink]='["/"]' (click)="continueShopping()">
+        Back 2 Shop <i class="fa fa-dollar"></i>
+      </a>
+    </div>
+    <div class="outer">
       <div>Checkout</div>
 
 
@@ -43,4 +42,5 @@
       </form>
 
     </div>
+  </div>
 </div>

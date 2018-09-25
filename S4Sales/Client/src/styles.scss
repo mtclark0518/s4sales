@@ -43,14 +43,6 @@ body {
   background-color: $bg;
   box-shadow: $shadow;
   border-radius: 2px;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: stretch;
-  min-height: 40vh;
-  width: 94%;
   max-width: $breakpoint-md;
   margin: auto;
   .form-heading{

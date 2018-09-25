@@ -10,6 +10,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { HelpContainerComponent } from './components/help-container/help-container.component';
+import { ProfileComponent } from './account/profile/profile.component';
 
 export const routes: Routes = [
 
@@ -24,9 +25,9 @@ export const routes: Routes = [
 
   { path: 'account',
     canActivate: [AuthGuard],
-    children: [{ path: '', component: DashboardComponent },
-      { path: 'reset', component: PasswordComponent }
-    ]
+    children: [{ path: '', component: ProfileComponent },
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'reset', component: PasswordComponent }]
   },
 
   { path: 'admin',

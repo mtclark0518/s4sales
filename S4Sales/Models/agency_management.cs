@@ -13,9 +13,9 @@ namespace S4Sales.Models
 {
     public class AgencyManager
     {
+        private readonly string _conn;
         private readonly UserManager<S4Identity> _user_manager;
         private readonly RoleManager<S4IdentityRole> _role_manager;
-        private readonly string _conn;
         private readonly S4Emailer _email;
         public AgencyManager(
             IConfiguration config, 
@@ -76,13 +76,12 @@ namespace S4Sales.Models
                 await _user_manager.AddToRoleAsync(agency, role);
             }
 
-            if(!AddAgencyDetails(dhsmv, agency))
+            if(!AddAgencyDetails(dhsmv, agency)) // writes details to agency table
             {
                 var msg = "Error adding the agency details";
                 IdentityError error = BuildError(msg);
                 return IdentityResult.Failed(error);
             }
-
             return IdentityResult.Success;
         }
         public async Task<IEnumerable<Agency>> ActivateAgency(OnboardingDetails agency)

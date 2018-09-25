@@ -1,14 +1,18 @@
-<div class="wrap help-container section">
-  <div class="tab-container">
-    <div [class]="faqs" (click)="select('faqs')">FAQs</div>
-    <div [class]="terms" (click)="select('terms')">Terms and Conditions</div>
-    <div [class]="contact" (click)="select('contact')">Contact Us</div>
-  </div>
-  <div [ngSwitch]="displaying" class="display-case">
-    <div class="display-container">
-      <faqs *ngSwitchCase="'faqs'"></faqs>
-      <terms *ngSwitchCase="'terms'"></terms>
-      <contact *ngSwitchCase="'contact'"></contact>
+<div class="wrap">
+  <div class="page-container">
+    <div class="help-container section">
+      <div class="tab-container">
+        <div [class]="faqs" (click)="select('faqs')">FAQs</div>
+        <div [class]="terms" (click)="select('terms')">Terms and Conditions</div>
+        <div [class]="contact" (click)="select('contact')">Contact Us</div>
+      </div>
+      <div [ngSwitch]="displaying" class="display-case">
+        <div class="display-container">
+          <faqs *ngSwitchCase="'faqs'"></faqs>
+          <terms *ngSwitchCase="'terms'"></terms>
+          <contact *ngSwitchCase="'contact'"></contact>
+        </div>
+      </div>
     </div>
   </div>
 </div>

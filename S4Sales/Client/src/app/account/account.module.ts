@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app.routing';
 import { TooltipModule, TypeaheadModule } from 'ngx-bootstrap';
 import { DashboardModule } from '../dashboard/dashboard.module';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { DashboardModule } from '../dashboard/dashboard.module';
     AppRoutingModule, TooltipModule,
     TypeaheadModule, DashboardModule,
   ],
-  declarations: [ PasswordComponent, LoginComponent, RegisterComponent]
+  declarations: [ PasswordComponent, LoginComponent, ProfileComponent, RegisterComponent]
 })
 export class AccountModule { }

@@ -1,49 +1,45 @@
-<div class="form-container">
-  <div class="form-heading">
-    <span class="form-reset" (click)="startOver()"><i class="icon fa fa-arrow-circle-left"></i></span>
+  <div class="form-container">
+    <div class="form-heading">
+      <span class="form-reset" (click)="startOver()"><i class="icon fa fa-arrow-circle-left"></i></span>
+    </div>
+    <form class="container form-body" [formGroup]="searchForm" (submit)="submitSearch($event)">
+      <div *ngIf="!showingQueryReasons">
+          <div *ngIf="queryType == 'report'">
+              <div class="form-group">
+                <input type="text" name="reportNumber" formControlName="reportNumber" class="form-control" placeholder="Report number...">
+              </div>
+          </div>
+          <div *ngIf="queryType == 'vehicle'">
+              <div class="form-group">
+                <input type="text" name="vehicleVIN" formControlName="vehicleVIN" class="form-control" placeholder="Vehicle VIN...">
+              </div>
+          </div>
+          <div *ngIf="queryType == 'detailed'">
+              <div class="form-group">
+                <input type="text" name="participant" formControlName="participant" class="form-control" placeholder="Last name">
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  formControlName="crashDate"
+                  class=""
+                  placeholder="Date of crash..."
+                  bsDatepicker [bsConfig]="{
+                    dateInputFormat: 'YYYY-MM-DD',
+                    showWeekNumbers: false
+                  }"/>
+              </div>
+          </div>
+          <div>recapchta goes here</div>
+          <input class="btn btn-sm btn-danger" type="button" (click)="showQueryReasons()" value="next"/>
+      </div>
+      <div *ngIf="showingQueryReasons">
+        <h5 class="search-reason-title">How are you connected to this crash? <span><i class="fa fa-question-circle" tooltip="explain why they need to be connected here." placement="left"></i></span></h5>
+          <div  *ngFor="let r of reasonsForQuery, let i = index" class="form-check search-reason">
+            <input class="check form-check-input" type="radio" name="reasonForQuery" id="r{{i}}" (change)="updateSelection($event)" value="{{r}}">
+            <label for="r{{i}}" class="text">{{r}}</label>
+          </div>
+          <input class="btn btn-sm btn-danger" type="submit" value="search"/>
+      </div>
+    </form>
   </div>
-
-  <form class="container form-body" [formGroup]="searchForm" (submit)="submitSearch($event)">
-    <div *ngIf="!showingQueryReasons">
-        <div *ngIf="queryType == 'report'">
-            <div class="form-group">
-              <input type="text" name="reportNumber" formControlName="reportNumber" class="form-control" placeholder="Report number...">
-            </div>
-        </div>
-        <div *ngIf="queryType == 'vehicle'">
-            <div class="form-group">
-              <input type="text" name="vehicleVIN" formControlName="vehicleVIN" class="form-control" placeholder="Vehicle VIN...">
-            </div>
-        </div>
-        <div *ngIf="queryType == 'detailed'">
-            <div class="form-group">
-              <input type="text" name="participant" formControlName="participant" class="form-control" placeholder="Last name">
-            </div>
-            <div class="form-group">
-              <input
-                type="text"
-                formControlName="crashDate"
-                class=""
-                placeholder="Date of crash..."
-                bsDatepicker [bsConfig]="{
-                  dateInputFormat: 'YYYY-MM-DD',
-                  showWeekNumbers: false
-                }"/>
-            </div>
-        </div>
-        <div>recapchta goes here</div>
-        <input class="btn btn-sm btn-danger" type="button" (click)="showQueryReasons()" value="next"/>
-    </div>
-
-
-    <div *ngIf="showingQueryReasons">
-      <h5 class="search-reason-title">How are you connected to this crash? <span><i class="fa fa-question-circle" tooltip="explain why they need to be connected here." placement="left"></i></span></h5>
-        <div  *ngFor="let r of reasonsForQuery, let i = index" class="form-check search-reason">
-          <input class="check form-check-input" type="radio" name="reasonForQuery" id="r{{i}}" (change)="updateSelection($event)" value="{{r}}">
-          <label for="r{{i}}" class="text">{{r}}</label>
-        </div>
-        <input class="btn btn-sm btn-danger" type="submit" value="search"/>
-    </div>
-  </form>
-
-</div>

@@ -8,7 +8,6 @@ import { DashboardComponent } from './dashboard.component';
 import { FilterComponent } from './filter/filter.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { ProfileComponent } from './profile/profile.component';
 import { ReportingComponent } from './reporting/reporting.component';
 import { SidePanelComponent } from './side-panel/side-panel.component';
 import { SwitchTabsComponent } from './switch-tabs/switch-tabs';
@@ -20,7 +19,7 @@ import { TopPanelComponent } from './top-panel/top-panel.component';
     CommonModule, FormsModule, ReactiveFormsModule, HighchartsChartModule, ComponentsModule, BsDatepickerModule
   ],
   declarations: [
-    DashboardComponent, ProfileComponent,
+    DashboardComponent,
     SidePanelComponent, TopPanelComponent,
     FilterComponent, ChartingComponent,
     ChartSelectComponent, SwitchTabsComponent, ReportingComponent

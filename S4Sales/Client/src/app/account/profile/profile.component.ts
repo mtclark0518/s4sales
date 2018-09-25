@@ -5,7 +5,7 @@ import { AgencyAccount, OnboardingDetails } from '../../models/_classes';
 @Component({
   selector: 'profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['../dashboard.scss']
+  styleUrls: ['../account.scss']
 })
 export class ProfileComponent implements OnInit, AfterViewChecked {
   profile: AgencyAccount;
