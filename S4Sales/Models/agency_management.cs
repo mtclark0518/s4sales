@@ -11,13 +11,13 @@ using System;
 
 namespace S4Sales.Models
 {
-    public class AgencyOnboarding
+    public class AgencyManager
     {
         private readonly UserManager<S4Identity> _user_manager;
         private readonly RoleManager<S4IdentityRole> _role_manager;
         private readonly string _conn;
         private readonly S4Emailer _email;
-        public AgencyOnboarding(
+        public AgencyManager(
             IConfiguration config, 
             UserManager<S4Identity> um,  
             S4Emailer email, 
@@ -28,7 +28,6 @@ namespace S4Sales.Models
             _role_manager = rm;
             _email = email;
         }
-        
         // Agency Registration Process
         public async Task<IdentityResult> ClaimAgencyAsync(AgencyRequest dhsmv)
         {
@@ -43,7 +42,6 @@ namespace S4Sales.Models
 
             if(IsInProgress(dhsmv.agency, dhsmv.email)) // check that agency has an active account
             {
-
                 // agency has registered s4sales identity
                 // but not clicked the onboarded with stripe button and NOW is attempting to re-register with
                 // a different email address
@@ -87,7 +85,7 @@ namespace S4Sales.Models
 
             return IdentityResult.Success;
         }
-        public async Task<bool> ActivateAgency(OnboardingDetails agency)
+        public async Task<IEnumerable<Agency>> ActivateAgency(OnboardingDetails agency)
         {
             var _query = $@"
                 UPDATE 
@@ -95,12 +93,13 @@ namespace S4Sales.Models
                 SET
                     active = @active,
                     stripe_account_id = @stripe_account_id,
-                    timestamp = @timestamp,
+                    timestamp = @timestamp
                 WHERE 
-                    agency = @agency";
+                    agency_id = @agency_id
+                RETURNING *";
             var _params = new 
             { 
-                agency = agency.agency,
+                agency_id = int.Parse(agency.agency_id),
                 stripe_account_id = agency.token,
                 active = true,
                 timestamp = DateTime.Now,
@@ -108,10 +107,18 @@ namespace S4Sales.Models
 
             using (var conn = new NpgsqlConnection(_conn))
             {
-                var result = await conn.ExecuteAsync(_query, _params);
-                return result == 1;
+                var result = await conn.QueryAsync<Agency>(_query, _params);
+                return result;
             }
         }
+
+        public async Task<string> RecoverAccount(S4Identity s4id)
+        {
+            Agency agency = await GetAgencyDetails(s4id.user_name);
+            return await _email.AccountRecovery(agency);
+        }
+
+
 
         private bool AddAgencyDetails(AgencyRequest agency, S4Identity account)
         {
@@ -138,6 +145,32 @@ namespace S4Sales.Models
                 return result == 1;
             }
         }
+
+        public async Task<int> GetAgencyId(string agency)
+        {
+            var _query = $@"
+                SELECT agency_id FROM agency_account 
+                WHERE agency = @agency";
+            var _params = new 
+            { 
+                agency = agency
+            };
+
+            using (var conn = new NpgsqlConnection(_conn))
+            {
+                return await conn.QueryFirstAsync<int>(_query, _params);
+            }
+        }
+        public async Task<Agency> GetAgencyDetails(string id)
+        {
+            var _query = $@"SELECT * FROM agency_account WHERE agency_id = @id";
+            var _params = new { id = int.Parse(id) };
+            using(var conn = new NpgsqlConnection(_conn))
+            {
+                var details = await conn.QuerySingleAsync<Agency>(_query, _params);
+                return details;
+            }
+        }
         private bool AlreadyOnboard(string agency)
         {
             var _query = $@"
@@ -154,21 +187,6 @@ namespace S4Sales.Models
             {
                 var result = conn.Execute(_query, _params);
                 return result == 1;
-            }
-        }
-        private async Task<int> GetAgencyId(string agency)
-        {
-            var _query = $@"
-                SELECT agency_id FROM agency_account 
-                WHERE agency = @agency";
-            var _params = new 
-            { 
-                agency = agency
-            };
-
-            using (var conn = new NpgsqlConnection(_conn))
-            {
-                return await conn.QueryFirstAsync<int>(_query, _params);
             }
         }
         private bool IsInProgress(string agency, string email)
@@ -190,13 +208,11 @@ namespace S4Sales.Models
                 return result == 1;
             }
         }
-
         private IdentityError BuildError(string str)
         {
             IdentityError error = new IdentityError();
             error.Description = str;
             return error;
         }
-
     }
 }

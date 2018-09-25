@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
@@ -8,7 +7,6 @@ using System.Threading.Tasks;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Npgsql;
 using S4Sales.Identity;
 using S4Sales.Models;
@@ -91,9 +89,31 @@ namespace S4Sales.Services
             };
         }
 
-        ///<Note>
-        // Only public method is initiate response. It builds out the email response based on that response
-        ///</Note>
+
+        public async Task<string> AccountRecovery(Agency agency)
+        {
+            var email = new Email();
+            var cc = new List<string>();
+            email.recipient = agency.contact_email;
+            var link = $"http://localhost:5000/account/recover/{agency.agency_id}";
+            email.subject = "Account Recovery Request";
+            email.body = $@"
+            <div>
+                Hello {agency.contact_first_name},<br>
+                <br>
+                You are receiving this because someone (...hopefully you) requested the password for the {agency} crash reporting sales account to be reset.<br>
+                <br>
+                Please click <a href={link}>here</a> to reset your password.<br>
+                <br>
+                If you did not issue an account reset request please disregard this message.<br>
+                <br>
+                Have a nice day, <br>
+                <br>
+                SignalFour Analytics<br>
+            </div>";
+
+            return await SendEmailAsync(email, cc);
+        }
         public async Task<StandardResponse> initSendEmail(StandardResponse res, S4Response s4)
         {
             var email = new Email();
@@ -174,8 +194,6 @@ namespace S4Sales.Services
                 </div>");
         }
 
-
-
         // Generate email object based on status
         private Task<Email> GenerateApproval(S4Response s4, Email email)
         {
@@ -196,7 +214,7 @@ namespace S4Sales.Services
             return Task.FromResult(email);
         }
 
-        private async Task SendEmailAsync(Email email, List<string> cc)
+        private async Task<string> SendEmailAsync(Email email, List<string> cc)
         {
             MailMessage msg = new MailMessage()
             {
@@ -207,7 +225,6 @@ namespace S4Sales.Services
                 Body = new StringBuilder(email.body).ToString()
             };
             msg.To.Add(new MailAddress(email.recipient));
-            
             if(cc != null)
             {
                 foreach(var addrs in cc)
@@ -216,6 +233,7 @@ namespace S4Sales.Services
                 }
             }
             await _smtp.SendMailAsync(msg);
+            return "sent";
         }
     }
 }

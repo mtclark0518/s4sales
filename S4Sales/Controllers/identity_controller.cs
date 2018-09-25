@@ -17,17 +17,58 @@ namespace S4Sales.Controllers
         private readonly IOptions<IdentityOptions> _identity_options;
         private readonly UserManager<S4Identity> _user_manager;
         private readonly SignInManager<S4Identity> _signin_manager;
-        private readonly AgencyOnboarding _new_agency;
+        private readonly AgencyManager _agency;
         public IdentityController(
             IOptions<IdentityOptions> identity_options,
             UserManager<S4Identity> user_manager, 
             SignInManager<S4Identity> signins,
-            AgencyOnboarding new_agency)
+            AgencyManager agency)
         {
             _identity_options = identity_options;
             _user_manager = user_manager;
             _signin_manager = signins;
-            _new_agency = new_agency;
+            _agency = agency;
+        }
+
+
+        [HttpPut("activate")]
+        [AllowAnonymous]
+
+        public async Task<IEnumerable<Agency>> ActivateAgencyAccount([FromBody]OnboardingDetails details)
+        {
+            IEnumerable<Agency> agency = await _agency.ActivateAgency(details);
+            return agency;
+        }
+
+
+        // checks for agency and returns the id
+        [HttpGet("current")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            S4Identity user = await _user_manager.GetUserAsync(User);
+            if(user == null)
+            {
+                return new ObjectResult(new {user = false});
+            }
+            Agency details = await _agency.GetAgencyDetails(user.user_name);
+            var result = new 
+            {
+                user = true,
+                name = user.user_name,
+                roles = await _user_manager.GetRolesAsync(user),
+                details = details
+            };
+            return new ObjectResult(result);
+        }
+
+
+
+        [HttpGet("details")]
+        public async Task<Agency> GetUserDetails()
+        {
+            Agency details = await _agency.GetAgencyDetails(Request.Headers["agency"]);
+            return details;
         }
 
         [HttpPost("login")]
@@ -35,11 +76,14 @@ namespace S4Sales.Controllers
         public async Task<IActionResult> Login([FromBody] Credentials attempted)
         {
             const string FailureMessage = "Username or password is incorrect.";
-            S4Identity user = await _user_manager.FindByNameAsync(attempted.user_name);
+
+            int username = await _agency.GetAgencyId(attempted.agency_name);
+
+            S4Identity user = await _user_manager.FindByNameAsync(username.ToString());
             
             if (user == null) { return BadRequest(FailureMessage); }
             var signin_result = await _signin_manager.PasswordSignInAsync(
-                user, attempted.password, false, lockoutOnFailure: false);
+                user, attempted.password, false, false);
             
             if (signin_result != Microsoft.AspNetCore.Identity.SignInResult.Success)
             {
@@ -57,14 +101,11 @@ namespace S4Sales.Controllers
             return new ObjectResult(new { success = true });
         }
 
-
-
-
         [HttpPost("register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody]AgencyRequest requested)
         {
-            IdentityResult registration_attempt = await _new_agency.ClaimAgencyAsync(requested);
+            IdentityResult registration_attempt = await _agency.ClaimAgencyAsync(requested);
             if(registration_attempt != IdentityResult.Success)
             {
                 return BadRequest(registration_attempt);             
@@ -73,14 +114,11 @@ namespace S4Sales.Controllers
             S4Identity agency = await _user_manager.FindByEmailAsync(requested.email);
             if (agency == null) 
             { 
-                string FailureMessage = "error locating new account";
-                return BadRequest(FailureMessage); 
+                return BadRequest("error locating new account"); 
             }
 
-            var signin_result = 
-                await _signin_manager.PasswordSignInAsync(
-                    agency, 
-                    requested.password,
+            var signin_result = await _signin_manager.PasswordSignInAsync(
+                    agency, requested.password,
                     false, false);
 
             if(signin_result == Microsoft.AspNetCore.Identity.SignInResult.Failed)
@@ -90,27 +128,24 @@ namespace S4Sales.Controllers
 
             return new OkObjectResult(registration_attempt);
         }
-
-        [HttpPut("activate")]
-        public async Task<bool> ActivateAgencyAccount([FromBody]OnboardingDetails details)
-        {
-            return await _new_agency.ActivateAgency(details);
-        }
-        [HttpGet("current")]
+        
+        [HttpPost("recover")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetCurrentUser()
+
+        public async Task<IActionResult> RecoverAccount([FromBody]string email)
         {
-            S4Identity user = await _user_manager.GetUserAsync(User);
-            if(user != null)
-            {
-                return new ObjectResult( new 
-                {
-                    user = true,
-                    name = user.user_name,
-                    roles = await _user_manager.GetRolesAsync(user)
-                });
+            S4Identity agency = await _user_manager.FindByEmailAsync(email);
+            if (agency == null) 
+            { 
+                return BadRequest("no agency associated with this email"); 
             }
-            return new ObjectResult(new {user = false});
+
+            var recovery = await _agency.RecoverAccount(agency);
+            if(recovery != "sent")
+            {
+                return BadRequest("recovery attempt failure");
+            }
+            return new OkObjectResult( new { message = recovery });
         }
     }
 }

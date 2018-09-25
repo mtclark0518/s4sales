@@ -106,7 +106,7 @@ namespace S4Sales
             services.AddScoped<RoleManager<S4IdentityRole>>();
             
             // add data access layers
-            services.AddSingleton<AgencyOnboarding>();
+            services.AddSingleton<AgencyManager>();
             services.AddSingleton<CartStore>();
             services.AddSingleton<CommerceRepository>();
             services.AddSingleton<DataRepository>();

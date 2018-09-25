@@ -22,10 +22,10 @@ export class PasswordComponent implements OnInit {
   ngOnInit() {
     this.account.accountStatus.subscribe(status => this.status = status);
     this.passwordForm = new FormGroup({
-      'accountEmail': new FormControl(this.recoverAccount),
-      'oldPassword': new FormControl(this.oldPassword),
-      'newPassword': new FormControl(this.newPassword),
-      'confirmPassword': new FormControl(this.confirmPassword),
+      'accountEmail': new FormControl(null),
+      'oldPassword': new FormControl(null),
+      'newPassword': new FormControl(null),
+      'confirmPassword': new FormControl(null),
     });
   }
 
@@ -36,29 +36,24 @@ export class PasswordComponent implements OnInit {
 
   // confirms the new password and submits the change. service redirects to profile
   submitPassword($event): void {
+    $event.preventDefault();
     if (this.newPass.value !== this.confirmPass.value) {
       alert('new passwords do not match. try again');
     }
-    $event.preventDefault();
     switch (this.status) {
-      case 'lostPassword':
-      const recover = {
-        account: this.accountEmail.value
-      };
-      this.account.recoverAccount(recover);
-      break;
-      case 'changePassword':
-      const change: Password = {
-        oldPassword: this.oldPass.value,
-        newPassword: this.newPass.value,
-      };
-      this.account.changePassword(change);
+      case 'recover':
+        const recover = {
+          account: this.accountEmail.value
+        };
+        console.log(recover);
+        this.account.recoverAccount(recover);
         break;
-      case 'resetPassword':
-        const reset: Password = {
+      case 'change':
+        const change: Password = {
+          oldPassword: this.oldPass.value,
           newPassword: this.newPass.value,
         };
-        this.account.changePassword(reset);
+        this.account.changePassword(change);
         break;
         default:
         console.log('the default is an error');

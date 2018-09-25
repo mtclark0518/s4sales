@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Concern } from './concern.enum';
 
 @Component({
-  selector: 'app-contact',
+  selector: 'contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss']
 })

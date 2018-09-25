@@ -15,8 +15,10 @@ export class LoginComponent implements OnInit {
   private validator: CustomValidators;
   public agencies = [];
 
-  constructor(private formBuilder: FormBuilder, private account: AccountService) {
-    this.validator = new CustomValidators();
+  constructor(
+    private formBuilder: FormBuilder,
+    private account: AccountService) {
+      this.validator = new CustomValidators();
    }
 
   ngOnInit() {
@@ -42,7 +44,7 @@ export class LoginComponent implements OnInit {
     this.account.login(creds);
   }
 
-  recoverAccount(): void {
-    this.account.changeStatus('lostPassword');
+  recoverRequested = () => {
+    this.account.setAccountStatus('recover');
   }
 }

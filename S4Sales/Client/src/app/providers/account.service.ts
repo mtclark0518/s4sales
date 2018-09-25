@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, AsyncSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AgencyAccount, Credentials, NewAgency, OnboardingDetails } from '../models/_classes';
+import { Credentials, NewAgency, OnboardingDetails, AgencyAccount } from '../models/_classes';
 import { Password } from '../models/_interfaces';
 
 export class UserCheck {
@@ -14,72 +14,92 @@ export class UserCheck {
   providedIn: 'root'
 })
 export class AccountService {
-  domain = 'http://localhost:5000/api';
+  private domain = 'http://localhost:5000/api/identity';
 
-  headers: HttpHeaders = new HttpHeaders({
+  private headers: HttpHeaders = new HttpHeaders({
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   });
 
   private Authenticated = new BehaviorSubject<boolean>(false);
   public isUser = this.Authenticated.asObservable();
 
-  private serverChecked = false;
-  private CurrentAccount = new AsyncSubject<AgencyAccount>();
-  public currentAccount = this.CurrentAccount.asObservable();
-
   private AccountStatus = new BehaviorSubject<string>('');
   public accountStatus = this.AccountStatus.asObservable();
 
-  public setAccount($event) {this.CurrentAccount.next($event); }
-  public changeStatus($event) { this.AccountStatus.next($event); }
+  private AgencyDetails = new BehaviorSubject<AgencyAccount>(null);
+  public details = this.AgencyDetails.asObservable();
+
+  private CurrentAccount = new BehaviorSubject<string>('');
+  public currentAccount = this.CurrentAccount.asObservable();
+
+  private Onboarding = new BehaviorSubject<OnboardingDetails>(null);
+  public onboardingDetails = this.Onboarding.asObservable();
+
+  public setAccountStatus(value: string) {this.AccountStatus.next(value); }
+  public setAccount(value: string) {this.CurrentAccount.next(value); }
+  public setAgencyDetails(value: AgencyAccount) {this.AgencyDetails.next(value); }
+  public setOnboardingDetails(value: OnboardingDetails) {this.Onboarding.next(value); }
 
   constructor( private http: HttpClient, private router: Router ) { }
 
   // method to be used by auth guard to verify current user
   public getCurrentUser = (): void => {
-    this.http.get(this.domain + '/identity/current').subscribe(response =>
-      this.handleCurrentUser(response));
+    this.http.get(this.domain + '/current')
+      .subscribe( response => this.handleCurrentUser(response));
+  }
+
+  private getProfile = (id: string) => {
+    this.headers['agency'] = id;
+    this.http.get(`${this.domain}/details`, {headers: this.headers})
+      .subscribe( response => this.handleProfile(response));
   }
 
   public login(account: Credentials) {
-    return this.http.post(`${this.domain}/identity/login`, account).subscribe(response => {
-      this.handleLogin(response);
-    });
+    return this.http.post(`${this.domain}/login`, account)
+    .subscribe( response => this.handleEntry(response));
   }
 
   public logout(): void {
-    this.http.post(`${this.domain}/identity/logout`, {}).subscribe(response => {
-      this.CurrentAccount.next({});
+    this.http.post(`${this.domain}/logout`, {}).subscribe( () => {
+      this.CurrentAccount.next('');
     });
   }
 
+  public onboard(agency: OnboardingDetails) {
+    console.log(agency);
+    this.http.put(this.domain + '/activate', agency)
+    .subscribe( response => this.handleOnboard(response));
+  }
+
   public register(account: NewAgency) {
-    this.http.post(`${this.domain}/identity/register`, account)
-    .subscribe(response => { this.handleRegister(response); });
+    this.http.post(this.domain + '/register', account)
+    .subscribe( response => this.handleEntry(response));
   }
 
-  public onboard(account: OnboardingDetails) {
-    this.http.put(`${this.domain}/identity/activate`, account)
-    .subscribe(response =>  this.handleOnboard(response));
+  private handleCurrentUser(current): void {
+    this.Authenticated.next(current.user);
+    if (current.user) {
+      this.setAccount(current.name);
+      this.setAgencyDetails(current.details);
+    } else {
+      this.router.navigateByUrl('/login');
+    }
   }
 
-  private handleCurrentUser(data): void {
-    console.log(data);
-    this.Authenticated.next(data.user);
-    console.log(this.Authenticated);
-  }
-
-  private handleLogin(data) {
-    this.getCurrentUser();
-    this.router.navigateByUrl('/account/dashboard');
-  }
-
-  private handleRegister (data) {
-    console.log(data);
+  private handleEntry (attempt) {
+    console.log(attempt);
     // if success send the user to the profile page
+    if (attempt.succeeded) {
+      this.router.navigateByUrl('/account');
+    }
     // else
     // display the failure msg
+  }
+
+  // TODO
+  private handleProfile(details) {
+    console.log(details);
   }
 
   private handleOnboard (data) {
@@ -87,20 +107,21 @@ export class AccountService {
     if (data) { } else { }
   }
 
-  // TODO
   public changePassword(pass: Password) {}
   public resetPassword(pass: Password) {}
-  public recoverAccount(email) {}
+
+  public recoverAccount(email) {
+    this.http.post(this.domain + '/recover', email)
+    .subscribe(response => this.handleRecoverAccount(response));
+  }
+
+  private handleRecoverAccount(data) {
+    console.log(data);
+    if (data.message === 'sent') {
+      console.log('fucker');
+    }
+  }
 }
-
-// to onboard accounts with stripe
-// https://connect.stripe.com/oauth/authorize?response_type=code
-// &client_id=ca_DK4LfgjwY5CxXBlZetcDNriX0eW0Zs2M&scope=read_write&state=******
-
-
-
-
-
 
   // Needs backend counterpart
   // public checkServerSession(): Observable<boolean> {

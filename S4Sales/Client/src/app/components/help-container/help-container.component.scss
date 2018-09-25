@@ -1,0 +1,43 @@
+@import "../../../styles.scss";
+.help-container{
+
+
+  .tab-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    border-right: none;
+    .item {
+      border-left: 1px solid $accent1;
+      border-right: 1px solid $accent1;
+      margin-left: 1em;
+      padding: 0 1em;
+      height: 100%;
+      display: flex;
+      font-weight: 500;
+      justify-content: center;
+      align-items: center;
+      background: $primary;
+      color: $disabled;
+      transition: $transition;
+    }
+    .active{
+      background: $accent2;
+      color: $bg;
+      border-left: 1px solid $secondary;
+      border-right: 1px solid $secondary;
+    }
+    .item:hover{
+      color:$bg;
+    }
+  }
+
+  .display-case{
+
+    .display-container{
+
+    }
+  }
+}

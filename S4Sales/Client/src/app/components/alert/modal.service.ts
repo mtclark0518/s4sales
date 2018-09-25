@@ -11,6 +11,7 @@ export class Modal {
 })
 
 export class ModalService {
+
   private ACTIVE = new BehaviorSubject<boolean>(false);
   public active = this.ACTIVE.asObservable();
 

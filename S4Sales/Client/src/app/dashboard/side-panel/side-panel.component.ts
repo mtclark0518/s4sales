@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalService } from '../../components/alert-modal/modal.service';
+// import { ModalService } from '../../components/alert-modal/modal.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -9,14 +9,14 @@ import { ModalService } from '../../components/alert-modal/modal.service';
 })
 export class SidePanelComponent implements OnInit {
   modal = 'modal';
-  constructor( private modalService: ModalService) { }
+  // constructor( private modalService: ModalService) { }
 
   ngOnInit() {
   }
 
 
   open(name) {
-    this.modalService.open(name);
+    // this.modalService.open(name);
   }
 
 

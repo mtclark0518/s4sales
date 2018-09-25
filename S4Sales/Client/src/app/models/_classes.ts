@@ -2,8 +2,11 @@ import { AccountRequestType, Action } from './_enums';
 import { Password } from './_interfaces';
 
 export class AgencyAccount {
+  agency_id?: string;
+  agency?: string;
   first_name?: string;
   last_name?: number;
+  active?: boolean;
   email?: string;
 }
 export class NewAgency {
@@ -14,7 +17,7 @@ export class NewAgency {
   password: string;
 }
 export class OnboardingDetails {
-  agency_name: string;
+  agency: string;
   token: string;
 }
 export class Credentials {

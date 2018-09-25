@@ -5,7 +5,7 @@ namespace S4Sales.Models
 {
     public class Credentials
     {
-        public string user_name;
+        public string agency_name;
         public string password;
     }
     public class Email
