@@ -17,7 +17,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   public checkoutState;
   public Cart;
   public cart_id;
-  public PurchaseForm: FormGroup;
+  public price = 10.25;
+  public purchaseForm: FormGroup;
 
   constructor(
     private cart: CartService,
@@ -29,7 +30,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     this.cart._items.subscribe( i => this.Cart = i);
     this.cart.cart.subscribe(c=> this.cart_id = c);
     console.log(this.Cart);
-    this.PurchaseForm = this.fb.group({
+    this.purchaseForm = this.fb.group({
       'first': new FormControl(null, [Validators.required]),
       'last': new FormControl(null, [Validators.required])
     });
@@ -43,8 +44,8 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     this._card.mount(this.card.nativeElement);
   }
 
-  get first() { return this.PurchaseForm.get('first'); }
-  get last() { return this.PurchaseForm.get('last'); }
+  get first() { return this.purchaseForm.get('first'); }
+  get last() { return this.purchaseForm.get('last'); }
 
   total() { return (this.Cart.length * 1425); }
 

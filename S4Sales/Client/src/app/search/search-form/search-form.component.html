@@ -33,7 +33,7 @@
           <div>recapchta goes here</div>
           <input class="btn btn-sm btn-danger" type="button" (click)="showQueryReasons()" value="next"/>
       </div>
-      <div *ngIf="showingQueryReasons">
+      <div *ngIf="showingQueryReasons" class="reason-for-query">
         <h5 class="search-reason-title">How are you connected to this crash? <span><i class="fa fa-question-circle" tooltip="explain why they need to be connected here." placement="left"></i></span></h5>
           <div  *ngFor="let r of reasonsForQuery, let i = index" class="form-check search-reason">
             <input class="check form-check-input" type="radio" name="reasonForQuery" id="r{{i}}" (change)="updateSelection($event)" value="{{r}}">

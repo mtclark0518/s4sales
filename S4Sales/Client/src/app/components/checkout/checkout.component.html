@@ -8,8 +8,6 @@
     </div>
     <div class="outer">
       <div>Checkout</div>
-
-
       <div>                                              <!-- order review container -->
         <div>                                            <!-- order item container-->
           <div *ngFor="let item of Cart" class="item">   <!-- item detail container-->
@@ -24,23 +22,20 @@
         </div>
         <div>                                              <!-- order total container -->
           <div>Total:</div>
-          <div>{{Cart.length * 14.25}}</div>
+          <div>{{Cart.length * price}}</div>
         </div>
       </div>
-
-
-
-
-      <form [formGroup]='PurchaseForm' (submit)='onSubmit($event)'>
-        <div>Payment Information</div>
-        <div class="input-group">
-          <input class="form-control input-lg" type="text" formControlName='first' placeholder="first name">
-          <input class="form-control input-sm" type="text" formControlName='last' placeholder="last name">
-        </div>
-        <div id="card" #card></div>
-        <input class="btn btn-block btn-outline-danger" type="submit" value='Submit'>
-      </form>
-
+      <div class="form-container">
+        <form [formGroup]='purchaseForm' (submit)='onSubmit($event)'>
+          <div>Payment Information</div>
+          <div class="input-group">
+            <input class="form-control input-lg" type="text" formControlName='first' placeholder="first name">
+            <input class="form-control input-sm" type="text" formControlName='last' placeholder="last name">
+          </div>
+          <div id="card" #card></div>
+          <input class="btn btn-block btn-outline-danger" type="submit" value='Submit'>
+        </form>
+      </div>
     </div>
   </div>
 </div>

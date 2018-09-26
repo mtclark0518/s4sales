@@ -60,6 +60,7 @@ export class CartService {
       this.setCart(response);
     });
   }
+
   // public removeFromCart(remove: CartItem): void {
 
   // }
@@ -103,7 +104,4 @@ export class CartService {
     this.Items.next(items);
     this.cartStillActive();
   }
-
-
-
 }

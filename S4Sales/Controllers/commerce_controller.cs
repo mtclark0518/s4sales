@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using S4Sales.Models;
-using S4Sales.Services;
-using System;
 using System.Threading.Tasks;
 
 namespace S4Sales.Controllers
@@ -10,13 +8,11 @@ namespace S4Sales.Controllers
     public class CommerceController : Controller
     {
         private readonly CommerceRepository _ec_repo;
-        private readonly StripeService _stripe;
 
 
-        public CommerceController(CommerceRepository ec, StripeService str)
+        public CommerceController(CommerceRepository ec)
         {
             _ec_repo = ec;
-            _stripe = str;
         }
         
         [HttpPost("create")]

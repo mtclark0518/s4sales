@@ -12,7 +12,6 @@ namespace S4Sales.Models
         public string cart_id { get; set; }
         public DateTime created_date { get; set; }
         public string session_id { get; set; }
-        public IEnumerable<CartItem> cart_content {get;set;}
         // constructor
         public Cart(){}
     }
@@ -20,7 +19,7 @@ namespace S4Sales.Models
     {
         public DateTime add_date {get;set;}
         public string cart {get;set;}
-        public int cost = 1425;
+        public int cost = 1025;
         public int hsmv_report_number {get;set;}
         // default constructor
         public CartItem() {}
