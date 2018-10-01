@@ -15,6 +15,7 @@ namespace S4Sales.Models
         private StripeService _stripe;
         private SearchRepository _crash;
         private CartStore _cart;
+        
         public CommerceRepository( 
             IConfiguration config, 
             StripeService str, 
