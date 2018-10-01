@@ -1,8 +1,7 @@
 <div class="wrap">
   <div class="page-container">
     <div class="form-container">
-
-          <form [formGroup]="loginForm" (submit)="login($event)" class="form-body">
+          <form [formGroup]="loginForm" (submit)="login($event)">
               <div class="form-group" >
                 <input formControlName="agency"
                     [typeahead]="agencies"

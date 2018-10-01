@@ -9,7 +9,7 @@ import { AuthGuard, AdminGuard } from './providers/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { HelpContainerComponent } from './components/help-container/help-container.component';
+import { HelpContainerComponent } from './components/help/help-container.component';
 import { ProfileComponent } from './account/profile/profile.component';
 
 export const routes: Routes = [

@@ -11,7 +11,6 @@ import { AppRoutingModule } from '../app.routing';
 import { CollapseModule, BsDropdownModule } from 'ngx-bootstrap';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
-import { AlertComponent } from './alert/alert.component';
 import { HelpContainerComponent } from './help/help-container.component';
 
 @NgModule({
@@ -24,13 +23,11 @@ import { HelpContainerComponent } from './help/help-container.component';
     FooterComponent, CartComponent,
     CrashReportComponent, ContactComponent,
     FaqsComponent, TermsAndConditionsComponent,
-    AlertComponent,
     HelpContainerComponent
   ],
   exports: [
     CartComponent, NavbarComponent,
     FooterComponent, CrashReportComponent,
-    AlertComponent
   ]
 })
 export class ComponentsModule { }
