@@ -1,41 +1,39 @@
 <div class="wrap">
-  <div class="page-container">
-    <div class="head">
-      <button (click)="clearCart()" class="btn btn-sm">Clear Cart</button>
-      <a class='nav-item' [routerLink]='["/"]' (click)="continueShopping()">
-        Back 2 Shop <i class="fa fa-dollar"></i>
-      </a>
+  <div class="head">
+    <button (click)="clearCart()" class="btn btn-sm">Clear Cart</button>
+    <a class='nav-item' [routerLink]='["/"]' (click)="continueShopping()">
+      Back 2 Shop <i class="fa fa-dollar"></i>
+    </a>
+  </div>
+  <div class="outer">
+    <div>Checkout</div>
+    <div>                                              <!-- order review container -->
+      <div>                                            <!-- order item container-->
+        <div *ngFor="let item of Cart" class="item">   <!-- item detail container-->
+          <div>                                        <!-- item detail-->
+            FL HSMV Accident Report {{item.hsmv_report_number}}
+          </div>
+          <div>                                        <!-- item action container -->
+              <button><i class="fa fa-remove"></i></button>
+              <button><i class="fa fa-question"></i></button>
+          </div>
+        </div>
+      </div>
+      <div>                                              <!-- order total container -->
+        <div>Total:</div>
+        <div>{{Cart.length * price}}</div>
+      </div>
     </div>
-    <div class="outer">
-      <div>Checkout</div>
-      <div>                                              <!-- order review container -->
-        <div>                                            <!-- order item container-->
-          <div *ngFor="let item of Cart" class="item">   <!-- item detail container-->
-            <div>                                        <!-- item detail-->
-              FL HSMV Accident Report {{item.hsmv_report_number}}
-            </div>
-            <div>                                        <!-- item action container -->
-                <button><i class="fa fa-remove"></i></button>
-                <button><i class="fa fa-question"></i></button>
-            </div>
-          </div>
+    <div class="form-container">
+      <form [formGroup]='purchaseForm' (submit)='onSubmit($event)'>
+        <div>Payment Information</div>
+        <div class="input-group">
+          <input class="form-control input-lg" type="text" formControlName='first' placeholder="first name">
+          <input class="form-control input-sm" type="text" formControlName='last' placeholder="last name">
         </div>
-        <div>                                              <!-- order total container -->
-          <div>Total:</div>
-          <div>{{Cart.length * price}}</div>
-        </div>
-      </div>
-      <div class="form-container">
-        <form [formGroup]='purchaseForm' (submit)='onSubmit($event)'>
-          <div>Payment Information</div>
-          <div class="input-group">
-            <input class="form-control input-lg" type="text" formControlName='first' placeholder="first name">
-            <input class="form-control input-sm" type="text" formControlName='last' placeholder="last name">
-          </div>
-          <div id="card" #card></div>
-          <input class="btn btn-block btn-outline-danger" type="submit" value='Submit'>
-        </form>
-      </div>
+        <div id="card" #card></div>
+        <input class="btn btn-block btn-outline-danger" type="submit" value='Submit'>
+      </form>
     </div>
   </div>
 </div>

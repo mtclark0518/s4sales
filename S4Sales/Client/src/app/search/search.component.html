@@ -1,30 +1,28 @@
 <div class="wrap">
-  <div class="page-container">
-    <div class="search-header">
-      <div *ngIf="status == ''" class="header-item">
-        <div>How would you like to search for a report?</div>
-      </div>
-      <div *ngIf="status == 'searching'" class="header-item">
-        <div class="">Please fill out the fields below</div>
-      </div>
-      <div *ngIf="status == 'returning'" class="header-item">
-        <div *ngIf="SearchResults.length == 1">{{SearchResults.length}} Crash event found</div>
-        <div *ngIf="SearchResults.length == 0 || SearchResults.length > 1" class="">{{SearchResults.length}} Crash events found</div>
-      </div>
+  <div class="search-header">
+    <div *ngIf="status == ''" class="header-item">
+      <div>How would you like to search for a report?</div>
     </div>
+    <div *ngIf="status == 'searching'" class="header-item">
+      <div class="">Please fill out the fields below</div>
+    </div>
+    <div *ngIf="status == 'returning'" class="header-item">
+      <div *ngIf="SearchResults.length == 1">{{SearchResults.length}} Crash event found</div>
+      <div *ngIf="SearchResults.length == 0 || SearchResults.length > 1" class="">{{SearchResults.length}} Crash events found</div>
+    </div>
+  </div>
 
-    <div class="search-container">
-      <div *ngIf="status == ''" class="search-body s1">
-        <div class="card" (click)="selectQueryType('report')"><i class="fa fa-search"></i>Report Number</div>
-        <div class="card" (click)="selectQueryType('vehicle')"><i class="fa fa-car"></i>Vehicle VIN</div>
-        <div class="card" (click)="selectQueryType('detailed')"><span><i class="fa fa-user-circle"></i><i class="fa fa-calendar"></i></span>Last Name & Date</div>
-      </div>
-      <div *ngIf="status == 'searching'"class="search-body s2">
-        <search-form></search-form>
-      </div>
-      <div *ngIf="status == 'returning'"class="search-body s3">
-        <search-results></search-results>
-      </div>
+  <div class="search-container">
+    <div *ngIf="status == ''" class="search style">
+      <div class="card" (click)="selectQueryType('report')"><i class="fa fa-search"></i>Report Number</div>
+      <div class="card" (click)="selectQueryType('vehicle')"><i class="fa fa-car"></i>Vehicle VIN</div>
+      <div class="card" (click)="selectQueryType('detailed')"><span><i class="fa fa-user-circle"></i><i class="fa fa-calendar"></i></span>Last Name & Date</div>
+    </div>
+    <div *ngIf="status == 'searching'"class="search form">
+      <search-form></search-form>
+    </div>
+    <div *ngIf="status == 'returning'"class="search results">
+      <search-results></search-results>
     </div>
   </div>
 </div>

@@ -9,19 +9,14 @@ import { CartService } from '../../providers/cart.service';
   styleUrls: ['../search.scss']
 })
 export class SearchResultsComponent implements OnInit {
-  public searchResults;
+  public Results;
   constructor( private search: SearchService, private cart: CartService) { }
 
   ngOnInit() {
-    this.search.searchResults.subscribe( results => this.searchResults = results );
+    this.search.searchResults.subscribe( results => this.Results = results );
   }
 
   addToCart(item) {
     this.cart.addToCart(item);
   }
-
-  // removeFromCart(item) {
-  //   this.cart.removeFromCart(item);
-  //   item.isClicked = false;
-  // }
 }

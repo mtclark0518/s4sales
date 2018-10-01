@@ -1,56 +1,51 @@
 <div class="wrap">
-  <div class="page-container">
-    <div class="form-container">
-
-      <form [formGroup]="registrationForm" (submit)="register($event)">
-          <div class="form-group" >
-            <input type="text"
-              formControlName="agency"
-              [typeahead]="agencies"
-              class="form-control"
-              placeholder="Agency" />
-          </div>
-          <div class="form-group">
-            <div class="form-row">
-              <div class="col">
-                  <input type="text"
-                    class="form-control"
-                    name="first_name"
-                    formControlName="first_name"
-                    placeholder="First Name">
-              </div>
-              <div class="col">
-                  <input type="text"
-                    class="form-control"
-                    name="last_name"
-                    formControlName="last_name"
-                    placeholder="Last Name">
-              </div>
+  <div class="form-container">
+    <form [formGroup]="registrationForm" (submit)="register($event)">
+        <div class="form-group" >
+          <input type="text"
+            formControlName="agency"
+            [typeahead]="agencies"
+            class="form-control"
+            placeholder="Agency" />
+        </div>
+        <div class="form-group">
+          <div class="form-row">
+            <div class="col">
+                <input type="text"
+                  class="form-control"
+                  name="first_name"
+                  formControlName="first_name"
+                  placeholder="First Name">
+            </div>
+            <div class="col">
+                <input type="text"
+                  class="form-control"
+                  name="last_name"
+                  formControlName="last_name"
+                  placeholder="Last Name">
             </div>
           </div>
-          <div class="form-group">
-            <input type="email"
-              class="form-control"
-              name="email"
-              formControlName="email"
-              placeholder="Email">
-          </div>
-
-          <div class="form-group">
-            <input type="password"
-              class="form-control"
-              name="password"
-              formControlName="password"
-              placeholder="Password">
-          </div>
-          <div class="form-group">
-            <input type="submit"
-              class="btn btn-primary"
-              value="Claim Agency"
-              [disabled]="!registrationForm.valid">
-          </div>
-      </form>
-
-    </div>
+        </div>
+        <div class="form-group">
+          <input type="email"
+            class="form-control"
+            name="email"
+            formControlName="email"
+            placeholder="Email">
+        </div>
+        <div class="form-group">
+          <input type="password"
+            class="form-control"
+            name="password"
+            formControlName="password"
+            placeholder="Password">
+        </div>
+        <div class="form-group">
+          <input type="submit"
+            class="btn btn-primary"
+            value="Claim Agency"
+            [disabled]="!registrationForm.valid">
+        </div>
+    </form>
   </div>
 </div>

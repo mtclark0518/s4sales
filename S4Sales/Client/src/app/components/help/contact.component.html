@@ -1,61 +1,59 @@
 <div class="wrap">
-  <div class="page-container">
-    <div class="form-container">
-      <form (ngSubmit)="submitContact()">
-        <h5 class="form-login-heading">Contact Us</h5>
+  <div class="form-container">
+    <form (ngSubmit)="submitContact()">
+      <h5 class="form-login-heading">Contact Us</h5>
 
-        <div class="alert alert-danger" role="alert" [hidden]="!formError">
-            <strong>Invalid Form Submission.</strong> Please check your work.
-        </div>
-        <div class="form-group">
-            <label for="firstName" class="sr-only">First Name</label>
-            <input type="text"
-                  [(ngModel)]="Contact.firstName"
-                  id="firstName"
-                  name="firstName"
-                  class="form-control"
-                  placeholder="First Name"
-                  required/>
-        </div>
-        <div class="form-group">
-            <label for="lastName" class="sr-only">Last Name</label>
-            <input type="text"
-                  [(ngModel)]="Contact.lastName"
-                  id="lastName"
-                  name="lastName"
-                  class="form-control"
-                  placeholder="Last Name"
-                  required/>
-        </div>
-        <div class="form-group">
-            <label for="contactEmail" class="sr-only">Email</label>
-            <input type="email"
-                  [(ngModel)]="Contact.email"
-                  id="contact-email"
-                  name="contactEmail"
-                  class="form-control"
-                  placeholder="Email"
-                  required/>
-        </div>
-        <div class="form-group">
-            <label for="concern" class="sr-only">Concern</label>
-            <select class="custom-select form-control" [(ngModel)]="Contact.concern" name="concern" required>
-              <option selected="Contact.concern">What can we help you with?</option>
-              <option *ngFor="let concern of concerns" [value]="concern">{{concern}}</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="comment" class="sr-only">Comments</label>
-            <textarea class="form-control"
-                      id="contactComment"
-                      [(ngModel)]="Contact.comment"
-                      name="contactComment"
-                      placeholder="Additional comments"
-                      maxlength="256" >
-            </textarea>
-        </div>
-          <input type="submit" class="btn btn-block btn-primary" name="submit" value="Submit Contact"/>
-      </form>
-    </div>
+      <div class="alert alert-danger" role="alert" [hidden]="!formError">
+          <strong>Invalid Form Submission.</strong> Please check your work.
+      </div>
+      <div class="form-group">
+          <label for="firstName" class="sr-only">First Name</label>
+          <input type="text"
+                [(ngModel)]="Contact.firstName"
+                id="firstName"
+                name="firstName"
+                class="form-control"
+                placeholder="First Name"
+                required/>
+      </div>
+      <div class="form-group">
+          <label for="lastName" class="sr-only">Last Name</label>
+          <input type="text"
+                [(ngModel)]="Contact.lastName"
+                id="lastName"
+                name="lastName"
+                class="form-control"
+                placeholder="Last Name"
+                required/>
+      </div>
+      <div class="form-group">
+          <label for="contactEmail" class="sr-only">Email</label>
+          <input type="email"
+                [(ngModel)]="Contact.email"
+                id="contact-email"
+                name="contactEmail"
+                class="form-control"
+                placeholder="Email"
+                required/>
+      </div>
+      <div class="form-group">
+          <label for="concern" class="sr-only">Concern</label>
+          <select class="custom-select form-control" [(ngModel)]="Contact.concern" name="concern" required>
+            <option selected="Contact.concern">What can we help you with?</option>
+            <option *ngFor="let concern of concerns" [value]="concern">{{concern}}</option>
+          </select>
+      </div>
+      <div class="form-group">
+          <label for="comment" class="sr-only">Comments</label>
+          <textarea class="form-control"
+                    id="contactComment"
+                    [(ngModel)]="Contact.comment"
+                    name="contactComment"
+                    placeholder="Additional comments"
+                    maxlength="256" >
+          </textarea>
+      </div>
+        <input type="submit" class="btn btn-block btn-primary" name="submit" value="Submit Contact"/>
+    </form>
   </div>
 </div>
