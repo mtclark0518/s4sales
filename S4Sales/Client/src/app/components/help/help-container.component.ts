@@ -1,3 +1,4 @@
+// tslint:disable:component-class-suffix
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './help-container.component.html',
   styleUrls: ['./help-container.component.scss']
 })
-export class HelpContainerComponent implements OnInit {
+export class HelpContainer implements OnInit {
   public displaying;
   public faqs = 'item';
   public contact = 'item';
