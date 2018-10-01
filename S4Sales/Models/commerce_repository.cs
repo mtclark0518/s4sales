@@ -9,10 +9,6 @@ using S4Sales.Services;
 
 namespace S4Sales.Models
 {
-    /// <Note>
-    // Holds methodology for processing purchases, recording sale data 
-    ///</Note>
-
     public class CommerceRepository 
     {
         private string _conn;
@@ -35,8 +31,6 @@ namespace S4Sales.Models
         public Task HandleTransaction(reqTransaction order)
         {
             Purchase po = FormatNewPurchase(order); // create a purchase order
-            
-            
             var charge =  _stripe.CreateCharge(order); // create a time charge
             
             // add charge results to purchase
@@ -45,22 +39,22 @@ namespace S4Sales.Models
 
             if( charge.Status == "succeeded")
             {
+                List<string> purchased = new List<string>();
                 var cart = _cart.GetContent(order.cart_id); // pull the item-list from order
-                List<CrashEvent> purchased = new List<CrashEvent>();
                 // pull purchased crash events
                 // Add purchased reports for download list
                 // create the agency receipt / log
                 foreach(var c in cart)
                 {
                     CrashEvent crash_report = _crash.FindByHsmvReportNumber(c.hsmv_report_number);
-                    purchased.Add(crash_report);
-                    
                     Reimbursement funds = FormatReimbursement(crash_report, order.cart_id);
-                    if ( !LogReimbursement(funds) )
-                    {
-                        var error = "error writing reimbursement details";
-                        throw new Exception(nameof(error));
-                    };
+                    
+                    var token = new DownloadToken(
+                        po.cart_id,
+                        crash_report.hsmv_report_number.ToString(),
+                        po.stripe_charge_token).Mint();
+
+                    purchased.Add(token);
                 }
                 // after creating agency reimbursements and fetching the reports
                 //create purchase receipt / log
@@ -69,12 +63,9 @@ namespace S4Sales.Models
                     var error = "error writing purchase details";
                     throw new Exception(nameof(error));
                 };
-
-                // return the purchased items
-                return Task.FromResult(purchased);
+                return Task.FromResult(purchased); // return download tokens
             }
-            // if charge failed we log the attempt and result
-            else
+            else // if charge fails
             {
                 if(!LogTransaction(po))
                 {
@@ -84,34 +75,35 @@ namespace S4Sales.Models
                 // return reason for charge failure 
                 var failure = new StandardResponse()
                 {
-                    message =   charge.FailureMessage
+                    message = charge.FailureMessage
                 };
                 return Task.FromResult(failure);
             }
         }
 
-
         #region Private methods
         private Reimbursement FormatReimbursement(CrashEvent crash_report, string cart_id)
         {
             var funds = new Reimbursement(crash_report, cart_id);
-
             // review order contents
             var accident = new 
             { 
                 occured = crash_report.crash_date_and_time, 
                 reported = crash_report.hsmv_entry_date
             };
-
             if(isWithinDateRange(accident.occured, accident.reported, 10))
             {
                 // adjsut fund allocation
                 funds.reimbursement_amount += 5;
                 funds.timely = true;
             }
+            if ( !LogReimbursement(funds) )
+            {
+                var error = "error writing reimbursement details";
+                throw new Exception(nameof(error));
+            };
             return funds;
         }
-
 
         private Purchase FormatNewPurchase(reqTransaction order)
         {
@@ -152,6 +144,7 @@ namespace S4Sales.Models
                 return result == 1;
             }
         }
+
         private bool LogTransaction(Purchase po)
         {
             var _query = $@"
