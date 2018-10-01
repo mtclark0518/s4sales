@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,15 +7,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-
 using S4Sales.Identity;
 using S4Sales.Log;
 using S4Sales.Models;
 using S4Sales.Services;
-
-
 namespace S4Sales
 {
     public class Startup
@@ -113,11 +108,10 @@ namespace S4Sales
             services.AddSingleton<SearchRepository>();
 
             // additonal services
+            services.AddSingleton<DownloadToken>();
+            services.AddSingleton<Logg>();
             services.AddSingleton<S4Emailer>();
             services.AddSingleton<StripeService>();
-            services.AddSingleton<Logg>();
-
-
 
             services.AddMvc();
             // In production, the Angular files will be served from this directory

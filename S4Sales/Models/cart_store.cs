@@ -77,8 +77,8 @@ namespace S4Sales.Models
             Cart new_cart = new Cart()
             {
                 cart_id = Guid.NewGuid().ToString(),
+                session_id = _session.CurrentSession(),
                 created_date = DateTime.Now,
-                session_id = _session.CurrentSession()
             };
             var _query = $@"INSERT INTO cart VALUES (@cart, @session, @date)";
             var _params = new 

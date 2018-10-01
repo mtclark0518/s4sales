@@ -15,11 +15,13 @@ namespace S4Sales.Controllers
         private readonly SessionUtility _session;
         private readonly CartStore _cart;
         private readonly Logg _log;        
-        public CartController(CartStore c, SessionUtility s, Logg l)
+        CryptoNasty _aes;
+        public CartController(CartStore c, SessionUtility s, Logg l, CryptoNasty aes)
         {
             _cart = c;
             _session = s;
             _log = l;
+            _aes = aes;
         }
 
         [HttpPost("add")]

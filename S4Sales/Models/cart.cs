@@ -10,8 +10,8 @@ namespace S4Sales.Models
     public class Cart
     {
         public string cart_id { get; set; }
-        public DateTime created_date { get; set; }
         public string session_id { get; set; }
+        public DateTime created_date { get; set; }
         // constructor
         public Cart(){}
     }

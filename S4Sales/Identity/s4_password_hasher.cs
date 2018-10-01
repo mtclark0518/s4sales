@@ -69,13 +69,13 @@ namespace S4Sales.Identity
                 bRet = hm.ComputeHash(bAll);
             }
             var convert = Convert.ToBase64String(bRet);
-
             return convert;
         }
         public PasswordVerificationResult VerifyHashedPassword(TUser user, string hashed, string provided)
         {
             return hashed == HashPassword(user, provided) ? 
-                PasswordVerificationResult.Success : PasswordVerificationResult.Failed;
+                PasswordVerificationResult.Success : 
+                PasswordVerificationResult.Failed;
         }
     }
 }
