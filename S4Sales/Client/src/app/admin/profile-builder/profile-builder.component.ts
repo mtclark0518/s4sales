@@ -39,7 +39,6 @@ export class ProfileBuilderComponent implements OnInit {
       message: this.message.value || 'approved',
     };
 
-    console.log(request);
     this.admin.submitApprovalResponse(request);
   }
 

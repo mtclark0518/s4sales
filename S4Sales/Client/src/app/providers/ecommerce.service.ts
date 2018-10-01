@@ -21,7 +21,7 @@ export class EcommerceService {
   submit(order: Transaction) {
     this.http.post(this.domain + 'create', order)
       .subscribe(response => {
-        console.log(response);
+        // TODO
       });
   }
 }

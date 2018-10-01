@@ -11,7 +11,6 @@
       <div *ngIf="SearchResults.length == 0 || SearchResults.length > 1" class="">{{SearchResults.length}} Crash events found</div>
     </div>
   </div>
-
   <div class="search-container">
     <div *ngIf="status == ''" class="search style">
       <div class="card" (click)="selectQueryType('report')"><i class="fa fa-search"></i>Report Number</div>

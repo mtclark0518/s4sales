@@ -47,7 +47,6 @@ export class RegisterComponent implements OnInit {
         email: this.email.value,
         password: this.password.value
       };
-      console.log(account);
       this.account.register(account);
     }
 }

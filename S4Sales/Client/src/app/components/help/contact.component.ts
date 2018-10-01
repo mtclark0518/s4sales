@@ -21,7 +21,6 @@ export class ContactComponent implements OnInit {
     this.concerns = concerns.slice(concerns.length / 2);
   }
   submitContact() {
-    console.log(this.Contact);
   }
 
 }

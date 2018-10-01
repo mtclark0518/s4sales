@@ -67,7 +67,6 @@ export class AccountService {
   }
 
   public onboard(agency: OnboardingDetails) {
-    console.log(agency);
     this.http.put(this.domain + '/activate', agency)
     .subscribe( response => this.handleOnboard(response));
   }
@@ -88,27 +87,33 @@ export class AccountService {
   }
 
   private handleEntry (attempt) {
-    console.log(attempt);
     // if success send the user to the profile page
     if (attempt.succeeded) {
       this.router.navigateByUrl('/account');
+    } else {
+      // TODO
+      // display the failure msg
     }
-    // else
-    // display the failure msg
   }
 
-  // TODO
   private handleProfile(details) {
-    console.log(details);
+    // TODO
   }
 
   private handleOnboard (data) {
-    console.log(data);
-    if (data) { } else { }
+    if (data) {
+      // TODO
+    } else {
+      // TODO
+    }
   }
 
-  public changePassword(pass: Password) {}
-  public resetPassword(pass: Password) {}
+  public changePassword(pass: Password) {
+    // TODO
+  }
+  public resetPassword(pass: Password) {
+    // TODO
+   }
 
   public recoverAccount(email) {
     this.http.post(this.domain + '/recover', email)
@@ -116,22 +121,10 @@ export class AccountService {
   }
 
   private handleRecoverAccount(data) {
-    console.log(data);
     if (data.message === 'sent') {
-      console.log('fucker');
+      // TODO
+    } else {
+      // TODO
     }
   }
 }
-
-  // Needs backend counterpart
-  // public checkServerSession(): Observable<boolean> {
-  //   return this.http
-  //     .get('api/identity/current-user')
-  //     .map( response => {
-  //       console.log(response);
-  //       const user = response as Account;
-  //       this.serverChecked = true;
-  //       this.account = user;
-  //       return true;
-  //     });
-  // }

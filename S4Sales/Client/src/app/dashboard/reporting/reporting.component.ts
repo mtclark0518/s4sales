@@ -10,7 +10,6 @@ export class ReportingComponent implements OnInit {
   public items = [];
   constructor(private dash: DashboardService) { }
   ngOnInit() {
-    console.log('init');
     this.dash.reportDetails.subscribe(tails_ => this.items = tails_);
   }
 

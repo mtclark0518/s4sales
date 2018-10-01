@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-// tslint:disable-next-line:import-blacklist
 import {  BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CrashReport } from '../models/_interfaces';
-
 
 
 @Injectable({
@@ -43,7 +41,9 @@ export class CartService {
       .subscribe( res => this.addCartResponse(res, item));
   }
 
-  public emptyCart(): void {}
+  public emptyCart(): void {
+    // TODO
+  }
 
   public getItems() {
     let cart: string;
@@ -61,9 +61,9 @@ export class CartService {
     });
   }
 
-  // public removeFromCart(remove: CartItem): void {
-
-  // }
+  public removeFromCart(remove): void {
+    // TODO
+  }
 
 
 

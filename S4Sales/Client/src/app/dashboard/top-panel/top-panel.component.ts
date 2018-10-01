@@ -14,7 +14,6 @@ export class TopPanelComponent implements OnInit {
   ngOnInit() {
   }
   getCurrentUser() {
-    console.log('get current user');
     this.account.getCurrentUser();
   }
 }

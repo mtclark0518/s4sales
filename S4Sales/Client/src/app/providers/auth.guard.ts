@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate {
     this.account.getCurrentUser(); // redirects to login component if false
     if (next.queryParams.error) {
       // handle error
-      console.log(next.queryParams.error_description);
       return false;
     }
     // if this is a redirect from stripe onboarding we should have a state string
@@ -36,7 +35,6 @@ export class AdminGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    console.log('admin guard service canActivate triggered');
     return true;
   }
 }

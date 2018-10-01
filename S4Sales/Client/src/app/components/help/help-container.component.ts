@@ -31,8 +31,7 @@ export class HelpContainerComponent implements OnInit {
         this.terms = 'item active';
         this.displaying = 'terms';
       break;
-      default:
-        console.log('default');
+      default: return false;
     }
   }
 }

@@ -45,7 +45,6 @@ export class PasswordComponent implements OnInit {
         const recover = {
           account: this.accountEmail.value
         };
-        console.log(recover);
         this.account.recoverAccount(recover);
         break;
       case 'change':
@@ -55,8 +54,6 @@ export class PasswordComponent implements OnInit {
         };
         this.account.changePassword(change);
         break;
-        default:
-        console.log('the default is an error');
     }
   }
 

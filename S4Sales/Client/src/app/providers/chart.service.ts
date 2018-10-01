@@ -61,7 +61,7 @@ export class ChartService {
           options['yAxis']['title']['text'] = 'Reports Entered';
           options['series'] = [{name: 'Reports', data: _values}, { name: 'Timely', data: []}];
         break;
-        default : console.log('this means that its not working yet');
+        default: return false;
       }
 
       this.ChartOptions.next(options);

@@ -136,7 +136,6 @@ export class DashboardService {
     }
 
     private setReportData = data => {
-      console.log(data);
       const arr = [];
       data.forEach(item => {
         arr.push(item);

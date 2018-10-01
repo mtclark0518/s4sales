@@ -31,8 +31,7 @@ export class SwitchTabsComponent implements OnInit {
         this.reports = 'item active';
         this.dash.setDISPLAYING('reports');
       break;
-      default:
-        console.log('default');
+      default: return false;
     }
   }
 }

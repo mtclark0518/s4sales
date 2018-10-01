@@ -29,7 +29,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.cart._items.subscribe( i => this.Cart = i);
     this.cart.cart.subscribe(c=> this.cart_id = c);
-    console.log(this.Cart);
     this.purchaseForm = this.fb.group({
       'first': new FormControl(null, [Validators.required]),
       'last': new FormControl(null, [Validators.required])
@@ -57,7 +56,6 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
     $event.preventDefault();
     const created = await this.ecomm.createToken(this._card);
     if (created.token) {
-      console.log(created.token.id);
       const order: Transaction = {
         first_name: this.first.value,
         last_name: this.last.value,

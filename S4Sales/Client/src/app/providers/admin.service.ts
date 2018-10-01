@@ -43,14 +43,13 @@ export class AdminService {
   }
 
   setRequestQueue(req) {
-    console.log(req);
     this.RequestQueue.next(req);
   }
 
   submitApprovalResponse(req) {
-    console.log(req);
-
-    this.http.post(this.domain + '/approve', req).subscribe(response => {console.log(response); } );
+    this.http.post(this.domain + '/approve', req).subscribe(response => {
+      // TODO
+    });
   }
 
 }
