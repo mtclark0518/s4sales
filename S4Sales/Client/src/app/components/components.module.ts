@@ -3,16 +3,16 @@ import { CommonModule } from '@angular/common';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { CrashReportComponent } from './crash-report/crash-report.component';
-import { ContactComponent } from './contact/contact.component';
-import { FaqsComponent } from './faqs/faqs.component';
-import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
+import { ContactComponent } from './help/contact.component';
+import { FaqsComponent } from './help/faqs.component';
+import { TermsAndConditionsComponent } from './help/terms-and-conditions.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app.routing';
 import { CollapseModule, BsDropdownModule } from 'ngx-bootstrap';
 import { CartComponent } from './cart/cart.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { AlertComponent } from './alert/alert.component';
-import { HelpContainerComponent } from './help-container/help-container.component';
+import { HelpContainerComponent } from './help/help-container.component';
 
 @NgModule({
   imports: [
