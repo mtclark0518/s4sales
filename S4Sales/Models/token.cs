@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 
-namespace S4Sales.Services
+namespace S4Sales.Models
 {
     public class DownloadToken
     {
@@ -86,7 +86,6 @@ namespace S4Sales.Services
                 var rfc = new Rfc2898DeriveBytes(secret, salt, 10000, HashAlgorithmName.SHA512);
                 aes.Key = rfc.GetBytes(aes.KeySize/8);
                 aes.IV = rfc.GetBytes(aes.BlockSize/8);
-                // aes.Padding = PaddingMode.PKCS7;
                 // Create a decryptor to perform the stream transform.
                 ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
                 // Create the streams used for decryption.
