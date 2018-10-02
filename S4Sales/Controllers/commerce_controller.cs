@@ -21,5 +21,14 @@ namespace S4Sales.Controllers
             var result = _ec_repo.HandleTransaction(order);
             return Task.FromResult(result);
         }
+        
+        [HttpGet("download")]
+        public void Download()
+        {
+
+            // TODO
+            // var result = _ec_repo.HandleTransaction(order);
+            // return Task.FromResult(result);
+        }
     }
 }

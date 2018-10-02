@@ -28,53 +28,52 @@ namespace S4Sales.Models
             _cart = cs;
         }
 
-        // steps through transaction event
         public Task HandleTransaction(reqTransaction order)
         {
-            Purchase po = FormatNewPurchase(order); // create a purchase order
-            var charge =  _stripe.CreateCharge(order); // create a time charge
+            Purchase po = FormatNewPurchase(order); // creates a purchase object
+            var charge =  _stripe.CreateCharge(order); // create Stripe charge
             
-            // add charge results to purchase
-            po.stripe_charge_token = charge.Id;
-            po.charge_token_result = charge.Status;
+            po.stripe_charge_token = charge.Id; // add charge token to purchase
+            po.charge_token_result = charge.Status; // add charge outcome to purchase
 
-            if( charge.Status == "succeeded")
+            if( charge.Status == "succeeded") 
             {
-                List<string> purchased = new List<string>();
+                List<string> purchased = new List<string>(); // empty list will hold download tokens for purchase
                 var cart = _cart.GetContent(order.cart_id); // pull the item-list from order
-                // pull purchased crash events
-                // Add purchased reports for download list
-                // create the agency receipt / log
                 foreach(var c in cart)
                 {
-                    CrashEvent crash_report = _crash.FindByHsmvReportNumber(c.hsmv_report_number);
-                    Reimbursement funds = FormatReimbursement(crash_report, order.cart_id);
-                    
-                    var token = new DownloadToken(
+                    string hsmv_token = String.Empty; // holds the formated download token
+                    CrashEvent hsmv_report = _crash.FindByHsmvReportNumber(c.hsmv_report_number); // pull report
+
+                    // if(hsmv_report.timely) // TODO if report is timely
+                    // {
+                    //     Reimbursement funds = FormatReimbursement(hsmv_report, po.cart_id); // create Stripe transfer
+                    // }
+
+                    string token = new DownloadToken( 
                         po.cart_id,
-                        crash_report.hsmv_report_number.ToString(),
+                        hsmv_report.hsmv_report_number.ToString(),
                         po.stripe_charge_token).Mint();
 
-                    purchased.Add(token);
+                    hsmv_token += hsmv_report + "." + token; // concatenate report number to the token
+                    purchased.Add(hsmv_token);
                 }
-                // after creating agency reimbursements and fetching the reports
-                //create purchase receipt / log
-                if ( !LogTransaction(po) )
+                if (!LogTransaction(po)) // saves our purchase object
                 {
                     var error = "error writing purchase details";
                     throw new Exception(nameof(error));
                 };
                 return Task.FromResult(purchased); // return download tokens
             }
-            else // if charge fails
+            else // path is hit if the Stripe charge fails (ie insufficient funds, incorrect card number)
             {
-                if(!LogTransaction(po))
+                if(!LogTransaction(po)) // save the attempted purchase
                 {
                     var fail = "error writing purchase details";
                     throw new Exception(nameof(fail));
                 }
-                // return reason for charge failure 
-                var failure = new StandardResponse()
+
+                var failure = new StandardResponse() // return the failure message to the client
                 {
                     message = charge.FailureMessage
                 };
@@ -82,7 +81,11 @@ namespace S4Sales.Models
             }
         }
 
-        #region Private methods
+
+        ///<Note> TODO
+        // create a stripe transfer to reimburse the reporting agency
+        // create a reimbursement object (holding transfer token) to save for s4 records
+        ///</Note>
         private Reimbursement FormatReimbursement(CrashEvent crash_report, string cart_id)
         {
             var funds = new Reimbursement(crash_report, cart_id);
@@ -106,6 +109,10 @@ namespace S4Sales.Models
             return funds;
         }
 
+        ///<Note>
+        // returns purchase object
+        // log purchase called by handleTransaction
+        ///</Note>
         private Purchase FormatNewPurchase(reqTransaction order)
         {
             return new Purchase()
@@ -122,6 +129,10 @@ namespace S4Sales.Models
             return a.AddDays(c) > b;
         }
 
+
+        ///<Note>
+        // saves Reimbursement to databsase
+        ///</Note>
         private bool LogReimbursement(Reimbursement r)
         {
             var _query = $@"
@@ -146,6 +157,9 @@ namespace S4Sales.Models
             }
         }
 
+        ///<Note>
+        // saves the purchase object to the databbase
+        ///</Note>
         private bool LogTransaction(Purchase po)
         {
             var _query = $@"
@@ -171,6 +185,5 @@ namespace S4Sales.Models
                 return result == 1;
             }
         }
-        #endregion
     }
 }
