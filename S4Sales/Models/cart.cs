@@ -19,7 +19,7 @@ namespace S4Sales.Models
     {
         public DateTime add_date {get;set;}
         public string cart {get;set;}
-        public int cost = 1025;
+        public int cost = 1025; // cost in us cents
         public int hsmv_report_number {get;set;}
         // default constructor
         public CartItem() {}

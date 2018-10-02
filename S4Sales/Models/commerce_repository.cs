@@ -35,6 +35,7 @@ namespace S4Sales.Models
         public Task HandleDownload(string token)
         {
             // TODO
+            return Task.CompletedTask;
         }
 
         ///<Note> 
@@ -192,7 +193,7 @@ namespace S4Sales.Models
                 src = po.stripe_src_token,
                 chrg = po.stripe_charge_token,
                 result = po.charge_token_result
-           };
+            };
             using (var conn = new NpgsqlConnection(_conn))
             {
                 var result = conn.Execute(_query, _params);

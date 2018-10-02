@@ -56,59 +56,60 @@ namespace S4Sales.Controllers
             
             var error = new StandardResponse()
             {
-                code = StatusCode(500),
                 message = @"Your trying to access a cart that 
                 isn't yours or the session isn't active bruh. 
-                Or maybe the card didn't add the item correctly."
+                Or maybe the cart didn't add the item correctly."
             };
             return Task.FromResult(error);
         }
 
-        // retrieves items for a given cart
+
+        ///<Note>
+        // called when user navigates to checkout
+        // returns duh
+        ///</Note>
         [HttpGet("content")]
         public IEnumerable<CartItem> GetCartContent()
         {
-            var cart = Request.Headers["cart_id"];
-            var content = _cart.GetContent(cart);
-            return content;
+            return _cart.GetContent(Request.Headers["cart_id"]);
         }
 
+
+        ///<Note>
+        // called by the cart component on init
+        // double checks the session for an existing cart id
+        // sends back existing / new cart
+        ///</Note>
         [HttpGet("init")]
         public string InitializeCart()
         {
+            // TODO
             // check session expiration
             // currently this just returns true
             // needs time check in session utility
             if(_session.IsValid())
             {
-                // if we've searched already grab our cart
-                if(!_cart.NeedACart()) 
+                
+                if(!_cart.NeedACart()) // kind of a double negative but checks session for cart-id
                 { 
-                    var result = _session.GetSession("cart"); 
-                    return result;
+                    return _session.GetSession("cart"); 
                 } 
-
-                // meta info
-                // hit upon starting new session
-                if( _cart.MakeNewCart().Result == true)
+                
+                if( _cart.MakeNewCart().Result == true) // hit when starting new session
                 {
                     IPAddress ip = Request.HttpContext.Connection.LocalIpAddress;
-
-                    // log the session information
-                    var details = new SessionLog()
+                    var details = new SessionLog() // log the session information
                     {
                         cart_id = _session.GetSession("cart"),
                         session_id = _session.CurrentSession(),
                         client_ip = ip.ToString()
                     };
                     _log.Session(details);
-                    // return with the cart id 
-                    return details.cart_id;
+                    return details.cart_id; // return with the cart id 
                 }
-                // error creating the new cart
+                // TODO error creating the new cart
             }
-            // error in session. figure out how to reset
-            var error = "you messed up";
+            var error = "you messed up"; // error in session. figure out how to reset
             return error;
         }
     }
