@@ -26,7 +26,6 @@ export class CartService {
   private ItemCount = new BehaviorSubject<number>(0);
   public cartItems = this.ItemCount.asObservable();
 
-
   private Items = new BehaviorSubject<Array<CrashReport>>([]);
   public _items = this.Items.asObservable();
 
