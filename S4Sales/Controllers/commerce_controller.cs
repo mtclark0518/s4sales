@@ -22,13 +22,18 @@ namespace S4Sales.Controllers
             return Task.FromResult(result);
         }
         
-        [HttpGet("download")]
-        public void Download()
-        {
 
+        ///<Note>
+        // TODO
+        // this is triggered by client after payment has been approved
+        ///<Note>
+        [HttpGet("download")]
+        public Task Download()
+        {
+            string token = Request.Headers["download"]; 
+            var result = _ec_repo.HandleDownload(token);
             // TODO
-            // var result = _ec_repo.HandleTransaction(order);
-            // return Task.FromResult(result);
+            return Task.FromResult(result);
         }
     }
 }

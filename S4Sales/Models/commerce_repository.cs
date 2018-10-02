@@ -28,6 +28,20 @@ namespace S4Sales.Models
             _cart = cs;
         }
 
+        ///<Note> 
+        // receives the minted download token
+        // if token is valid returns the crash report
+        ///</Note>
+        public Task HandleDownload(string token)
+        {
+            // TODO
+        }
+
+        ///<Note> 
+        // receives order info
+        // formats purchase and reimbursements
+        // issues download tokens for successful purchase
+        ///</Note>
         public Task HandleTransaction(reqTransaction order)
         {
             Purchase po = FormatNewPurchase(order); // creates a purchase object
@@ -55,7 +69,7 @@ namespace S4Sales.Models
                         hsmv_report.hsmv_report_number.ToString(),
                         po.stripe_charge_token).Mint();
 
-                    hsmv_token += hsmv_report + "." + token; // concatenate report number to the token
+                    hsmv_token += hsmv_report.hsmv_report_number.ToString() + "." + token; // concatenate report number to the token
                     purchased.Add(hsmv_token);
                 }
                 if (!LogTransaction(po)) // saves our purchase object
@@ -65,7 +79,7 @@ namespace S4Sales.Models
                 };
                 return Task.FromResult(purchased); // return download tokens
             }
-            else // path is hit if the Stripe charge fails (ie insufficient funds, incorrect card number)
+            else // path is hit if the Stripe charge fails (ie insufficient funds)
             {
                 if(!LogTransaction(po)) // save the attempted purchase
                 {
