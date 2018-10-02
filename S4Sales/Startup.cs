@@ -46,9 +46,6 @@ namespace S4Sales
 
 
             // session services
-            // TODO -- attach a cart obejct to session cookie
-            // probably have it trigger when a user initiates a query
-            // logging will be tied to this as well            
             services.AddDistributedMemoryCache();
             services.AddSession( opts =>
             {
