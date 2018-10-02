@@ -8,15 +8,13 @@ namespace S4Sales.Controllers
     public class CommerceController : Controller
     {
         private readonly CommerceRepository _ec;
-
-
         public CommerceController(CommerceRepository ec)
         {
             _ec = ec;
         }
 
         [HttpPost("create")]
-        public Task CreateOrder([FromBody] reqTransaction order)
+        public Task CreateOrder([FromBody] PurchaseRequest order)
         {
             var result = _ec.HandleTransaction(order);
             return Task.FromResult(result);

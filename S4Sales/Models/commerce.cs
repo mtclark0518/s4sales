@@ -25,24 +25,19 @@ namespace S4Sales.Models
         public string reporting_agency { get; set; }
         public float reimbursement_amount { get; set; }
         public DateTime reimbursement_date { get; set;}
-        // default constructor
         public Reimbursement(){}
         
-        // within purchase constructor
         public Reimbursement(CrashEvent e, string cart)
         {
             cart_id = cart;
             hsmv_report_number = e.hsmv_report_number;
-            timely = false;
-            reimbursement_amount = 0;
+            timely = true;
+            reimbursement_amount = 500; // reimbursement amount in us cents
             reporting_agency = e.reporting_agency; 
         }
     }
 
-
-
-    // FromBody client model
-    public class reqTransaction
+    public class PurchaseRequest // whatever information we want to store about the consumer
     {
         public string first_name {get;set;}        
         public string last_name {get;set;}        

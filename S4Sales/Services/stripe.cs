@@ -14,7 +14,7 @@ namespace S4Sales.Services
         {
             _stripe_key = config["Stripe:SecretKey"];
         }
-        public StripeCharge CreateCharge(reqTransaction order)
+        public StripeCharge CreateCharge(PurchaseRequest order)
         {
             StripeConfiguration.SetApiKey(_stripe_key);
             var options = new StripeChargeCreateOptions

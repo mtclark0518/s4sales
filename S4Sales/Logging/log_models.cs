@@ -16,6 +16,15 @@ namespace S4Sales.Log
         public Action action {get;set;}
         public int target {get;set;}
     }
+
+    public class DownloadLog // TODO
+    {
+        public string cart_id {get;set;}
+        public string hsmv_report_number {get;set;}
+        public string download_token {get;set;}
+        public DateTime timestamp {get;set;}
+    }
+    
     public class SessionLog 
     {
         public string session_id {get;set;}
@@ -32,4 +41,6 @@ namespace S4Sales.Log
         public int return_count {get;set;}
         public DateTime executed {get;set;}
     }
+
+    
 }

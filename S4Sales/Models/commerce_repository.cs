@@ -43,7 +43,7 @@ namespace S4Sales.Models
         // formats purchase and reimbursements
         // issues download tokens for successful purchase
         ///</Note>
-        public Task HandleTransaction(reqTransaction order)
+        public Task HandleTransaction(PurchaseRequest order)
         {
             Purchase po = FormatNewPurchase(order); // creates a purchase object
             var charge =  _stripe.CreateCharge(order); // create Stripe charge
@@ -128,7 +128,7 @@ namespace S4Sales.Models
         // returns purchase object
         // log purchase called by handleTransaction
         ///</Note>
-        private Purchase FormatNewPurchase(reqTransaction order)
+        private Purchase FormatNewPurchase(PurchaseRequest order)
         {
             return new Purchase()
             {
