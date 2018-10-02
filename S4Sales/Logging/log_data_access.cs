@@ -13,17 +13,8 @@ namespace S4Sales.Log
         {
             _conn = config["ConnectionStrings:tc_dev"];
         }
-        // possibly quicker way to get connections
-        private NpgsqlConnection GetConnection()
-        {
-            return new NpgsqlConnection(_conn);
-        }
 
-        // after use function
-        private void Dispose(NpgsqlConnection conn)
-        {
-            conn.Dispose();
-        }
+
 
         public void Action(ActionLog log)
         {
@@ -38,9 +29,30 @@ namespace S4Sales.Log
                 target = log.target,
                 date = DateTime.Now
             };
-            var conn = GetConnection();
-            conn.Execute(_query, _params);
-            Dispose(conn);
+            
+            using(var conn = new NpgsqlConnection(_conn))
+            {
+                conn.Execute(_query,_params);
+            }
+        }
+        public void Download(DownloadLog log)
+        {
+            var _query = $@"
+                INSERT INTO log_download 
+                (cart_id, hsmv_report_number, download_token, timestamp)
+                VALUES(@cart, @hsmv, @token, @date)";
+            var _params = new 
+            {
+                cart = log.cart_id,
+                action = log.hsmv_report_number,
+                target = log.download_token,
+                date = DateTime.Now
+            };
+            
+            using(var conn = new NpgsqlConnection(_conn))
+            {
+                conn.Execute(_query,_params);
+            }
         }
         public void Query(QueryLog log)
         {
@@ -59,9 +71,11 @@ namespace S4Sales.Log
                 date = DateTime.Now
             };
             
-            var conn = GetConnection();
-            conn.Execute(_query, _params);
-            Dispose(conn);
+            
+            using(var conn = new NpgsqlConnection(_conn))
+            {
+                conn.Execute(_query,_params);
+            }
         }
         public void Session(SessionLog log)
         {
@@ -76,11 +90,11 @@ namespace S4Sales.Log
                 c = log.cart_id,
                 d = DateTime.Now
             };
-            var conn = GetConnection();
-            conn.Execute(_query, _params);
-            Dispose(conn);
+            
+            using(var conn = new NpgsqlConnection(_conn))
+            {
+                conn.Execute(_query,_params);
+            }
         }
-
-
     }
 }
