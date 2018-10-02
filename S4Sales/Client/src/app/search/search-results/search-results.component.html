@@ -1,7 +1,7 @@
 
 <div class="result-container">
-  <div *ngFor="let report of Results" class="search-result card search-result-item">
-    <crash-report [report]="report"></crash-report>
-    <div (click)="addToCart(report)" class="btn btn-sm btn-success">Add to Cart</div>
+  <div *ngFor="let r of Results" class="search-result card search-result-item">
+    <crash-report [report]="r"></crash-report>
+    <div (click)="addToCart(r)" class="btn btn-sm">Add to Cart</div>
   </div>
 </div>

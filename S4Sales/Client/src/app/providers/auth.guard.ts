@@ -30,11 +30,3 @@ export class AuthGuard implements CanActivate {
   }
 }
 
-@Injectable()
-export class AdminGuard implements CanActivate {
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    return true;
-  }
-}

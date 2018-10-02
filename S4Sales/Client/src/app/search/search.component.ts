@@ -14,15 +14,15 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     this.search.Status.subscribe(status => this.status = status);
-    this.search.searchResults.subscribe(data => this.SearchResults = data);
+    this.search.searchResults.subscribe(results => this.SearchResults = results);
 
   }
 
-  selectQueryType($event) {
+  public selectQueryType($event): void {
     this.search.selectQueryType($event);
     this.search.updateSearchStatus('searching');
   }
-  public startOver() {
+  public startOver(): void {
     this.search.updateSearchStatus('');
   }
 }
