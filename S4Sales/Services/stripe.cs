@@ -29,5 +29,18 @@ namespace S4Sales.Services
             StripeCharge charge = service.Create(options);
             return charge;
         }
+
+        public StripeTransfer CreateTransfer(Reimbursement reimbursement)
+        {
+            StripeConfiguration.SetApiKey(_stripe_key);
+            var options = new StripeTransferCreateOptions
+            {
+                // TODO
+            };
+
+            var service = new StripeTransferService();
+            StripeTransfer transfer = service.Create(options);
+            return transfer;
+        }
     }
 }
