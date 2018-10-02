@@ -13,17 +13,17 @@ export class EcommerceService {
   private domain = 'http://localhost:5000/api/commerce/';
   public stripe = Stripe('pk_test_OFR63JYG6hjiehXdVkgprAin');
 
-  private DownloadTokens = new BehaviorSubject<Array<string>>([]);
-  public tokens = this.DownloadTokens.asObservable();
+  private Downloads = new BehaviorSubject<Array<string>>([]);
+  public tokens = this.Downloads.asObservable();
 
   constructor(private http: HttpClient) { }
 
-
-  createToken(card) {
+  public createToken(card) {
     return this.stripe.createToken(card).then(res => {
         return res;
     });
   }
+
   public submit = (order: Transaction): void => {
     this.http.post(this.domain + 'create', order)
       .subscribe(response => {
@@ -35,7 +35,7 @@ export class EcommerceService {
   private handleOrder = order => {
     console.log(order);
     if (order) {
-      this.DownloadTokens.next(order);
+      this.Downloads.next(order);
     }
   }
 }
