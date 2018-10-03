@@ -5,18 +5,18 @@ import { SearchComponent } from './search/search.component';
 import { LoginComponent } from './account/login/login.component';
 import { RegisterComponent } from './account/register/register.component';
 import { PasswordComponent } from './account/password/password.component';
-import { AuthGuard, AdminGuard } from './providers/auth.guard';
+import { AuthGuard } from './providers/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminComponent } from './admin/admin.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
-import { HelpContainerComponent } from './components/help/help-container.component';
+import { HelpContainer } from './components/help/help-container.component';
 import { ProfileComponent } from './account/profile/profile.component';
 
 export const routes: Routes = [
 
 
   { path: '', component: SearchComponent },
-  { path: 'help', component: HelpContainerComponent },
+  { path: 'help', component: HelpContainer },
 
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
@@ -29,15 +29,6 @@ export const routes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'reset', component: PasswordComponent }]
   },
-
-  { path: 'admin',
-    canActivate: [AdminGuard],
-    children: [
-      {path: '', component: AdminComponent},
-      {path: 'dashboard', component: DashboardComponent}
-    ]
-  },
-
   { path: '**', redirectTo: '', pathMatch: 'full' }
 ];
 
@@ -47,6 +38,6 @@ export const routes: Routes = [
     RouterModule.forRoot(routes)
   ],
   exports: [RouterModule],
-  providers: [AuthGuard, AdminGuard]
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

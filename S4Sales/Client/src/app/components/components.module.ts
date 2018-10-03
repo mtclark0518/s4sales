@@ -28,7 +28,7 @@ import { TermsAndConditionsComponent } from './help/terms-and-conditions.compone
   ],
   exports: [
     CartComponent, NavbarComponent,
-    FooterComponent, CrashReportComponent,
+    FooterComponent, CrashReportComponent
   ]
 })
 export class ComponentsModule { }

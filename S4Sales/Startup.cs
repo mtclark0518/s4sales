@@ -44,7 +44,6 @@ namespace S4Sales
             //     opts.AddPolicy("user", policy => policy.RequireRole("user"));
             // });       
 
-
             // session services
             services.AddDistributedMemoryCache();
             services.AddSession( opts =>
@@ -67,7 +66,6 @@ namespace S4Sales
                 opts.SignIn.RequireConfirmedEmail = false;  
                 opts.User.RequireUniqueEmail = true;
             });
-            
 
             // add custom user && roles stores
             services.AddTransient<IUserStore<S4Identity>, S4IdentityStore>();
@@ -106,6 +104,7 @@ namespace S4Sales
 
             // additonal services
             services.AddSingleton<Logg>();
+            services.AddSingleton<DownloadToken>();
             services.AddSingleton<S4Emailer>();
             services.AddSingleton<StripeService>();
 
@@ -147,5 +146,3 @@ namespace S4Sales
         }
     }
 }
-
-

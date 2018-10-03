@@ -10,8 +10,6 @@ import { CrashReport } from '../models/_interfaces';
 export class CartService {
   // VARIABLES
   private domain = 'http://localhost:5000/api/cart/';
-  private IP = new BehaviorSubject<string>(null);
-  private ip = this.IP.asObservable();
   constructor(private http: HttpClient) {
    }
 
