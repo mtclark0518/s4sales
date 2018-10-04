@@ -23,7 +23,6 @@
                   bsDatepicker [bsConfig]="{dateInputFormat: 'YYYY-MM-DD',showWeekNumbers: false}"/>
               </div>
           </div>
-          <div>recapchta goes here</div>
           <input class="btn btn-sm btn-danger" type="button" (click)="showQueryReasons()" value="next"/>
       </div>
       <div *ngIf="showingQueryReasons" class="reason-for-query">
@@ -32,7 +31,8 @@
             <input class="check form-check-input" type="radio" name="reasonForQuery" id="r{{i}}" (change)="updateSelection($event)" value="{{r}}">
             <label for="r{{i}}" class="text">{{r}}</label>
           </div>
-          <input class="btn btn-sm btn-danger" type="submit" value="search"/>
+          <div>recapchta goes here</div>
+          <input class="btn btn-sm btn-danger" type="submit" value="submit"/>
       </div>
     </form>
   </div>

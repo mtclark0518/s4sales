@@ -28,8 +28,9 @@
       <form [formGroup]='purchaseForm' (submit)='onSubmit($event)'>
         <div>Payment Information</div>
         <div class="input-group">
-          <input class="form-control input-lg" type="text" formControlName='first' placeholder="first name">
+          <input class="form-control input-sm" type="text" formControlName='first' placeholder="first name">
           <input class="form-control input-sm" type="text" formControlName='last' placeholder="last name">
+          <input class="form-control input-sm" type="email" formControlName='email' placeholder="email address">
         </div>
         <div id="card" #card></div>
         <input class="btn btn-block btn-outline-danger" type="submit" value='Submit'>

@@ -1,0 +1,15 @@
+@import "../../../styles.scss";
+
+.download {
+
+}
+
+.dld-btn{
+  border: 1px solid black;
+  padding: 0.5em;
+  transition: $transition;
+  &:hover{
+    box-shadow: $shadow-raised;
+    cursor: pointer;
+  }
+}

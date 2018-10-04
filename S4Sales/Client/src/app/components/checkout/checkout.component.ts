@@ -28,25 +28,25 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.cart._items.subscribe( i => this.Cart = i);
-    this.cart.cart.subscribe(c=> this.cart_id = c);
+    this.cart.cart.subscribe(c => this.cart_id = c);
     this.purchaseForm = this.fb.group({
       'first': new FormControl(null, [Validators.required]),
-      'last': new FormControl(null, [Validators.required])
+      'last': new FormControl(null, [Validators.required]),
+      'email': new FormControl(null, [Validators.required]),
     });
   }
 
   ngAfterViewInit() {
-    // creates stripe.js elements
-    const elements = this.ecomm.stripe.elements();
+    const elements = this.ecomm.stripe.elements(); // creates stripe.js elements
     this._card = elements.create('card');
-    // attaches stripes creditcard element
-    this._card.mount(this.card.nativeElement);
+    this._card.mount(this.card.nativeElement); // attaches stripes creditcard element
   }
 
   get first() { return this.purchaseForm.get('first'); }
   get last() { return this.purchaseForm.get('last'); }
+  get email() { return this.purchaseForm.get('email'); }
 
-  total() { return (this.Cart.length * 1425); }
+  total() { return (this.Cart.length * this.price); }
 
   clearCart = () => this.cart.emptyCart();
 
@@ -59,6 +59,7 @@ export class CheckoutComponent implements OnInit, AfterViewInit {
       const order: Transaction = {
         first_name: this.first.value,
         last_name: this.last.value,
+        email: this.email.value,
         amount: this.total(),
         token: created.token.id,
         cart_id: this.cart_id

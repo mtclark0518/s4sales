@@ -16,6 +16,7 @@ namespace S4Sales.Models
         public string charge { get; set; }
         public string hsmv_report_number { get; set; }
         public bool exchanged { get; internal set; }
+        public DateTime exchanged_ts { get; set; }
 
         #endregion
 

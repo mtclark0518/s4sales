@@ -1,5 +1,12 @@
 <div class="wrap">
-  <div class="outer">
-    <div *ngFor="let d of Downloads"></div>
+  <div class="page">
+      <div *ngFor="let d of Downloads">
+        <div class="list-item pad1 flx-r jc-spaced alitem-ctr">
+          <div class="uline">d.hsmv</div>
+          <div class="dld-btn" (click)="download(d.token)">
+            <i class="fa fa-download"></i>
+          </div>
+        </div>
+    </div>
   </div>
 </div>

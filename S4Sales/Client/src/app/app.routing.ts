@@ -11,6 +11,7 @@ import { AdminComponent } from './admin/admin.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { HelpContainer } from './components/help/help-container.component';
 import { ProfileComponent } from './account/profile/profile.component';
+import { DownloadComponent } from './components/download/download.component';
 
 export const routes: Routes = [
 
@@ -22,6 +23,8 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'recover', component: PasswordComponent },
+  { path: 'download', component: DownloadComponent },
+  { path: 'admin', component: AdminComponent },
 
   { path: 'account',
     canActivate: [AuthGuard],

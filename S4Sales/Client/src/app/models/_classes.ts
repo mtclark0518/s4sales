@@ -32,6 +32,7 @@ export class Log {
 export class Transaction {
   first_name?: string;
   last_name?: string;
+  email: string;
   amount: number;
   token: string;
   cart_id: string;
