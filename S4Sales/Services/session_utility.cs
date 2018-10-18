@@ -6,9 +6,9 @@ using Newtonsoft.Json;
 
 namespace S4Sales.Services
 {
-    /// <Note>
+    /// <summary>
     // Utility class to interact with session state
-    ///</Note> 
+    ///</summary> 
 
 
     public class SessionUtility

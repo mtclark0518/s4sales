@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace S4Sales.Models
 {
-    /// <Note>
+    /// <summary>
     // model definitions for shopping cart and shopping cart item
-    ///</Note>
+    ///</summary>
     
     public class Cart
     {

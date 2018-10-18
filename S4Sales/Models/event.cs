@@ -2,9 +2,9 @@ using System;
 using System.ComponentModel.DataAnnotations;
 namespace S4Sales.Models
 {
-    /// <Note>
+    /// <summary>
     // model definitions for Crash, Participant && Vehicle
-    ///</Note>
+    ///</summary>
     public class CrashEvent
     {
         [Key]

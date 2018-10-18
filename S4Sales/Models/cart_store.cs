@@ -8,10 +8,10 @@ using S4Sales.Services;
 
 namespace S4Sales.Models
 {
-    /// <Note>
+    /// <summary>
     // Cart CRUD -- the cart itself
     // CartItem CRUD - what goes into the cart
-    ///</Note>
+    ///</summary>
 
     public class CartStore
     {

@@ -8,5 +8,5 @@ import { CrashReport } from '../../models/_interfaces';
   styleUrls: ['./crash-report.component.scss']
 })
 export class CrashReportComponent {
-  @Input('report') report: CrashReport;
+  @Input() report: CrashReport;
 }

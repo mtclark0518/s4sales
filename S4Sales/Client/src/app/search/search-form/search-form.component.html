@@ -1,7 +1,5 @@
   <div class="form-container">
-    <div class="form-heading">
-      <span class="form-reset" (click)="startOver()"><i class="icon fa fa-arrow-circle-left"></i></span>
-    </div>
+    <span class="form-reset" (click)="startOver()"><i class="icon fa fa-arrow-circle-left"></i></span>
     <form [formGroup]="searchForm" (submit)="submitSearch($event)">
       <div *ngIf="!showingQueryReasons">
           <div *ngIf="queryType == 'report'">

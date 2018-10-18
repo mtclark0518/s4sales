@@ -15,34 +15,40 @@ namespace S4Sales.Models
         private StripeService _stripe;
         private SearchRepository _crash;
         private CartStore _cart;
+        private DownloadHandler _dwnld;
         
         public CommerceRepository( 
             IConfiguration config, 
             StripeService str, 
             SearchRepository cr, 
-            CartStore cs)
+            CartStore cs,
+            DownloadHandler dwnld)
         {
             _conn = config["ConnectionStrings:tc_dev"];
             _stripe = str;
             _crash = cr;
             _cart = cs;
+            _dwnld = dwnld;
         }
 
-        ///<Note> 
+        /// <summary> 
         // receives the minted download token
-        // if token is valid returns the crash report
-        ///</Note>
+        // decrypts and reads token
+        /// <param name="token">the hash string of the token</param>
+        /// <returns>downloads the report as binary data</returns>
+        /// </summary>
         public Task HandleDownload(string token)
         {
             // TODO
+
             return Task.CompletedTask;
         }
 
-        ///<Note> 
+        ///<summary> 
         // receives order info
         // formats purchase and reimbursements
         // issues download tokens for successful purchase
-        ///</Note>
+        ///</summary>
         public Task HandleTransaction(PurchaseRequest order)
         {
             Purchase po = FormatNewPurchase(order); // creates a purchase object
@@ -97,10 +103,10 @@ namespace S4Sales.Models
         }
 
 
-        ///<Note> TODO
+        ///<summary> TODO
         // create a stripe transfer to reimburse the reporting agency
         // create a reimbursement object (holding transfer token) to save for s4 records
-        ///</Note>
+        ///</summary>
         private Reimbursement FormatReimbursement(CrashEvent crash_report, string cart_id)
         {
             var funds = new Reimbursement(crash_report, cart_id);
@@ -124,10 +130,10 @@ namespace S4Sales.Models
             return funds;
         }
 
-        ///<Note>
+        ///<summary>
         // returns purchase object
         // log purchase called by handleTransaction
-        ///</Note>
+        ///</summary>
         private Purchase FormatNewPurchase(PurchaseRequest order)
         {
             return new Purchase()
@@ -145,9 +151,9 @@ namespace S4Sales.Models
         }
 
 
-        ///<Note>
+        ///<summary>
         // saves Reimbursement to databsase
-        ///</Note>
+        ///</summary>
         private bool LogReimbursement(Reimbursement r)
         {
             var _query = $@"
@@ -172,9 +178,9 @@ namespace S4Sales.Models
             }
         }
 
-        ///<Note>
+        ///<summary>
         // saves the purchase object to the databbase
-        ///</Note>
+        ///</summary>
         private bool LogTransaction(Purchase po)
         {
             var _query = $@"

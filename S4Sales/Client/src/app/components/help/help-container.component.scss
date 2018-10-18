@@ -1,13 +1,13 @@
 @import "../../../styles.scss";
 .help-container{
-
-
+  width: 1080px;
+  margin: 0 auto;
   .tab-container{
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    height: 100%;
+    height: 50px;
     border-right: none;
     .item {
       border-left: 1px solid $accent1;

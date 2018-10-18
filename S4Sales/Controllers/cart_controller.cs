@@ -64,10 +64,10 @@ namespace S4Sales.Controllers
         }
 
 
-        ///<Note>
+        ///<summary>
         // called when user navigates to checkout
         // returns duh
-        ///</Note>
+        ///</summary>
         [HttpGet("content")]
         public IEnumerable<CartItem> GetCartContent()
         {
@@ -75,11 +75,11 @@ namespace S4Sales.Controllers
         }
 
 
-        ///<Note>
+        ///<summary>
         // called by the cart component on init
         // double checks the session for an existing cart id
         // sends back existing / new cart
-        ///</Note>
+        ///</summary>
         [HttpGet("init")]
         public string InitializeCart()
         {

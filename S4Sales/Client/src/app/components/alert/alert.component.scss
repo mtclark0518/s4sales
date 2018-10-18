@@ -1,0 +1,23 @@
+@import "../../../styles.scss";
+
+
+.alert{
+  position: absolute;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 30%;
+}
+.alert-bg{
+  z-index: 1;
+  border: 1px solid $secondary;
+  box-shadow: $shadow-raised;
+  padding: 1em;
+  border-radius: 5px;
+}
+.alert-msg{
+  color: $secondary;
+  font-weight: 800;
+  z-index: 2;
+}

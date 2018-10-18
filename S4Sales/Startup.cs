@@ -104,6 +104,7 @@ namespace S4Sales
 
             // additonal services
             services.AddSingleton<Logg>();
+            services.AddSingleton<DownloadHandler>();
             services.AddSingleton<DownloadToken>();
             services.AddSingleton<S4Emailer>();
             services.AddSingleton<StripeService>();

@@ -13,6 +13,7 @@ import { FaqsComponent } from './help/faqs.component';
 import { HelpContainer } from './help/help-container.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { TermsAndConditionsComponent } from './help/terms-and-conditions.component';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   imports: [
@@ -24,11 +25,12 @@ import { TermsAndConditionsComponent } from './help/terms-and-conditions.compone
     FooterComponent, CartComponent,
     CrashReportComponent, ContactComponent,
     FaqsComponent, TermsAndConditionsComponent,
-    HelpContainer, DownloadComponent
+    HelpContainer, DownloadComponent, AlertComponent
   ],
   exports: [
     CartComponent, NavbarComponent,
-    FooterComponent, CrashReportComponent
+    FooterComponent, CrashReportComponent,
+    AlertComponent
   ]
 })
 export class ComponentsModule { }

@@ -12,9 +12,9 @@ using System.Globalization;
 
 namespace S4Sales.Models
 {
-    /// <Note>
+    /// <summary>
     // Search for report methods by -- number -- vin -- name/date
-    ///</Note>
+    ///</summary>
 
     
     public class SearchRepository

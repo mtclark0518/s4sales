@@ -2,9 +2,9 @@ using System;
 
 namespace S4Sales.Models
 {
-    /// <Note>
+    /// <summary>
     // Model definitions purchase reimbursements
-    ///</Note>
+    ///</summary>
     public class Purchase
     {
         public string cart_id { get; set; }
